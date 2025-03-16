@@ -8,7 +8,7 @@
     <artifactId>toint-tool</artifactId>
     <version>1.0.2-SNAPSHOT</version>
     <name>toint-tool</name>
-    <description>toint-tool是Java工具类库</description>
+    <description>toint-tool 是一个 Java 工具类库</description>
     <url>https://github.com/toint-admin/toint-tool</url>
 
     <developers>
@@ -23,13 +23,13 @@
     <scm>
         <connection>scm:git:git://github.com/toint-admin/toint-tool.git</connection>
         <developerConnection>scm:git:ssh://github.com/toint-admin/toint-tool.git</developerConnection>
-        <url>http://github.com/toint-admin/toint-tool</url>
+        <url>https://github.com/toint-admin/toint-tool</url>
     </scm>
 
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
 
