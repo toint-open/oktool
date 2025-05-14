@@ -18,8 +18,8 @@ toint-tool 通过诸多实用工具类的使用, 旨在帮助开发者快速, �
 
 提交问题反馈请说明正在使用的 JDK 版本, toint-tool 版本和相关依赖库版本.
 
-- [Gitee   issue](https://gitee.com/toint-admin/toint-tool/issues)
-- [Github  issue](https://github.com/toint-admin/toint-tool/issues)
+- [Gitee issue](https://gitee.com/toint-admin/toint-tool/issues)
+- [Github issue](https://github.com/toint-admin/toint-tool/issues)
 
 # 沟通说明
 
