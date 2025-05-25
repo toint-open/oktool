@@ -20,9 +20,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
     <groupId>cn.toint</groupId>
     <artifactId>toint-tool</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <name>toint-tool</name>
     <description>toint-tool 是一个 Java 工具类库</description>
     <url>https://github.com/toint-admin/toint-tool</url>
@@ -53,31 +60,39 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--okhttp-->
+        <okhttp.version>4.12.0</okhttp.version>
+        <!--hutool-->
+        <hutool6.version>6.0.0-M21</hutool6.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
-            <version>3.4.5</version>
+        </dependency>
+
+        <!--okhttp-->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.dromara.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>6.0.0-M21</version>
+            <version>${hutool6.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.17.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.38</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -114,7 +129,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -129,7 +143,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.11.2</version>
                 <configuration>
                     <doclint>none</doclint>
                 </configuration>
