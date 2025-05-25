@@ -21,11 +21,19 @@ import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.dromara.hutool.core.annotation.AnnotationUtil;
+import org.dromara.hutool.core.date.DateFormatPool;
 import org.dromara.hutool.core.func.LambdaUtil;
 import org.dromara.hutool.core.lang.Assert;
 import org.dromara.hutool.core.reflect.FieldUtil;
@@ -33,6 +41,9 @@ import org.dromara.hutool.core.text.StrUtil;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -45,12 +56,20 @@ public class JacksonUtil {
     private volatile static ObjectMapper objectMapper = new ObjectMapper();
 
     public static ObjectMapper getObjectMapper() {
-        return JacksonUtil.objectMapper;
+        return JacksonUtil.objectMapper();
     }
 
     public static void setObjectMapper(final ObjectMapper objectMapper) {
+        JacksonUtil.objectMapper(objectMapper);
+    }
+
+    public static void objectMapper(final ObjectMapper objectMapper) {
         Objects.requireNonNull(objectMapper, "objectMapper must not be null");
         JacksonUtil.objectMapper = objectMapper;
+    }
+
+    public static ObjectMapper objectMapper() {
+        return JacksonUtil.objectMapper;
     }
 
     // ===readValue======================================
@@ -325,5 +344,43 @@ public class JacksonUtil {
 
     public static boolean isEmpty(final JsonNode value) {
         return value == null || value.isNull() || value.isEmpty();
+    }
+
+    // ==============
+
+    /**
+     * 创建 {@link LocalDateTime} 序列化与反序列化配置模块
+     *
+     * @param pattern pattern, 不传默认: {@code yyyy-MM-dd HH:mm:ss}
+     * @param zoneId  zoneId, 不传默认: {@code ZoneId.of("Asia/Shanghai")}
+     * @return 将 {@link com.fasterxml.jackson.databind.Module} 注册成 springboot bean, springboot 会将其加入 springboot 默认的 {@link ObjectMapper} 中
+     */
+    public static com.fasterxml.jackson.databind.Module createTimeModule(String pattern, ZoneId zoneId) {
+        if (StringUtils.isBlank(pattern)) {
+            pattern = DateFormatPool.NORM_DATETIME_PATTERN;
+        }
+
+        if (zoneId == null) {
+            zoneId = ZoneId.of("Asia/Shanghai");
+        }
+
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern).withZone(zoneId);
+
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
+        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
+        return javaTimeModule;
+    }
+
+    /**
+     * 创建 {@link Long} 序列化与反序列化配置模块
+     *
+     * @return 将 {@link com.fasterxml.jackson.databind.Module} 注册成 springboot bean, springboot 会将其加入 springboot 默认的 {@link ObjectMapper} 中
+     */
+    public static Module createLongModule() {
+        final SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+        simpleModule.addSerializer(long.class, ToStringSerializer.instance);
+        return simpleModule;
     }
 }
