@@ -15,6 +15,7 @@
  */
 package cn.toint.tool.util;
 
+import cn.toint.tool.model.SafeLongSerializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.TreeNode;
@@ -373,7 +374,7 @@ public class JacksonUtil {
     }
 
     /**
-     * 创建 {@link Long} 序列化与反序列化配置模块
+     * 创建 {@link Long} 序列化配置模块
      *
      * @return 将 {@link com.fasterxml.jackson.databind.Module} 注册成 springboot bean, springboot 会将其加入 springboot 默认的 {@link ObjectMapper} 中
      */
@@ -381,6 +382,21 @@ public class JacksonUtil {
         final SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
         simpleModule.addSerializer(long.class, ToStringSerializer.instance);
+        return simpleModule;
+    }
+
+    /**
+     * 创建 {@link Long} 安全序列化配置模块
+     *
+     * <p>当数字超过 JavaScript 安全范围, 会导致精度丢失</p>
+     * <p>本模块会判断 Long 值是否超过安全范围, 超过则序列化为 String, 否则保持 Number</p>
+     *
+     * @return 将 {@link com.fasterxml.jackson.databind.Module} 注册成 springboot bean, springboot 会将其加入 springboot 默认的 {@link ObjectMapper} 中
+     */
+    public static Module createSafeLongModule() {
+        final SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(Long.class, SafeLongSerializer.instance);
+        simpleModule.addSerializer(long.class, SafeLongSerializer.instance);
         return simpleModule;
     }
 }
