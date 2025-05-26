@@ -16,6 +16,7 @@
 
 package cn.toint.tool.model;
 
+import cn.toint.tool.util.JacksonUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -30,12 +31,24 @@ import java.io.IOException;
  * @date 2025/5/26
  */
 public class SafeLongSerializer extends JsonSerializer<Long> {
-
+    /**
+     * 静态实例
+     */
     public final static SafeLongSerializer instance = new SafeLongSerializer();
 
+    /**
+     * JavaScript 最大支持整数
+     */
     private static final long JS_MAX_SAFE_NUMBER = 9007199254740991L;
+
+    /**
+     * JavaScript 最小支持整数
+     */
     private static final long JS_MIN_SAFE_NUMBER = -9007199254740991L;
 
+    /**
+     * @see JacksonUtil#createSafeLongModule()
+     */
     @Override
     public void serialize(final Long value, final JsonGenerator gen, final SerializerProvider serializers) throws IOException {
         // 判断是否超出 JavaScript 安全范围
