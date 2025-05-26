@@ -45,7 +45,7 @@ public class HttpClientUtil {
             clientEngineClass = JdkClientEngine.class;
         }
 
-        HttpGlobalConfig.setTimeout(Math.toIntExact(timeout.toSeconds()));
+        HttpGlobalConfig.setTimeout(Math.toIntExact(timeout.toMillis()));
 
         // 覆盖默认客户端
         final ClientEngine clientEngine = ClientEngineFactory.createEngine(clientEngineClass.getName());
