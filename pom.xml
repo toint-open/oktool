@@ -29,7 +29,7 @@
 
     <groupId>cn.toint</groupId>
     <artifactId>toint-tool</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <name>toint-tool</name>
     <description>toint-tool 是一个 Java 工具类库</description>
     <url>https://github.com/toint-admin/toint-tool</url>
