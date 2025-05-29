@@ -66,7 +66,7 @@ public class Assert {
         }
     }
 
-    public static void equals(final boolean b, final CharSequence template, final Object... params) {
+    public static void isTrue(final boolean b, final CharSequence template, final Object... params) {
         if (!b) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
