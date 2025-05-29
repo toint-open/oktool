@@ -16,6 +16,8 @@
 
 package cn.toint.tool.util;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.dromara.hutool.core.lang.Singleton;
 import org.dromara.hutool.http.HttpGlobalConfig;
 import org.dromara.hutool.http.client.ClientConfig;
@@ -38,7 +40,7 @@ public class HttpClientUtil {
      * @return 单例 http 客户端
      */
     @SuppressWarnings("resource")
-    public static ClientEngine clientEngine(Class<? extends ClientEngine> clientEngineClass, ClientConfig clientConfig) {
+    public static @Nonnull ClientEngine clientEngine(@Nullable Class<? extends ClientEngine> clientEngineClass, @Nullable ClientConfig clientConfig) {
         // 全局超时时间
         if (HttpGlobalConfig.getTimeout() <= 0) {
             HttpGlobalConfig.setTimeout(Math.toIntExact(Duration.ofSeconds(10).toMillis()));
@@ -68,7 +70,7 @@ public class HttpClientUtil {
      *
      * @return ClientEngine 单例 http 客户端
      */
-    public static ClientEngine clientEngine() {
+    public static @Nonnull ClientEngine clientEngine() {
         return Singleton.get(ClientEngine.class.getName(), () -> HttpClientUtil.clientEngine(null, null));
     }
 
@@ -79,7 +81,7 @@ public class HttpClientUtil {
      * @param clientConfig      客户端配置, 默认超时时间: 10s
      * @param globalTimeout     全局超时时间, 默认: 10s
      */
-    public static void initGlobalConfig(final Class<? extends ClientEngine> clientEngineClass, final ClientConfig clientConfig, Duration globalTimeout) {
+    public static void initGlobalConfig(@Nullable final Class<? extends ClientEngine> clientEngineClass, @Nullable final ClientConfig clientConfig, @Nullable Duration globalTimeout) {
         // 全局超时时间
         if (globalTimeout == null || globalTimeout.toSeconds() <= 0) {
             globalTimeout = Duration.ofSeconds(10);
