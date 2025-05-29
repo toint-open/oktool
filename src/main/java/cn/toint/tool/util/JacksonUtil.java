@@ -15,6 +15,7 @@
  */
 package cn.toint.tool.util;
 
+import cn.toint.tool.exception.JsonException;
 import cn.toint.tool.model.SafeLongSerializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -79,7 +80,7 @@ public class JacksonUtil {
         try {
             return JacksonUtil.getObjectMapper().readValue(content, valueType);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new JsonException(e.getMessage(), e);
         }
     }
 
@@ -87,7 +88,7 @@ public class JacksonUtil {
         try {
             return JacksonUtil.getObjectMapper().readValue(content, valueTypeRef);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new JsonException(e.getMessage(), e);
         }
     }
 
@@ -130,7 +131,7 @@ public class JacksonUtil {
         try {
             return JacksonUtil.getObjectMapper().writeValueAsString(value);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new JsonException(e.getMessage(), e);
         }
     }
 
@@ -152,7 +153,7 @@ public class JacksonUtil {
         try {
             return JacksonUtil.getObjectMapper().writeValueAsBytes(value);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new JsonException(e.getMessage(), e);
         }
     }
 
@@ -263,7 +264,7 @@ public class JacksonUtil {
         try {
             return JacksonUtil.getObjectMapper().readTree(content);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new JsonException(e.getMessage(), e);
         }
     }
 
@@ -283,7 +284,7 @@ public class JacksonUtil {
         try {
             return JacksonUtil.getObjectMapper().treeToValue(n, valueType);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new JsonException(e.getMessage(), e);
         }
     }
 
@@ -291,7 +292,7 @@ public class JacksonUtil {
         try {
             return JacksonUtil.getObjectMapper().treeToValue(n, toValueTypeRef);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new JsonException(e.getMessage(), e);
         }
     }
 
@@ -299,7 +300,7 @@ public class JacksonUtil {
         try {
             return JacksonUtil.getObjectMapper().treeToValue(n, valueType);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new JsonException(e.getMessage(), e);
         }
     }
 
@@ -340,11 +341,11 @@ public class JacksonUtil {
 
     // =============
     public static boolean isNull(final JsonNode value) {
-        return value == null || value.isNull();
+        return value == null || value.isNull() || value.isMissingNode();
     }
 
     public static boolean isEmpty(final JsonNode value) {
-        return value == null || value.isNull() || value.isEmpty();
+        return JacksonUtil.isNull(value) || value.isEmpty();
     }
 
     // ==============
