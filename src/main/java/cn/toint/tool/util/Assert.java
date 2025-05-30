@@ -31,7 +31,13 @@ import java.util.Objects;
 public class Assert {
 
     public static void notNull(final Object object, final CharSequence template, final Object... params) {
-        if (null == object) {
+        if (object == null) {
+            throw new IllegalArgumentException(StrUtil.format(template, params));
+        }
+    }
+
+    public static void isNull(final Object object, final CharSequence template, final Object... params) {
+        if (object != null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
@@ -68,6 +74,12 @@ public class Assert {
 
     public static void isTrue(final boolean b, final CharSequence template, final Object... params) {
         if (!b) {
+            throw new IllegalArgumentException(StrUtil.format(template, params));
+        }
+    }
+
+    public static void isFalse(final boolean b, final CharSequence template, final Object... params) {
+        if (b) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
