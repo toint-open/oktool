@@ -18,11 +18,13 @@ package cn.toint.tool.util;
 
 import jakarta.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.hutool.core.reflect.FieldUtil;
 import org.dromara.hutool.core.text.StrUtil;
+import org.dromara.hutool.extra.validation.ValidationUtil;
+import org.jetbrains.annotations.Contract;
 
 import java.util.Map;
 import java.util.Objects;
+
 
 /**
  * 断言工具
@@ -32,36 +34,42 @@ import java.util.Objects;
  */
 public class Assert {
 
+    @Contract("null, _, _ -> fail")
     public static void notNull(@Nullable final Object object, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (object == null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
+    @Contract("!null, _, _ -> fail")
     public static void isNull(@Nullable final Object object, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (object != null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
+    @Contract("null, _, _ -> fail")
     public static void notBlank(@Nullable final CharSequence text, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (StringUtils.isBlank(text)) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
+    @Contract("null, _, _ -> fail")
     public static void notEmpty(@Nullable final Object[] arr, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (arr == null || arr.length == 0) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
+    @Contract("null, _, _ -> fail")
     public static void notEmpty(@Nullable final Iterable<?> collection, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (collection == null || !collection.iterator().hasNext()) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
+    @Contract("null, _, _ -> fail")
     public static void notEmpty(@Nullable final Map<?, ?> map, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (map == null || map.isEmpty()) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
@@ -74,15 +82,22 @@ public class Assert {
         }
     }
 
+    @Contract("false, _, _ -> fail")
     public static void isTrue(final boolean b, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (!b) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
+    @Contract("true, _, _ -> fail")
     public static void isFalse(final boolean b, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (b) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
+    }
+
+    @Contract("null, _ -> fail")
+    public static void validate(@Nullable final Object object, final Class<?>... groups) {
+        ValidationUtil.validateAndThrowFirst(object, groups);
     }
 }

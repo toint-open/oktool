@@ -29,7 +29,7 @@
 
     <groupId>cn.toint</groupId>
     <artifactId>toint-tool</artifactId>
-    <version>1.0.13</version>
+    <version>1.0.14</version>
     <name>toint-tool</name>
     <description>toint-tool 是一个 Java 工具类库</description>
     <url>https://github.com/toint-admin/toint-tool</url>
@@ -101,6 +101,18 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>26.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
 
