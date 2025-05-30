@@ -16,7 +16,9 @@
 
 package cn.toint.tool.util;
 
+import jakarta.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
+import org.dromara.hutool.core.reflect.FieldUtil;
 import org.dromara.hutool.core.text.StrUtil;
 
 import java.util.Map;
@@ -30,55 +32,55 @@ import java.util.Objects;
  */
 public class Assert {
 
-    public static void notNull(final Object object, final CharSequence template, final Object... params) {
+    public static void notNull(@Nullable final Object object, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (object == null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void isNull(final Object object, final CharSequence template, final Object... params) {
+    public static void isNull(@Nullable final Object object, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (object != null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void notBlank(final CharSequence text, final CharSequence template, final Object... params) {
+    public static void notBlank(@Nullable final CharSequence text, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (StringUtils.isBlank(text)) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void notEmpty(final Object[] arr, final CharSequence template, final Object... params) {
+    public static void notEmpty(@Nullable final Object[] arr, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (arr == null || arr.length == 0) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void notEmpty(final Iterable<?> collection, final CharSequence template, final Object... params) {
+    public static void notEmpty(@Nullable final Iterable<?> collection, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (collection == null || !collection.iterator().hasNext()) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void notEmpty(final Map<?, ?> map, final CharSequence template, final Object... params) {
+    public static void notEmpty(@Nullable final Map<?, ?> map, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (map == null || map.isEmpty()) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void equals(final Object a, final Object b, final CharSequence template, final Object... params) {
+    public static void equals(@Nullable final Object a, @Nullable final Object b, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (!Objects.equals(a, b)) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void isTrue(final boolean b, final CharSequence template, final Object... params) {
+    public static void isTrue(final boolean b, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (!b) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void isFalse(final boolean b, final CharSequence template, final Object... params) {
+    public static void isFalse(final boolean b, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (b) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
