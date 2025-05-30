@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package cn.toint.tool.exception;
+package cn.toint.tool.util;
+
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
 
 /**
- * Json 异常
- *
  * @author Toint
- * @date 2025/5/30
+ * @date 2025/5/31
  */
-public class JsonException extends RuntimeException {
+@Slf4j
+class RetryUtilTest {
 
-    public JsonException(final String message) {
-        super(message);
+    @Test
+    void execute() {
+
     }
 
-    public JsonException(final String message, final Throwable e) {
-        super(message, e);
-    }
 }

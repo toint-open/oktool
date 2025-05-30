@@ -17,18 +17,17 @@
 package cn.toint.tool.exception;
 
 /**
- * Json 异常
+ * 重试异常
  *
  * @author Toint
- * @date 2025/5/30
+ * @date 2025/5/31
  */
-public class JsonException extends RuntimeException {
-
-    public JsonException(final String message) {
+public class RetryException extends RuntimeException {
+    public RetryException(final String message) {
         super(message);
     }
 
-    public JsonException(final String message, final Throwable e) {
+    public RetryException(final String message, final Throwable e) {
         super(message, e);
     }
 }
