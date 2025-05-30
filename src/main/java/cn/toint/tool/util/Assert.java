@@ -18,12 +18,12 @@ package cn.toint.tool.util;
 
 import jakarta.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
+import org.dromara.hutool.core.array.ArrayUtil;
 import org.dromara.hutool.core.text.StrUtil;
 import org.dromara.hutool.extra.validation.ValidationUtil;
 import org.jetbrains.annotations.Contract;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 /**
@@ -99,5 +99,32 @@ public class Assert {
     @Contract("null, _ -> fail")
     public static void validate(@Nullable final Object object, final Class<?>... groups) {
         ValidationUtil.validateAndThrowFirst(object, groups);
+    }
+
+    /**
+     * 验证对象, 失败则抛异常
+     *
+     * <p>如果校验失败, 异常信息会添加到 {@code params} 数组末尾, 调用者可在 {@code template} 预留位置, 否则忽略</p>
+     */
+    @Contract("null, _, _ -> fail")
+    public static void validate(@Nullable final Object object, @Nullable final CharSequence template, @Nullable final Object... params) {
+        if (object == null) {
+            throw new IllegalArgumentException(StrUtil.format(template, params));
+        }
+
+        try {
+            ValidationUtil.validateAndThrowFirst(object);
+        } catch (Exception e) {
+            if (StringUtils.isBlank(template)) {
+                throw new IllegalArgumentException(e.getMessage(), e);
+            }
+
+            final List<Object> newParams = new ArrayList<>();
+            if (ArrayUtil.isNotEmpty(params)) {
+                newParams.addAll(Arrays.asList(params));
+            }
+            newParams.add(e.getMessage());
+            throw new IllegalArgumentException(StrUtil.format(template, newParams.toArray()), e);
+        }
     }
 }

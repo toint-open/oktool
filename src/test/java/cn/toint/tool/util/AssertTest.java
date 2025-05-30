@@ -16,6 +16,7 @@
 
 package cn.toint.tool.util;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -33,10 +34,45 @@ class AssertTest {
 
     @Test
     void validate() {
-        final Pojo pojo = new Pojo();
-        pojo.setName("test");
-        pojo.setAge(18);
-        Assert.validate(pojo);
+//        // 原生使用
+//        // 报错: jakarta.validation.ValidationException: pojo 不能为null
+//        final Pojo pojo = new Pojo();
+//        pojo.setName("test");
+//        pojo.setAge(18);
+//        pojo.setPojo(null);
+//        Assert.validate(pojo);
+
+//        // 原生使用
+//        // 报错: jakarta.validation.ValidationException: pojo.name 不能为空
+//        final Pojo pojo = new Pojo();
+//        pojo.setName("test");
+//        pojo.setAge(18);
+//        pojo.setPojo(new Pojo());
+//        Assert.validate(pojo);
+
+//        // 模板预留报错信息, 自动填充
+//        // 报错: java.lang.IllegalArgumentException: 发生异常, 原因: pojo.pojo 不能为null
+//        final Pojo pojo = new Pojo();
+//        pojo.setName("test");
+//        pojo.setAge(18);
+//        pojo.setPojo(new Pojo());
+//        Assert.validate(pojo, "发生异常, 原因: {}");
+
+//        // 模板预留报错信息, 并自定义模板与参数, 自动填充
+//        // java.lang.IllegalArgumentException: 发生异常, 时间: 2025-05-31 07:30:51, 原因: pojo.name 不能为空
+//        final Pojo pojo = new Pojo();
+//        pojo.setName("test");
+//        pojo.setAge(18);
+//        pojo.setPojo(new Pojo());
+//        Assert.validate(pojo, "发生异常, 时间: {}, 原因: {}", DateUtil.formatNow());
+
+//        // 模板未预留报错信息, 忽略
+//        // java.lang.IllegalArgumentException: 发生异常, 时间: 2025-05-31 07:31:21
+//        final Pojo pojo = new Pojo();
+//        pojo.setName("test");
+//        pojo.setAge(18);
+//        pojo.setPojo(new Pojo());
+//        Assert.validate(pojo, "发生异常, 时间: {}", DateUtil.formatNow());
     }
 
     @Data
@@ -46,5 +82,9 @@ class AssertTest {
 
         @NotNull
         private Integer age;
+
+        @Valid
+        @NotNull
+        private Pojo pojo;
     }
 }
