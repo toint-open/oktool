@@ -18,7 +18,6 @@ package cn.toint.tool.util;
 
 import cn.toint.tool.exception.RetryException;
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import org.dromara.hutool.core.array.ArrayUtil;
 import org.dromara.hutool.core.thread.ThreadUtil;
 
@@ -47,7 +46,6 @@ public class RetryUtil {
      * @throws RetryException 重试失败
      */
     @SafeVarargs
-    @Nullable
     public static <R> R execute(@Nonnull final Callable<R> callable,
                                 final int retrySize,
                                 @Nonnull final Duration intervalTime,
