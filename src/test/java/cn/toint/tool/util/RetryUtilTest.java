@@ -19,8 +19,6 @@ package cn.toint.tool.util;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-
 /**
  * @author Toint
  * @date 2025/5/31
@@ -30,7 +28,15 @@ class RetryUtilTest {
 
     @Test
     void execute() {
-
+//        final AtomicInteger atomicInteger = new AtomicInteger(0);
+//        RetryUtil.execute(() -> {
+//                    log.info("执行{}次", atomicInteger.incrementAndGet());
+//                    // 模拟异常
+//                    throw new RuntimeException("模拟测试");
+//                },
+//                3,
+//                null);
     }
+
 
 }

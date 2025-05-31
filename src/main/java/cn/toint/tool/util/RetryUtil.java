@@ -18,6 +18,7 @@ package cn.toint.tool.util;
 
 import cn.toint.tool.exception.RetryException;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.dromara.hutool.core.array.ArrayUtil;
 import org.dromara.hutool.core.thread.ThreadUtil;
 
@@ -39,8 +40,8 @@ public class RetryUtil {
      *
      * @param callable       执行方法
      * @param retrySize      重试次数 (不包含首次执行, 小于1表示不重试, 但无论如何方法会执行1次)
-     * @param intervalTime   间隔时间 (负数不会睡眠)
-     * @param exceptionClass 需要重试的异常类型 (默认 {@link Exception}
+     * @param intervalTime   间隔时间 (null 或 小于等于0, 表示立刻重试不会等待)
+     * @param exceptionClass 需要重试的异常类型 (默认 {@link Exception})
      * @param <R>            返回类型
      * @return 方法执行结果
      * @throws RetryException 重试失败
@@ -48,10 +49,9 @@ public class RetryUtil {
     @SafeVarargs
     public static <R> R execute(@Nonnull final Callable<R> callable,
                                 final int retrySize,
-                                @Nonnull final Duration intervalTime,
-                                final Class<? extends Throwable>... exceptionClass) {
+                                @Nullable final Duration intervalTime,
+                                @Nullable final Class<? extends Throwable>... exceptionClass) {
         Assert.notNull(callable, "callable must not be null");
-        Assert.notNull(intervalTime, "intervalTime must not be null");
 
         // 异常类型, 如果为空默认捕获 Exception
         final Set<Class<? extends Throwable>> classes = new HashSet<>();
@@ -84,7 +84,7 @@ public class RetryUtil {
                 }
 
                 // 执行休眠重试
-                if (intervalTime.isPositive()) {
+                if (intervalTime != null && intervalTime.isPositive()) {
                     ThreadUtil.sleep(intervalTime);
                 }
             }
