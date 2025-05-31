@@ -17,16 +17,18 @@
 package cn.toint.tool.util;
 
 import cn.toint.tool.exception.RetryException;
+import cn.toint.tool.model.RetryPolicy;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import org.dromara.hutool.core.array.ArrayUtil;
+import org.dromara.hutool.core.collection.CollUtil;
 import org.dromara.hutool.core.thread.ThreadUtil;
 
 import java.time.Duration;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 重试工具
@@ -51,41 +53,63 @@ public class RetryUtil {
                                 final int retrySize,
                                 @Nullable final Duration intervalTime,
                                 @Nullable final Class<? extends Throwable>... exceptionClass) {
-        Assert.notNull(callable, "callable must not be null");
-
-        // 异常类型, 如果为空默认捕获 Exception
-        final Set<Class<? extends Throwable>> classes = new HashSet<>();
+        final List<RetryPolicy> retryPolicies = new ArrayList<>();
         if (ArrayUtil.isNotEmpty(exceptionClass)) {
             for (final Class<? extends Throwable> item : exceptionClass) {
                 if (item != null) {
-                    classes.add(item);
+                    final RetryPolicy retryPolicy = new RetryPolicy(retrySize, intervalTime, item);
+                    retryPolicies.add(retryPolicy);
                 }
             }
         }
-        if (classes.isEmpty()) {
-            classes.add(Exception.class);
+
+        // 默认捕获: Exception.class
+        if (CollUtil.isEmpty(retryPolicies)) {
+            retryPolicies.add(new RetryPolicy(retrySize, intervalTime, Exception.class));
         }
 
-        // 剩余次数
-        final AtomicInteger size = new AtomicInteger(retrySize);
+        return RetryUtil.execute(callable, retryPolicies);
+    }
+
+    /**
+     * 重试机制
+     *
+     * @param callable      执行方法
+     * @param retryPolicies 重试策略
+     * @param <R>           返回类型
+     * @return 方法执行结果
+     * @throws RetryException 重试失败
+     */
+    public static <R> R execute(@Nonnull final Callable<R> callable,
+                                @Nullable Collection<RetryPolicy> retryPolicies) {
+        Assert.notNull(callable, "callable must not be null");
 
         while (true) {
             try {
                 return callable.call();
             } catch (Throwable e) {
                 // 检查异常类型, 没有匹配上抛出异常不重试
-                if (classes.stream().noneMatch(ex -> ex.isAssignableFrom(e.getClass()))) {
+                RetryPolicy retryPolicy = null;
+                if (CollUtil.isNotEmpty(retryPolicies)) {
+                    for (final RetryPolicy item : retryPolicies) {
+                        if (item.getExceptionClass() != null && item.getExceptionClass().isAssignableFrom(e.getClass())) {
+                            retryPolicy = item;
+                            break;
+                        }
+                    }
+                }
+                if (retryPolicy == null) {
                     throw new RetryException(e.getMessage(), e);
                 }
 
                 // 次数耗尽, 抛出异常
-                if (size.decrementAndGet() < 0) {
+                if (retryPolicy.getRetrySize().decrementAndGet() < 0) {
                     throw new RetryException(e.getMessage(), e);
                 }
 
                 // 执行休眠重试
-                if (intervalTime != null && intervalTime.isPositive()) {
-                    ThreadUtil.sleep(intervalTime);
+                if (retryPolicy.getIntervalTime() != null && retryPolicy.getIntervalTime().isPositive()) {
+                    ThreadUtil.sleep(retryPolicy.getIntervalTime());
                 }
             }
         }

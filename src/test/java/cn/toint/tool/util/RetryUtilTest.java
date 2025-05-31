@@ -16,8 +16,15 @@
 
 package cn.toint.tool.util;
 
+import cn.toint.tool.model.RetryPolicy;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Toint
@@ -28,14 +35,50 @@ class RetryUtilTest {
 
     @Test
     void execute() {
-//        final AtomicInteger atomicInteger = new AtomicInteger(0);
-//        RetryUtil.execute(() -> {
-//                    log.info("执行{}次", atomicInteger.incrementAndGet());
-//                    // 模拟异常
-//                    throw new RuntimeException("模拟测试");
-//                },
-//                3,
-//                null);
+        // 重试次数
+        final int retrySize = 3;
+        // 执行次数
+        final AtomicInteger runCount = new AtomicInteger(0);
+        try {
+            RetryUtil.execute(() -> {
+                        log.info("执行{}次", runCount.incrementAndGet());
+                        // 模拟异常
+                        throw new RuntimeException("模拟异常");
+                    },
+                    retrySize,
+                    Duration.ofMillis(500),
+                    RuntimeException.class);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
+        Assert.isTrue(retrySize + 1 == runCount.get(), "RetryUtilTest test fail");
+        log.info("RetryUtilTest test success");
+    }
+
+    @Test
+    void execute2() {
+        // 重试次数
+        final int retrySize = 3;
+        // 执行次数
+        final AtomicInteger runCount = new AtomicInteger(0);
+
+        final List<RetryPolicy> retryPolicies = new ArrayList<>();
+        retryPolicies.add(new RetryPolicy(retrySize + 1, Duration.ofSeconds(1), IOException.class));
+        retryPolicies.add(new RetryPolicy(retrySize, Duration.ofSeconds(1), RuntimeException.class));
+        try {
+            RetryUtil.execute(() -> {
+                        log.info("执行{}次", runCount.incrementAndGet());
+                        // 模拟异常
+                        throw new IllegalArgumentException("模拟异常");
+                    },
+                    retryPolicies);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
+        Assert.isTrue(retrySize + 1 == runCount.get(), "RetryUtilTest test fail");
+        log.info("RetryUtilTest test success");
     }
 
 
