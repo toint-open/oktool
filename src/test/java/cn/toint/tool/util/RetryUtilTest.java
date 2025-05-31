@@ -47,6 +47,7 @@ class RetryUtilTest {
                     },
                     retrySize,
                     Duration.ofMillis(500),
+                    true,
                     RuntimeException.class);
         } catch (Exception e) {
             log.error(e.getMessage(), e);

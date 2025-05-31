@@ -50,6 +50,11 @@ public class RetryPolicy {
     private final Class<? extends Throwable> exceptionClass;
 
     /**
+     * 重试时是否打印异常信息 (默认 false 不打印)
+     */
+    private final boolean printStackTrace;
+
+    /**
      * @param retrySize      重试次数 (不包含首次执行, 小于1表示不重试, 但无论如何方法会执行1次)
      * @param intervalTime   间隔时间 (null 或 小于等于0, 表示立刻重试不会等待)
      * @param exceptionClass 匹配异常类型 (null 不会重试)
@@ -60,5 +65,22 @@ public class RetryPolicy {
         this.retrySize = new AtomicInteger(retrySize);
         this.intervalTime = intervalTime;
         this.exceptionClass = exceptionClass;
+        this.printStackTrace = false;
+    }
+
+    /**
+     * @param retrySize       重试次数 (不包含首次执行, 小于1表示不重试, 但无论如何方法会执行1次)
+     * @param intervalTime    间隔时间 (null 或 小于等于0, 表示立刻重试不会等待)
+     * @param exceptionClass  匹配异常类型 (null 不会重试)
+     * @param printStackTrace 重试时是否打印异常信息 (false 不打印)
+     */
+    public RetryPolicy(final int retrySize,
+                       @Nullable final Duration intervalTime,
+                       @Nullable final Class<? extends Throwable> exceptionClass,
+                       final boolean printStackTrace) {
+        this.retrySize = new AtomicInteger(retrySize);
+        this.intervalTime = intervalTime;
+        this.exceptionClass = exceptionClass;
+        this.printStackTrace = printStackTrace;
     }
 }

@@ -20,6 +20,7 @@ import cn.toint.tool.exception.RetryException;
 import cn.toint.tool.model.RetryPolicy;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import org.dromara.hutool.core.array.ArrayUtil;
 import org.dromara.hutool.core.collection.CollUtil;
 import org.dromara.hutool.core.thread.ThreadUtil;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 重试工具
@@ -36,6 +38,7 @@ import java.util.concurrent.Callable;
  * @author Toint
  * @date 2025/5/31
  */
+@Slf4j
 public class RetryUtil {
     /**
      * 重试机制
@@ -53,11 +56,32 @@ public class RetryUtil {
                                 final int retrySize,
                                 @Nullable final Duration intervalTime,
                                 @Nullable final Class<? extends Throwable>... exceptionClass) {
+        return RetryUtil.execute(callable, retrySize, intervalTime, false, exceptionClass);
+    }
+
+    /**
+     * 重试机制
+     *
+     * @param callable        执行方法
+     * @param retrySize       重试次数 (不包含首次执行, 小于1表示不重试, 但无论如何方法会执行1次)
+     * @param intervalTime    间隔时间 (null 或 小于等于0, 表示立刻重试不会等待)
+     * @param exceptionClass  需要重试的异常类型 (默认 {@link Exception})
+     * @param printStackTrace 重试时是否打印异常信息 (false 不打印)
+     * @param <R>             返回类型
+     * @return 方法执行结果
+     * @throws RetryException 重试失败
+     */
+    @SafeVarargs
+    public static <R> R execute(@Nonnull final Callable<R> callable,
+                                final int retrySize,
+                                @Nullable final Duration intervalTime,
+                                final boolean printStackTrace,
+                                @Nullable final Class<? extends Throwable>... exceptionClass) {
         final List<RetryPolicy> retryPolicies = new ArrayList<>();
         if (ArrayUtil.isNotEmpty(exceptionClass)) {
             for (final Class<? extends Throwable> item : exceptionClass) {
                 if (item != null) {
-                    final RetryPolicy retryPolicy = new RetryPolicy(retrySize, intervalTime, item);
+                    final RetryPolicy retryPolicy = new RetryPolicy(retrySize, intervalTime, item, true);
                     retryPolicies.add(retryPolicy);
                 }
             }
@@ -65,7 +89,7 @@ public class RetryUtil {
 
         // 默认捕获: Exception.class
         if (CollUtil.isEmpty(retryPolicies)) {
-            retryPolicies.add(new RetryPolicy(retrySize, intervalTime, Exception.class));
+            retryPolicies.add(new RetryPolicy(retrySize, intervalTime, Exception.class, printStackTrace));
         }
 
         return RetryUtil.execute(callable, retryPolicies);
@@ -84,6 +108,8 @@ public class RetryUtil {
                                 @Nullable Collection<RetryPolicy> retryPolicies) {
         Assert.notNull(callable, "callable must not be null");
 
+        // 当前重试次数
+        final AtomicInteger retryCount = new AtomicInteger();
         while (true) {
             try {
                 return callable.call();
@@ -105,6 +131,11 @@ public class RetryUtil {
                 // 次数耗尽, 抛出异常
                 if (retryPolicy.getRetrySize().decrementAndGet() < 0) {
                     throw new RetryException(e.getMessage(), e);
+                }
+
+                // 打印日志
+                if (retryPolicy.isPrintStackTrace()) {
+                    log.info("retryCount: {}, cause: {}", retryCount.incrementAndGet(), e.getMessage(), e);
                 }
 
                 // 执行休眠重试
