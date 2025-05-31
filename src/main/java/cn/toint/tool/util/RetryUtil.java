@@ -134,8 +134,9 @@ public class RetryUtil {
                 }
 
                 // 打印日志
+                retryCount.incrementAndGet();
                 if (retryPolicy.isPrintStackTrace()) {
-                    log.info("retryCount: {}, cause: {}", retryCount.incrementAndGet(), e.getMessage(), e);
+                    log.info("retryCount: {}, cause: {}", retryCount.get(), e.getMessage(), e);
                 }
 
                 // 执行休眠重试
