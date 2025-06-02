@@ -26,9 +26,7 @@ import org.dromara.hutool.core.collection.CollUtil;
 import org.dromara.hutool.core.thread.ThreadUtil;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -108,6 +106,14 @@ public class RetryUtil {
                                 @Nullable Collection<RetryPolicy> retryPolicies) {
         Assert.notNull(callable, "callable must not be null");
 
+        // 为每个策略创建独立的计数器
+        Map<RetryPolicy, AtomicInteger> retryCounters = new HashMap<>();
+        if (CollUtil.isNotEmpty(retryPolicies)) {
+            for (RetryPolicy policy : retryPolicies) {
+                retryCounters.put(policy, new AtomicInteger(policy.getRetrySize()));
+            }
+        }
+
         // 当前重试次数
         final AtomicInteger retryCount = new AtomicInteger();
         while (true) {
@@ -129,14 +135,14 @@ public class RetryUtil {
                 }
 
                 // 次数耗尽, 抛出异常
-                if (retryPolicy.getRetrySize().decrementAndGet() < 0) {
+                if (retryCounters.get(retryPolicy).decrementAndGet() < 0) {
                     throw new RetryException(e.getMessage(), e);
                 }
 
                 // 打印日志
                 retryCount.incrementAndGet();
                 if (retryPolicy.isPrintStackTrace()) {
-                    log.info("retryCount: {}, cause: {}", retryCount.get(), e.getMessage(), e);
+                    log.warn("retryCount: {}, cause: {}", retryCount.get(), e.getMessage(), e);
                 }
 
                 // 执行休眠重试

@@ -16,12 +16,10 @@
 
 package cn.toint.tool.model;
 
-import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
 
 import java.time.Duration;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 重试策略
@@ -34,8 +32,7 @@ public class RetryPolicy {
     /**
      * 重试次数 (不包含首次执行, 小于1表示不重试, 但无论如何方法会执行1次)
      */
-    @Nonnull
-    private final AtomicInteger retrySize;
+    private final int retrySize;
 
     /**
      * 间隔时间 (null 或 小于等于0, 表示立刻重试不会等待)
@@ -62,7 +59,7 @@ public class RetryPolicy {
     public RetryPolicy(final int retrySize,
                        @Nullable final Duration intervalTime,
                        @Nullable final Class<? extends Throwable> exceptionClass) {
-        this.retrySize = new AtomicInteger(retrySize);
+        this.retrySize = retrySize;
         this.intervalTime = intervalTime;
         this.exceptionClass = exceptionClass;
         this.printStackTrace = false;
@@ -78,7 +75,7 @@ public class RetryPolicy {
                        @Nullable final Duration intervalTime,
                        @Nullable final Class<? extends Throwable> exceptionClass,
                        final boolean printStackTrace) {
-        this.retrySize = new AtomicInteger(retrySize);
+        this.retrySize = retrySize;
         this.intervalTime = intervalTime;
         this.exceptionClass = exceptionClass;
         this.printStackTrace = printStackTrace;
