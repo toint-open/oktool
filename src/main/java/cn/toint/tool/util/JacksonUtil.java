@@ -21,10 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -37,6 +35,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.dromara.hutool.core.annotation.AnnotationUtil;
 import org.dromara.hutool.core.date.DateFormatPool;
 import org.dromara.hutool.core.func.LambdaUtil;
+import org.dromara.hutool.core.func.SerFunction;
 import org.dromara.hutool.core.lang.Assert;
 import org.dromara.hutool.core.reflect.FieldUtil;
 import org.dromara.hutool.core.text.StrUtil;
@@ -55,7 +54,15 @@ import java.util.Objects;
 @Slf4j
 public class JacksonUtil {
 
-    private volatile static ObjectMapper objectMapper = new ObjectMapper();
+    private static ObjectMapper objectMapper = JacksonUtil.initObjectMapper();
+
+    private static ObjectMapper initObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.registerModules(JacksonUtil.createTimeModule(null, null));
+        objectMapper.registerModule(JacksonUtil.createSafeLongModule());
+        return objectMapper;
+    }
 
     public static ObjectMapper getObjectMapper() {
         return JacksonUtil.objectMapper();
@@ -206,6 +213,17 @@ public class JacksonUtil {
     /**
      * 获取属性别名
      *
+     * @param func Lambda
+     * @return 字段别名
+     */
+    public static <T, R> String getAlias(final SerFunction<T, R> func) {
+        final JsonProperty annotation = JacksonUtil.getJsonProperty(func);
+        return annotation == null ? LambdaUtil.getFieldName(func) : annotation.value();
+    }
+
+    /**
+     * 获取属性别名
+     *
      * @param beanClass beanClass
      * @param fieldName 字段名称
      * @return 字段别名
@@ -227,6 +245,17 @@ public class JacksonUtil {
      * @return JsonProperty
      */
     public static <T extends Serializable> JsonProperty getJsonProperty(final T func) {
+        Assert.notNull(func, "func must not be null");
+        return JacksonUtil.getJsonProperty(LambdaUtil.getRealClass(func), LambdaUtil.getFieldName(func));
+    }
+
+    /**
+     * 获取@JsonProperty
+     *
+     * @param func Lambda
+     * @return JsonProperty
+     */
+    public static <T, R> JsonProperty getJsonProperty(final SerFunction<T, R> func) {
         Assert.notNull(func, "func must not be null");
         return JacksonUtil.getJsonProperty(LambdaUtil.getRealClass(func), LambdaUtil.getFieldName(func));
     }
