@@ -134,15 +134,16 @@ public class RetryUtil {
                     throw new RetryException(e.getMessage(), e);
                 }
 
-                // 次数耗尽, 抛出异常
-                if (!retryCounters.containsKey(retryPolicy) || retryCounters.get(retryPolicy).decrementAndGet() < 0) {
+                // 剩余重试次数耗尽, 抛出异常
+                final AtomicInteger remainSize = retryCounters.get(retryPolicy);
+                if (remainSize == null || remainSize.decrementAndGet() < 0) {
                     throw new RetryException(e.getMessage(), e);
                 }
 
                 // 打印日志
                 retryCount.incrementAndGet();
                 if (retryPolicy.isPrintStackTrace()) {
-                    log.warn("retryCount: {}, cause: {}", retryCount.get(), e.getMessage(), e);
+                    log.warn("retryCount: {}, remainSize: {}, cause: {}", retryCount.get(), remainSize.get(), e.getMessage(), e);
                 }
 
                 // 执行休眠重试
