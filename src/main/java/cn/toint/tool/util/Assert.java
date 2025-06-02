@@ -82,6 +82,12 @@ public class Assert {
         }
     }
 
+    public static void notEquals(@Nullable final Object a, @Nullable final Object b, @Nullable final CharSequence template, @Nullable final Object... params) {
+        if (Objects.equals(a, b)) {
+            throw new IllegalArgumentException(StrUtil.format(template, params));
+        }
+    }
+
     @Contract("false, _, _ -> fail")
     public static void isTrue(final boolean b, @Nullable final CharSequence template, @Nullable final Object... params) {
         if (!b) {
