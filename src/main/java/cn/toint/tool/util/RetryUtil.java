@@ -114,8 +114,6 @@ public class RetryUtil {
             }
         }
 
-        // 当前重试次数
-        final AtomicInteger retryCount = new AtomicInteger();
         while (true) {
             try {
                 return callable.call();
@@ -141,9 +139,8 @@ public class RetryUtil {
                 }
 
                 // 打印日志
-                retryCount.incrementAndGet();
                 if (retryPolicy.isPrintStackTrace()) {
-                    log.warn("retryCount: {}, remainSize: {}, cause: {}", retryCount.get(), remainSize.get(), e.getMessage(), e);
+                    log.warn("({}/{}) {}", remainSize.get() + 1, retryPolicy.getRetrySize(), e.getMessage(), e);
                 }
 
                 // 执行休眠重试
