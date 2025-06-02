@@ -119,7 +119,7 @@ public class RetryUtil {
         while (true) {
             try {
                 return callable.call();
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 // 检查异常类型, 没有匹配上抛出异常不重试
                 RetryPolicy retryPolicy = null;
                 if (CollUtil.isNotEmpty(retryPolicies)) {
