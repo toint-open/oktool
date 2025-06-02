@@ -79,7 +79,7 @@ public class RetryUtil {
         if (ArrayUtil.isNotEmpty(exceptionClass)) {
             for (final Class<? extends Throwable> item : exceptionClass) {
                 if (item != null) {
-                    final RetryPolicy retryPolicy = new RetryPolicy(retrySize, intervalTime, item, true);
+                    final RetryPolicy retryPolicy = new RetryPolicy(retrySize, intervalTime, item, printStackTrace);
                     retryPolicies.add(retryPolicy);
                 }
             }
