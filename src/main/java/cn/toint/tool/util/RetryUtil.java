@@ -135,7 +135,7 @@ public class RetryUtil {
                 }
 
                 // 次数耗尽, 抛出异常
-                if (retryCounters.get(retryPolicy).decrementAndGet() < 0) {
+                if (!retryCounters.containsKey(retryPolicy) || retryCounters.get(retryPolicy).decrementAndGet() < 0) {
                     throw new RetryException(e.getMessage(), e);
                 }
 
