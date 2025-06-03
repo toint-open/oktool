@@ -373,8 +373,16 @@ public class JacksonUtil {
         return value == null || value.isNull() || value.isMissingNode();
     }
 
+    public static boolean isNotNull(final JsonNode value) {
+        return !JacksonUtil.isNull(value);
+    }
+
     public static boolean isEmpty(final JsonNode value) {
         return JacksonUtil.isNull(value) || value.isEmpty();
+    }
+
+    public static boolean isNotEmpty(final JsonNode value) {
+        return !JacksonUtil.isEmpty(value);
     }
 
     // ==============
