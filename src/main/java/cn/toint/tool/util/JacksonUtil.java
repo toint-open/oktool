@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.hutool.core.annotation.AnnotationUtil;
@@ -58,8 +59,13 @@ public class JacksonUtil {
 
     private static ObjectMapper initObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
+        // 忽略未知属性
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.registerModules(JacksonUtil.createTimeModule(null, null));
+        // 忽略序列化时间戳
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        // 创建 {@link LocalDateTime} 序列化与反序列化配置模块
+        objectMapper.registerModules(JacksonUtil.createLocalDateTimeModule(null, null));
+        // 创建 {@link Long} 安全序列化配置模块
         objectMapper.registerModule(JacksonUtil.createSafeLongModule());
         return objectMapper;
     }
@@ -392,9 +398,9 @@ public class JacksonUtil {
      *
      * @param pattern pattern, 不传默认: {@code yyyy-MM-dd HH:mm:ss}
      * @param zoneId  zoneId, 不传默认: {@code ZoneId.of("Asia/Shanghai")}
-     * @return 将 {@link com.fasterxml.jackson.databind.Module} 注册成 springboot bean, springboot 会将其加入 springboot 默认的 {@link ObjectMapper} 中
+     * @return 将 {@link Module} 注册成 springboot bean, springboot 会将其加入 springboot 默认的 {@link ObjectMapper} 中
      */
-    public static com.fasterxml.jackson.databind.Module createTimeModule(String pattern, ZoneId zoneId) {
+    public static Module createLocalDateTimeModule(@Nullable String pattern, @Nullable ZoneId zoneId) {
         if (StringUtils.isBlank(pattern)) {
             pattern = DateFormatPool.NORM_DATETIME_PATTERN;
         }
