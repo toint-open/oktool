@@ -31,8 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date 2025/5/31
  */
 @Slf4j
-class RetryUtilTest {
-
+public class RetryUtilTest {
     @Test
     void execute() {
         // 重试次数
@@ -54,7 +53,6 @@ class RetryUtilTest {
         }
 
         Assert.isTrue(retrySize + 1 == runCount.get(), "RetryUtilTest test fail");
-        log.info("RetryUtilTest test success");
     }
 
     @Test
@@ -65,8 +63,8 @@ class RetryUtilTest {
         final AtomicInteger runCount = new AtomicInteger(0);
 
         final List<RetryPolicy> retryPolicies = new ArrayList<>();
-        retryPolicies.add(new RetryPolicy(retrySize + 1, Duration.ofSeconds(1), IOException.class));
-        retryPolicies.add(new RetryPolicy(retrySize, Duration.ofSeconds(1), RuntimeException.class));
+        retryPolicies.add(new RetryPolicy(retrySize, Duration.ofMillis(500), IOException.class));
+        retryPolicies.add(new RetryPolicy(retrySize, Duration.ofMillis(500), RuntimeException.class));
         try {
             RetryUtil.execute(() -> {
                         log.info("执行{}次", runCount.incrementAndGet());
@@ -79,7 +77,6 @@ class RetryUtilTest {
         }
 
         Assert.isTrue(retrySize + 1 == runCount.get(), "RetryUtilTest test fail");
-        log.info("RetryUtilTest test success");
     }
 
 

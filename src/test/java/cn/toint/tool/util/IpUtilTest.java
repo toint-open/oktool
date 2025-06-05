@@ -17,6 +17,7 @@
 package cn.toint.tool.util;
 
 import cn.toint.tool.model.PublicIpInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -27,11 +28,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Toint
  * @date 2025/5/30
  */
-class IpUtilTest {
+@Slf4j
+public class IpUtilTest {
 
     @Test
     void getPublicIpInfo() {
         final Optional<PublicIpInfo> publicIpInfo = IpUtil.getPublicIpInfo();
         publicIpInfo.orElseThrow(RuntimeException::new);
+        log.info(JacksonUtil.writeValueAsString(publicIpInfo.get()));
     }
 }

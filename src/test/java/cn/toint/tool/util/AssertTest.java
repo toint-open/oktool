@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * @author Toint
  * @date 2025/5/31
  */
-class AssertTest {
+public class AssertTest {
     @Test
     void notNull() {
         Assert.notNull("test", "must not be null");
