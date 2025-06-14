@@ -37,7 +37,7 @@ public class RedisLockUtil {
      * @return true: 获取到锁(获取到执行权); false: 未能获取到锁(未获取到执行权)
      */
     public static boolean lock(@Nonnull String key, long timeout) {
-        return RedisLockUtil.lock(key, timeout, TimeUnit.MICROSECONDS);
+        return RedisLockUtil.lock(key, timeout, TimeUnit.MILLISECONDS);
     }
 
     /**
