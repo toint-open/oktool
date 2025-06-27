@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package cn.toint.tool.util;
+package cn.toint.oktool.util;
 
-import cn.toint.tool.model.RetryPolicy;
+import cn.toint.oktool.model.RetryPolicy;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

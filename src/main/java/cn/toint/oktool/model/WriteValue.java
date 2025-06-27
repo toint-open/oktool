@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.toint.tool.model;
+package cn.toint.oktool.model;
 
-import cn.toint.tool.util.JacksonUtil;
+import cn.toint.oktool.util.JacksonUtil;
 
 import java.io.Serializable;
 

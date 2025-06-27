@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.toint.tool.util;
+package cn.toint.oktool.util;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

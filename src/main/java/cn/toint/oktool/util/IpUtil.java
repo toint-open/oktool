@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package cn.toint.tool.util;
+package cn.toint.oktool.util;
 
-import cn.toint.tool.model.PublicIpInfo;
+import cn.toint.oktool.model.PublicIpInfo;
 import org.dromara.hutool.http.HttpUtil;
 
 import java.util.Optional;

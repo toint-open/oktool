@@ -23,16 +23,16 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
+        <version>3.5.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>cn.toint</groupId>
-    <artifactId>toint-tool</artifactId>
-    <version>1.1.2</version>
-    <name>toint-tool</name>
-    <description>toint-tool 是一个 Java 工具类库</description>
-    <url>https://github.com/toint-admin/toint-tool</url>
+    <artifactId>oktool</artifactId>
+    <version>1.2.0</version>
+    <name>oktool</name>
+    <description>oktool 是一个 Java 工具类库</description>
+    <url>https://github.com/toint-open/oktool</url>
 
     <developers>
         <developer>
@@ -44,9 +44,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/toint-admin/toint-tool.git</connection>
-        <developerConnection>scm:git:ssh://github.com/toint-admin/toint-tool.git</developerConnection>
-        <url>https://github.com/toint-admin/toint-tool</url>
+        <connection>scm:git:git://github.com/toint-open/oktool.git</connection>
+        <developerConnection>scm:git:ssh://github.com/toint-open/oktool.git</developerConnection>
+        <url>https://github.com/toint-open/oktool</url>
     </scm>
 
     <licenses>
@@ -61,9 +61,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!--okhttp-->
         <okhttp.version>4.12.0</okhttp.version>
-        <!--hutool-->
         <hutool6.version>6.0.0-M21</hutool6.version>
     </properties>
 
@@ -73,7 +71,6 @@
             <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
 
-        <!--okhttp-->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
@@ -150,7 +147,6 @@
                 </executions>
             </plugin>
 
-            <!--源码打包插件, 用于在IDE中查看源码文档-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -164,7 +160,6 @@
                 </executions>
             </plugin>
 
-            <!-- Javadoc -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>

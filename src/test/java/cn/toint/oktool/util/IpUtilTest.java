@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-package cn.toint.tool.exception;
+package cn.toint.oktool.util;
+
+import cn.toint.oktool.model.PublicIpInfo;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 /**
- * Json 异常
- *
  * @author Toint
  * @date 2025/5/30
  */
-public class JsonException extends RuntimeException {
+@Slf4j
+public class IpUtilTest {
 
-    public JsonException(final String message) {
-        super(message);
-    }
-
-    public JsonException(final String message, final Throwable e) {
-        super(message, e);
+    @Test
+    void getPublicIpInfo() {
+        final Optional<PublicIpInfo> publicIpInfo = IpUtil.getPublicIpInfo();
+        publicIpInfo.orElseThrow(RuntimeException::new);
+        log.info(JacksonUtil.writeValueAsString(publicIpInfo.get()));
     }
 }

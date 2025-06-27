@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.toint.tool.util;
+package cn.toint.oktool.util;
 
-import cn.toint.tool.exception.JsonException;
-import cn.toint.tool.model.SafeLongSerializer;
+import cn.toint.oktool.exception.JsonException;
+import cn.toint.oktool.model.SafeLongSerializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.TreeNode;

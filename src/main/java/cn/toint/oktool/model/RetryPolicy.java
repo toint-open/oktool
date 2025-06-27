@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.toint.tool.model;
+package cn.toint.oktool.model;
 
 import jakarta.annotation.Nullable;
 import lombok.Getter;

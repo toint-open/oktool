@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package cn.toint.tool.util;
-
-import org.apache.commons.lang3.StringUtils;
-import org.dromara.hutool.core.text.StrUtil;
+package cn.toint.oktool.exception;
 
 /**
+ * 重试异常
+ *
  * @author Toint
- * @date 2025/5/30
+ * @date 2025/5/31
  */
-public class ExceptionUtil {
-    public static RuntimeException wrapRuntimeException(final String msgTemplate, final Object... params) {
-        return new RuntimeException(StrUtil.format(msgTemplate, params));
+public class RetryException extends RuntimeException {
+    public RetryException(final String message) {
+        super(message);
     }
 
-    public static RuntimeException wrapRuntimeException(final Throwable throwable, final String msgTemplate, final Object... params) {
-        return new RuntimeException(StrUtil.format(msgTemplate, params), throwable);
+    public RetryException(final String message, final Throwable e) {
+        super(message, e);
     }
 }

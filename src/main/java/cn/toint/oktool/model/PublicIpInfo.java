@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.toint.tool.model;
+package cn.toint.oktool.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

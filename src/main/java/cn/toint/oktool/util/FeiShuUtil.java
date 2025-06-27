@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.toint.tool.util;
+package cn.toint.oktool.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.hutool.core.codec.binary.Base64;

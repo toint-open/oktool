@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.toint.tool.util;
+package cn.toint.oktool.util;
 
 import org.dromara.hutool.core.data.id.Snowflake;
 

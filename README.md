@@ -9,7 +9,7 @@ toint-tool 通过诸多实用工具类的使用, 旨在帮助开发者快速, �
 ```xml
 <dependency>
     <groupId>cn.toint</groupId>
-    <artifactId>toint-tool</artifactId>
+    <artifactId>oktool</artifactId>
     <version>${version}</version>
 </dependency>
 ```
@@ -18,7 +18,7 @@ toint-tool 通过诸多实用工具类的使用, 旨在帮助开发者快速, �
 
 提交问题反馈请说明正在使用的 JDK 版本, toint-tool 版本和相关依赖库版本.
 
-- [Github issue](https://github.com/toint-admin/toint-tool/issues)
+- [GitHub issue](https://github.com/toint-open/oktool/issues)
 
 # 沟通说明
 

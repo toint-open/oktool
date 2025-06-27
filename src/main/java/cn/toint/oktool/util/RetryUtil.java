@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package cn.toint.tool.util;
+package cn.toint.oktool.util;
 
-import cn.toint.tool.exception.RetryException;
-import cn.toint.tool.model.RetryPolicy;
+import cn.toint.oktool.exception.RetryException;
+import cn.toint.oktool.model.RetryPolicy;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;

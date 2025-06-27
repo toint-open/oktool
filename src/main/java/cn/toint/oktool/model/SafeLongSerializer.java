@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package cn.toint.tool.model;
+package cn.toint.oktool.model;
 
-import cn.toint.tool.util.JacksonUtil;
+import cn.toint.oktool.util.JacksonUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.io.IOException;
 
