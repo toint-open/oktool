@@ -29,7 +29,7 @@
 
     <groupId>cn.toint</groupId>
     <artifactId>oktool</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.0-20250630063606</version>
     <name>oktool</name>
     <description>oktool 是一个 Java 工具类库</description>
     <url>https://github.com/toint-open/oktool</url>
@@ -63,6 +63,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <okhttp.version>4.12.0</okhttp.version>
         <hutool6.version>6.0.0-M21</hutool6.version>
+        <ttl.version>2.14.5</ttl.version>
     </properties>
 
     <dependencies>
@@ -115,6 +116,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>transmittable-thread-local</artifactId>
+            <version>${ttl.version}</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
