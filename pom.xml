@@ -29,7 +29,7 @@
 
     <groupId>cn.toint</groupId>
     <artifactId>oktool</artifactId>
-    <version>1.2.0-20250630063606</version>
+    <version>1.2.0-20250630075953</version>
     <name>oktool</name>
     <description>oktool 是一个 Java 工具类库</description>
     <url>https://github.com/toint-open/oktool</url>
@@ -129,7 +129,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
             <version>${ttl.version}</version>
-            <optional>true</optional>
         </dependency>
     </dependencies>
 
