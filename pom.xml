@@ -31,7 +31,7 @@
     <artifactId>oktool</artifactId>
     <version>1.2.0-20250630075953</version>
     <name>oktool</name>
-    <description>oktool 是一个 Java 工具类库</description>
+    <description>oktool是一个Java工具类库</description>
     <url>https://github.com/toint-open/oktool</url>
 
     <developers>
@@ -96,12 +96,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>26.0.2</version>
@@ -129,6 +123,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
             <version>${ttl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
