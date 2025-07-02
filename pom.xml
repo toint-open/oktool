@@ -29,7 +29,7 @@
 
     <groupId>cn.toint</groupId>
     <artifactId>oktool</artifactId>
-    <version>1.2.0-20250703015051</version>
+    <version>1.2.0-20250703022312</version>
     <name>oktool</name>
     <description>oktool是一个Java工具类库</description>
     <url>https://github.com/toint-open/oktool</url>

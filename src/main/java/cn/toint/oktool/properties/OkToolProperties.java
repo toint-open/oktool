@@ -35,12 +35,12 @@ public class OkToolProperties {
     /**
      * jackson LocalDateTime日期模块
      */
-    private JacksonLocalDateTimeModule jacksonLocalDateTimeModule;
+    private JacksonLocalDateTimeModule jacksonLocalDateTimeModule = new JacksonLocalDateTimeModule();
 
     /**
      * jackson 安全Long模块
      */
-    private JacksonSafeLongModule jacksonSafeLongModule;
+    private JacksonSafeLongModule jacksonSafeLongModule = new JacksonSafeLongModule();
 
     /**
      * jackson LocalDateTime日期模块

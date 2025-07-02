@@ -40,7 +40,6 @@ import java.time.ZoneId;
  */
 @AutoConfiguration
 @ConfigurationPropertiesScan({"cn.toint.oktool.properties"})
-//@ComponentScan({"cn.toint.oktool.service"})
 @Slf4j
 public class OkToolAutoConfig {
 
@@ -51,7 +50,7 @@ public class OkToolAutoConfig {
      * jackson LocalDateTime日期模块
      */
     @Bean
-    @ConditionalOnProperty(name = "oktool.jackson-local-date-time-module.enabled", havingValue = "true")
+    @ConditionalOnProperty(name = "oktool.jackson-local-date-time-module.enabled", havingValue = "true", matchIfMissing = true)
     public Module jacksonLocalDateTimeModule() {
         OkToolProperties.JacksonLocalDateTimeModule jacksonLocalDateTimeModule = okToolProperties.getJacksonLocalDateTimeModule();
         ZoneId zoneId = ZoneId.of(jacksonLocalDateTimeModule.getZoneId());
@@ -65,7 +64,7 @@ public class OkToolAutoConfig {
      * jackson 安全Long模块
      */
     @Bean
-    @ConditionalOnProperty(name = "oktool.jackson-safe-long-module.enabled", havingValue = "true")
+    @ConditionalOnProperty(name = "oktool.jackson-safe-long-module.enabled", havingValue = "true", matchIfMissing = true)
     public Module jacksonSafeLongModule() {
         final Module longModule = JacksonUtil.createSafeLongModule();
         log.info("Jackson SafeLongModule初始化成功");
