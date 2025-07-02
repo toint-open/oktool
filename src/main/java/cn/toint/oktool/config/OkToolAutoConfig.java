@@ -46,21 +46,23 @@ public class OkToolAutoConfig {
     @ConditionalOnMissingBean
     public CacheService cacheService() {
         CacheType cacheType = okToolProperties.getCacheType();
+        CacheService cacheService;
         if (cacheType == null || cacheType == CacheType.AUTO) {
             // 优先使用redis
             boolean hasRedis = ClassUtils.isPresent("org.springframework.data.redis.core.StringRedisTemplate", null);
             if (hasRedis) {
-                return new RedisCacheServiceImpl();
+                cacheService = new RedisCacheServiceImpl();
             } else {
-                return new LocalCacheServiceImpl();
+                cacheService = new LocalCacheServiceImpl();
             }
-        }
-
-        if (cacheType == CacheType.REDIS) {
+        } else if (cacheType == CacheType.REDIS) {
             // 不判断, 如果redis不存在springboot会自动报错
-            return new RedisCacheServiceImpl();
+            cacheService = new RedisCacheServiceImpl();
+        } else {
+            cacheService = new LocalCacheServiceImpl();
         }
 
-        return new LocalCacheServiceImpl();
+        log.info("缓存服务初始化成功, 实现类: {}", cacheService.getClass().getName());
+        return cacheService;
     }
 }
