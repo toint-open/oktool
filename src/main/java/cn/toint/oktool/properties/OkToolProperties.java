@@ -31,4 +31,32 @@ public class OkToolProperties {
      * 缓存类型
      */
     private CacheType cacheType = CacheType.AUTO;
+
+    /**
+     * jackson LocalDateTime日期模块
+     */
+    private JacksonLocalDateTimeModule jacksonLocalDateTimeModule;
+
+    /**
+     * jackson 安全Long模块
+     */
+    private JacksonSafeLongModule jacksonSafeLongModule;
+
+    /**
+     * jackson LocalDateTime日期模块
+     */
+    @Data
+    public static class JacksonLocalDateTimeModule {
+        private boolean enabled = true;
+        private String zoneId = "Asia/Shanghai";
+        private String pattern =  "yyyy-MM-dd HH:mm:ss";
+    }
+
+    /**
+     * jackson 安全Long模块
+     */
+    @Data
+    public static class JacksonSafeLongModule {
+        private boolean enabled = true;
+    }
 }

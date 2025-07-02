@@ -21,13 +21,18 @@ import cn.toint.oktool.properties.OkToolProperties;
 import cn.toint.oktool.service.CacheService;
 import cn.toint.oktool.service.impl.LocalCacheServiceImpl;
 import cn.toint.oktool.service.impl.RedisCacheServiceImpl;
+import cn.toint.oktool.util.JacksonUtil;
+import com.fasterxml.jackson.databind.Module;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.ClassUtils;
+
+import java.time.ZoneId;
 
 /**
  * @author Toint
@@ -41,6 +46,31 @@ public class OkToolAutoConfig {
 
     @Resource
     private OkToolProperties okToolProperties;
+
+    /**
+     * jackson LocalDateTime日期模块
+     */
+    @Bean
+    @ConditionalOnProperty(name = "oktool.jackson-local-date-time-module.enabled", havingValue = "true")
+    public Module jacksonLocalDateTimeModule() {
+        OkToolProperties.JacksonLocalDateTimeModule jacksonLocalDateTimeModule = okToolProperties.getJacksonLocalDateTimeModule();
+        ZoneId zoneId = ZoneId.of(jacksonLocalDateTimeModule.getZoneId());
+        String pattern = jacksonLocalDateTimeModule.getPattern();
+        Module timeModule = JacksonUtil.createLocalDateTimeModule(pattern, zoneId);
+        log.info("Jackson LocalDateTimeModule初始化成功, zoneId={}, pattern={}", zoneId, pattern);
+        return timeModule;
+    }
+
+    /**
+     * jackson 安全Long模块
+     */
+    @Bean
+    @ConditionalOnProperty(name = "oktool.jackson-safe-long-module.enabled", havingValue = "true")
+    public Module jacksonSafeLongModule() {
+        final Module longModule = JacksonUtil.createSafeLongModule();
+        log.info("Jackson SafeLongModule初始化成功");
+        return longModule;
+    }
 
     @Bean
     @ConditionalOnMissingBean
