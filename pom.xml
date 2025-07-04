@@ -61,6 +61,8 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <ok-dependencies.version>1.0.0</ok-dependencies.version>
     </properties>
 
     <dependencyManagement>
@@ -68,7 +70,7 @@
             <dependency>
                 <groupId>cn.toint</groupId>
                 <artifactId>ok-dependencies</artifactId>
-                <version>1.0.0-20250704091818</version>
+                <version>${ok-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
