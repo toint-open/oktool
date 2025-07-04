@@ -20,12 +20,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>cn.toint</groupId>
-        <artifactId>ok-dependencies</artifactId>
-        <version>1.0.0-20250704091818</version>
-    </parent>
-
+    <groupId>cn.toint</groupId>
     <artifactId>oktool-parent</artifactId>
     <version>2.0.0-20250704091903</version>
 
@@ -67,6 +62,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cn.toint</groupId>
+                <artifactId>ok-dependencies</artifactId>
+                <version>1.0.0-20250704091818</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <pluginManagement>
