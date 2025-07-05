@@ -35,9 +35,28 @@ public interface Cache {
     void put(String key, String value, Duration timeout);
 
     /**
+     * 设置缓存如果不存在
+     *
+     * @param key     缓存键, 不能为空
+     * @param value   缓存值
+     * @param timeout 缓存时间, 不能为空
+     * @return true=设置成功, false=不成功
+     */
+    boolean putIfAbsent(String key, String value, Duration timeout);
+
+    /**
      * 获取缓存
      *
-     * @param key     缓存键
+     * @param key 缓存键
+     * @return value   缓存值
      */
     String get(String key);
+
+    /**
+     * 缓存是否存在
+     *
+     * @param key 缓存键, 不能为空
+     * @return true=存在, false=不存在
+     */
+    boolean containsKey(String key);
 }

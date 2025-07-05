@@ -17,8 +17,6 @@
 package cn.toint.oktool.spring.boot.util;
 
 import cn.toint.oktool.util.Assert;
-import jakarta.annotation.Nonnull;
-import org.dromara.hutool.extra.spring.SpringUtil;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.concurrent.TimeUnit;
@@ -30,6 +28,12 @@ import java.util.concurrent.TimeUnit;
  * @date 2025/6/13
  */
 public class RedisLockUtil {
+    private static StringRedisTemplate stringRedisTemplate;
+
+    public static void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
+        RedisLockUtil.stringRedisTemplate = stringRedisTemplate;
+    }
+
     /**
      * 上锁
      *
@@ -37,7 +41,7 @@ public class RedisLockUtil {
      * @param timeout 上锁时长(ms)
      * @return true: 获取到锁(获取到执行权); false: 未能获取到锁(未获取到执行权)
      */
-    public static boolean lock(@Nonnull String key, long timeout) {
+    public static boolean lock(String key, long timeout) {
         return RedisLockUtil.lock(key, timeout, TimeUnit.MILLISECONDS);
     }
 
@@ -49,15 +53,12 @@ public class RedisLockUtil {
      * @param unit    上锁时长单位
      * @return true: 获取到锁(获取到执行权); false: 未能获取到锁(未获取到执行权)
      */
-    public static boolean lock(@Nonnull String key, long timeout, @Nonnull TimeUnit unit) {
+    public static boolean lock(String key, long timeout, TimeUnit unit) {
         Assert.notBlank(key, "key must not be blank");
         Assert.notNull(unit, "unit must not be null");
         Assert.isTrue(timeout > 0, "timeout 必须大于 0");
 
-        Boolean setIfAbsent = SpringUtil.getBean(StringRedisTemplate.class)
-                .opsForValue()
-                .setIfAbsent(key, "", timeout, unit);
-
+        Boolean setIfAbsent = stringRedisTemplate.opsForValue().setIfAbsent(key, "", timeout, unit);
         return Boolean.TRUE.equals(setIfAbsent);
     }
 
@@ -66,8 +67,8 @@ public class RedisLockUtil {
      *
      * @param key 锁键
      */
-    public static void unlock(@Nonnull String key) {
+    public static void unlock(String key) {
         Assert.notBlank(key, "key must not be blank");
-        SpringUtil.getBean(StringRedisTemplate.class).delete(key);
+        stringRedisTemplate.delete(key);
     }
 }

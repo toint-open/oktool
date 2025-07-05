@@ -21,6 +21,7 @@ import cn.toint.oktool.util.Assert;
 import org.dromara.hutool.core.cache.impl.TimedCache;
 
 import java.time.Duration;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 本地缓存
@@ -41,10 +42,35 @@ public class LocalCacheImpl implements Cache {
         timedCache.put(key, value, timeout.toMillis());
     }
 
+    private final ReentrantLock putIfAbsentLock = new ReentrantLock();
+
+    @Override
+    public boolean putIfAbsent(String key, String value, Duration timeout) {
+        Assert.notBlank(key, "key不能为空");
+        Assert.notNull(timeout, "缓存时间不能为空");
+
+        putIfAbsentLock.lock();
+        try {
+            if (timedCache.containsKey(key)) {
+                return false;
+            } else {
+                timedCache.put(key, value, timeout.toMillis());
+                return true;
+            }
+        } finally {
+            putIfAbsentLock.unlock();
+        }
+    }
+
     @Override
     public String get(String key) {
         Assert.notBlank(key, "key不能为空");
         return timedCache.get(key);
+    }
+
+    @Override
+    public boolean containsKey(String key) {
+        return timedCache.containsKey(key);
     }
 
     private TimedCache<String, String> initTimedCache() {

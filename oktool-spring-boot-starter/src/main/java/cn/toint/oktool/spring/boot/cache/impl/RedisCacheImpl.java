@@ -22,6 +22,7 @@ import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  * @author Toint
@@ -39,8 +40,22 @@ public class RedisCacheImpl implements Cache {
     }
 
     @Override
+    public boolean putIfAbsent(String key, String value, Duration timeout) {
+        Assert.notBlank(key, "key不能为空");
+        Assert.notNull(timeout, "缓存时间不能为空");
+        Boolean status = stringRedisTemplate.opsForValue().setIfAbsent(key, value, timeout);
+        return Objects.equals(Boolean.TRUE, status);
+    }
+
+    @Override
     public String get(String key) {
         Assert.notBlank(key, "key不能为空");
         return stringRedisTemplate.opsForValue().get(key);
+    }
+
+    @Override
+    public boolean containsKey(String key) {
+        Boolean hasKey = stringRedisTemplate.hasKey(key);
+        return Objects.equals(Boolean.TRUE, hasKey);
     }
 }
