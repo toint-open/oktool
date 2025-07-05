@@ -21,6 +21,7 @@
         <dependency>
             <groupId>cn.toint</groupId>
             <artifactId>oktool</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
