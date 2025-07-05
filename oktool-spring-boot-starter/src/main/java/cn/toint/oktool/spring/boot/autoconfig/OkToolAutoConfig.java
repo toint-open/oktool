@@ -14,45 +14,26 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.config;
+package cn.toint.oktool.spring.boot.autoconfig;
 
-import cn.toint.oktool.spring.boot.config.cache.CacheConfig;
-import cn.toint.oktool.spring.boot.config.jackson.JacksonModelConfig;
-import cn.toint.oktool.spring.boot.config.jackson.JacksonObjectMapperConfig;
+import cn.toint.oktool.spring.boot.properties.OkToolProperties;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author Toint
  * @date 2025/7/2
  */
 @AutoConfiguration
-@EnableConfigurationProperties(OkToolProperties.class)
+@ComponentScan("cn.toint.oktool.spring.boot.config")
+@ConfigurationPropertiesScan("cn.toint.oktool.spring.boot.properties")
 @Slf4j
 public class OkToolAutoConfig {
 
     @Resource
     private OkToolProperties okToolProperties;
-
-    @Bean
-    @ConditionalOnMissingBean
-    public CacheConfig cacheConfig() {
-        return new CacheConfig();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public JacksonModelConfig jacksonConfig() {
-        return new JacksonModelConfig();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public JacksonObjectMapperConfig jacksonObjectMapperConfig() {
-        return new JacksonObjectMapperConfig();
-    }
 }
