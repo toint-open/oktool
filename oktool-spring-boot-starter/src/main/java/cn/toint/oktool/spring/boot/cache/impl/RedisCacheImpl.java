@@ -55,7 +55,14 @@ public class RedisCacheImpl implements Cache {
 
     @Override
     public boolean containsKey(String key) {
+        Assert.notBlank(key, "key不能为空");
         Boolean hasKey = stringRedisTemplate.hasKey(key);
         return Objects.equals(Boolean.TRUE, hasKey);
+    }
+
+    @Override
+    public void delete(String key) {
+        Assert.notBlank(key, "key不能为空");
+        stringRedisTemplate.delete(key);
     }
 }

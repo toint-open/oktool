@@ -70,7 +70,14 @@ public class LocalCacheImpl implements Cache {
 
     @Override
     public boolean containsKey(String key) {
+        Assert.notBlank(key, "key不能为空");
         return timedCache.containsKey(key);
+    }
+
+    @Override
+    public void delete(String key) {
+        Assert.notBlank(key, "key不能为空");
+        timedCache.remove(key);
     }
 
     private TimedCache<String, String> initTimedCache() {

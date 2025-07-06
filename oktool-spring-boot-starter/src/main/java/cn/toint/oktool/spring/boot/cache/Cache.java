@@ -59,4 +59,10 @@ public interface Cache {
      * @return true=存在, false=不存在
      */
     boolean containsKey(String key);
+
+    /**
+     * 删除缓存
+     * @param key 缓存键, 不能为空
+     */
+    void delete(String key);
 }
