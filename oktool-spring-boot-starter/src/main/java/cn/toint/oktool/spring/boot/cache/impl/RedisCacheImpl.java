@@ -22,6 +22,8 @@ import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.time.Duration;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -51,6 +53,12 @@ public class RedisCacheImpl implements Cache {
     public String get(String key) {
         Assert.notBlank(key, "key不能为空");
         return stringRedisTemplate.opsForValue().get(key);
+    }
+
+    @Override
+    public List<String> multiGet(Collection<String> keys) {
+        Assert.notEmpty(keys, "keys不能为空");
+        return stringRedisTemplate.opsForValue().multiGet(keys);
     }
 
     @Override

@@ -17,6 +17,8 @@
 package cn.toint.oktool.spring.boot.cache;
 
 import java.time.Duration;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 缓存服务
@@ -48,9 +50,17 @@ public interface Cache {
      * 获取缓存
      *
      * @param key 缓存键
-     * @return value   缓存值
+     * @return 缓存值
      */
     String get(String key);
+
+    /**
+     * 获取缓存
+     *
+     * @param keys 缓存键
+     * @return 缓存值集合, 如果对应位置的key不存在, 则用null占位
+     */
+    List<String> multiGet(Collection<String> keys);
 
     /**
      * 缓存是否存在
@@ -62,6 +72,7 @@ public interface Cache {
 
     /**
      * 删除缓存
+     *
      * @param key 缓存键, 不能为空
      */
     void delete(String key);

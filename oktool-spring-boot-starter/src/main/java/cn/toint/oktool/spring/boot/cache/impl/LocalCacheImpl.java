@@ -21,6 +21,9 @@ import cn.toint.oktool.util.Assert;
 import org.dromara.hutool.core.cache.impl.TimedCache;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -66,6 +69,18 @@ public class LocalCacheImpl implements Cache {
     public String get(String key) {
         Assert.notBlank(key, "key不能为空");
         return timedCache.get(key);
+    }
+
+    @Override
+    public List<String> multiGet(Collection<String> keys) {
+        Assert.notEmpty(keys, "keys不能为空");
+
+        List<String> values = new ArrayList<>();
+        for (String key : keys) {
+            values.add(get(key));
+        }
+
+        return values;
     }
 
     @Override
