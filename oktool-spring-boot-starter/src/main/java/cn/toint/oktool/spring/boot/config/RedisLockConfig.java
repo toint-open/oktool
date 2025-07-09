@@ -19,10 +19,14 @@ package cn.toint.oktool.spring.boot.config;
 import cn.toint.oktool.spring.boot.util.RedisLockUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 @Configuration
+@ConditionalOnClass(StringRedisTemplate.class)
+@Slf4j
 public class RedisLockConfig {
 
     @Resource
@@ -31,5 +35,6 @@ public class RedisLockConfig {
     @PostConstruct
     private void init() {
         RedisLockUtil.setStringRedisTemplate(stringRedisTemplate);
+        log.info("redis分布式锁初始化成功");
     }
 }
