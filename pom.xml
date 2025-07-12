@@ -22,11 +22,11 @@
 
     <groupId>cn.toint</groupId>
     <artifactId>oktool-parent</artifactId>
-    <version>2.0.0-alpha-9</version>
+    <version>2.0.0-alpha-10</version>
 
     <packaging>pom</packaging>
 
-    <name>oktool</name>
+    <name>oktool-parent</name>
     <description>oktool是一个Java工具类库</description>
     <url>https://github.com/toint-open/oktool</url>
 
