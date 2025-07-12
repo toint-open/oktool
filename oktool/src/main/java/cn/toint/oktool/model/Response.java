@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.model;
+package cn.toint.oktool.model;
 
-import cn.toint.oktool.model.WriteValue;
-import cn.toint.oktool.spring.boot.constant.ResponseConstant;
+import cn.toint.oktool.constant.ResponseConstant;
 import cn.toint.oktool.util.MdcUtil;
 import lombok.Data;
 import org.dromara.hutool.core.date.SystemClock;
