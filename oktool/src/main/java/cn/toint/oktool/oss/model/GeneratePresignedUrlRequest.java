@@ -14,31 +14,32 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.model;
+package cn.toint.oktool.oss.model;
 
-import com.mybatisflex.core.paginate.Page;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.time.Duration;
+
 /**
  * @author Toint
- * @date 2025/7/12
+ * @date 2025/7/15
  */
 @Data
-public class PageRequest {
-    /**
-     * 页码
-     */
+public class GeneratePresignedUrlRequest {
+    @NotBlank
+    private String bucketName;
+
+    @NotBlank
+    private String objectKey;
+
     @NotNull
-    private Long pageNumber;
+    private Duration timeout;
 
     /**
-     * 每页数据数量
+     * cdn加速链接, 示例: {@code https://cdn.toint.cn}
      */
-    @NotNull
-    private Long pageSize;
+    private String cdnUrl;
 
-    public <T> Page<T> toFlexPage() {
-        return new Page<>(this.pageNumber, this.pageSize);
-    }
 }

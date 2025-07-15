@@ -18,6 +18,7 @@ package cn.toint.oktool.oss;
 
 import cn.toint.oktool.oss.model.CalculatePostSignatureRequest;
 import cn.toint.oktool.oss.model.CalculatePostSignatureResponse;
+import cn.toint.oktool.oss.model.GeneratePresignedUrlRequest;
 import cn.toint.oktool.oss.model.RegionAndEndpointEnum;
 import cn.toint.oktool.util.Assert;
 import com.aliyun.oss.ClientBuilderConfiguration;
@@ -26,13 +27,23 @@ import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.common.comm.SignVersion;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
+import org.apache.commons.lang3.StringUtils;
 import org.dromara.hutool.core.codec.binary.Base64;
 import org.dromara.hutool.core.date.DateTime;
 import org.dromara.hutool.core.date.DateUtil;
+import org.dromara.hutool.core.net.url.UrlBuilder;
 import org.dromara.hutool.core.text.StrUtil;
 import org.dromara.hutool.core.util.EnumUtil;
 
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+
 /**
+ * 阿里云oss客户端封装
+ * 客户端以地域为维度, 简单来说, 一个地域对应一个客户端.
+ * 一个客户端可以操作当前地域下的所有存储桶.
+ *
  * @author Toint
  * @date 2025/7/14
  */
@@ -75,6 +86,35 @@ public class OssClient {
         ossClient.setConfig(config);
         ossClient.setOss(oss);
         return ossClient;
+    }
+
+    /**
+     * 预签名下载/预览
+     *
+     * @return 下载/预览链接
+     */
+    public String generatePresignedUrl(GeneratePresignedUrlRequest request) {
+        Assert.notNull(request, "请求参数不能为空");
+        Assert.validate(request);
+
+        String bucketName = request.getBucketName();
+        String objectKey = request.getObjectKey();
+        Duration timeout = request.getTimeout();
+        String cdnUrl = request.getCdnUrl();
+
+        DateTime expiration = DateUtil.offsetMillisecond(DateUtil.now(), Math.toIntExact(timeout.toMillis()));
+        URL url = oss.generatePresignedUrl(bucketName, objectKey, expiration);
+
+        if (StringUtils.isBlank(cdnUrl)) {
+            return url.toString();
+        }
+
+        // 替换为cdn加速链接
+        UrlBuilder ossUrl = UrlBuilder.of(url, StandardCharsets.UTF_8);
+        return UrlBuilder.ofHttp(cdnUrl)
+                .addPath(ossUrl.getPathStr())
+                .setQuery(ossUrl.getQuery())
+                .toString();
     }
 
     /**
