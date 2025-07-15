@@ -18,6 +18,7 @@ package cn.toint.oktool.oss;
 
 import cn.toint.oktool.oss.model.CalculatePostSignatureRequest;
 import cn.toint.oktool.oss.model.CalculatePostSignatureResponse;
+import cn.toint.oktool.oss.model.RegionAndEndpointEnum;
 import cn.toint.oktool.util.Assert;
 import com.aliyun.oss.ClientBuilderConfiguration;
 import com.aliyun.oss.OSSClient;
@@ -29,7 +30,7 @@ import org.dromara.hutool.core.codec.binary.Base64;
 import org.dromara.hutool.core.date.DateTime;
 import org.dromara.hutool.core.date.DateUtil;
 import org.dromara.hutool.core.text.StrUtil;
-import org.dromara.hutool.extra.validation.ValidationUtil;
+import org.dromara.hutool.core.util.EnumUtil;
 
 /**
  * @author Toint
@@ -41,11 +42,12 @@ public class OssClient {
 
     private OSSClient oss;
 
-    public OssClient() {
+    public void setOss(OSSClient oss) {
+        this.oss = oss;
     }
 
-    public OssClient(OSSClient oss) {
-        this.oss = oss;
+    public void setConfig(OssClientConfig config) {
+        this.config = config;
     }
 
     public static OssClient of(OssClientConfig config) {
@@ -69,7 +71,10 @@ public class OssClient {
         OSSClient oss = new OSSClient(endpoint, credentialsProvider, clientBuilderConfiguration);
         oss.setRegion(region);
 
-        return new OssClient(oss);
+        OssClient ossClient = new OssClient();
+        ossClient.setConfig(config);
+        ossClient.setOss(oss);
+        return ossClient;
     }
 
     /**
@@ -82,7 +87,7 @@ public class OssClient {
         final String bucketName = request.getBucketName();
         final String accessKeyId = config.getAccessKeyId();
         String objectKey = request.getObjectKey();
-        String endpoint = request.getEndpoint();
+        String endpoint = config.getEndpoint();
 
         Long minFileSize = request.getMinFileSize();
         Long maxFileSize = request.getMaxFileSize();
@@ -106,19 +111,30 @@ public class OssClient {
 
         // 构造上传地址
         // 应使用阿里云原生的域名上传, 避免cdn域名存在一些上传限制, 比如阿里云esa或者CDN会有最大上传限制
-        if (!request.isInternal()) {
-            endpoint = StrUtil.removeAll(endpoint, "-internal");
+        Boolean internal = request.getInternal();
+        if (internal != null) {
+            RegionAndEndpointEnum regionAndEndpointEnum = EnumUtil.getBy(RegionAndEndpointEnum::getRegion, config.getRegion());
+            if (regionAndEndpointEnum != null) {
+                if (internal) {
+                    endpoint = regionAndEndpointEnum.getInternalEndpoint();
+                } else {
+                    endpoint = regionAndEndpointEnum.getEndpoint();
+                }
+            }
         }
         String uploadUrl = StrUtil.format("https://{}.{}", bucketName, endpoint);
 
-        // 上传签名返回对象, 客户端拿这个信息去上传文件
+        // 客户端拿这个信息去上传文件
+        CalculatePostSignatureResponse.Form form = new CalculatePostSignatureResponse.Form();
+        form.setSignature(postSignature);
+        form.setOssAccessKeyId(accessKeyId);
+        form.setKey(objectKey);
+        form.setPolicy(postPolicyBase64);
+
         final CalculatePostSignatureResponse calculatePostSignatureResponse = new CalculatePostSignatureResponse();
-        calculatePostSignatureResponse.setSignature(postSignature);
-        calculatePostSignatureResponse.setOssAccessKeyId(accessKeyId);
         calculatePostSignatureResponse.setUploadUrl(uploadUrl);
-        calculatePostSignatureResponse.setKey(objectKey);
-        calculatePostSignatureResponse.setPolicy(postPolicyBase64);
-        ValidationUtil.validateAndThrowFirst(calculatePostSignatureResponse);
+        calculatePostSignatureResponse.setForm(form);
+
         return calculatePostSignatureResponse;
     }
 }

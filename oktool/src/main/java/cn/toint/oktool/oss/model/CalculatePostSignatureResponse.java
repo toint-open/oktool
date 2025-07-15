@@ -29,20 +29,25 @@ public class CalculatePostSignatureResponse {
      */
     private String uploadUrl;
 
-    /**
-     * 签名
-     */
-    private String signature;
+    private Form form;
 
-    private String ossAccessKeyId;
+    @Data
+    public static class Form {
+        /**
+         * 签名
+         */
+        private String signature;
 
-    /**
-     * objectKey
-     */
-    private String key;
+        private String ossAccessKeyId;
 
-    /**
-     * 策略
-     */
-    private String policy;
+        /**
+         * objectKey
+         */
+        private String key;
+
+        /**
+         * 策略
+         */
+        private String policy;
+    }
 }

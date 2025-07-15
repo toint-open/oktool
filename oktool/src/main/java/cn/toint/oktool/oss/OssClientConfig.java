@@ -16,6 +16,8 @@
 
 package cn.toint.oktool.oss;
 
+import cn.toint.oktool.oss.model.RegionAndEndpointEnum;
+import cn.toint.oktool.util.Assert;
 import com.aliyun.oss.ClientConfiguration;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -56,4 +58,11 @@ public class OssClientConfig {
      */
     @NotNull
     private Integer connectionRequestTimeout = 5000;
+
+    public OssClientConfig regionAndEndpoint(RegionAndEndpointEnum regionAndEndpointEnum) {
+        Assert.notNull(regionAndEndpointEnum, "regionAndEndpointEnum must not be null");
+        this.region = regionAndEndpointEnum.getRegion();
+        this.endpoint = regionAndEndpointEnum.getEndpoint();
+        return this;
+    }
 }

@@ -16,7 +16,7 @@
 
 package cn.toint.oktool.oss.model;
 
-import cn.toint.oktool.util.Assert;
+import cn.toint.oktool.oss.OssClientConfig;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -41,19 +41,16 @@ public class CalculatePostSignatureRequest {
     @NotBlank
     private String bucketName;
 
-    @NotBlank
-    private String endpoint;
-
     /**
      * 签名有效时间, 默认30分钟
      */
     @NotNull
-    private Duration timeout =  Duration.ofMinutes(30);
+    private Duration timeout = Duration.ofMinutes(30);
 
     /**
-     * 是否内网上传
+     * 是否内网上传链接, 为空则默认使用{@link OssClientConfig#getRegion()}
      */
-    private boolean internal = false;
+    private Boolean internal;
 
     public CalculatePostSignatureRequest fileSize(Long minFileSize, Long maxFileSize) {
         this.minFileSize = minFileSize;
@@ -64,12 +61,6 @@ public class CalculatePostSignatureRequest {
     public CalculatePostSignatureRequest fileSize(Long fileSize) {
         this.minFileSize = fileSize;
         this.maxFileSize = fileSize;
-        return this;
-    }
-
-    public CalculatePostSignatureRequest endpoint(EndpointEnum endpoint) {
-        Assert.notNull(endpoint, "endpoint不能为空");
-        this.endpoint = endpoint.getValue();
         return this;
     }
 }
