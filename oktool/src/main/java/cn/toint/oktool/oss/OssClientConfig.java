@@ -14,26 +14,46 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.model;
+package cn.toint.oktool.oss;
 
+import com.aliyun.oss.ClientConfiguration;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
  * @author Toint
- * @date 2025/7/12
+ * @date 2025/7/15
  */
 @Data
-public class PageRequest {
-    /**
-     * 页码
-     */
-    @NotNull
-    private Long pageNumber;
+public class OssClientConfig {
+    @NotBlank
+    private String accessKeyId;
+
+    @NotBlank
+    private String secretAccessKey;
+
+    @NotBlank
+    private String endpoint;
+
+    @NotBlank
+    private String region;
 
     /**
-     * 每页数据数量
+     * 请求超时
      */
     @NotNull
-    private Long pageSize;
+    private Integer requestTimeout = ClientConfiguration.DEFAULT_REQUEST_TIMEOUT;
+
+    /**
+     * 连接超时
+     */
+    @NotNull
+    private Integer connectionTimeout = ClientConfiguration.DEFAULT_CONNECTION_TIMEOUT;
+
+    /**
+     * 获取可用连接超时
+     */
+    @NotNull
+    private Integer connectionRequestTimeout = 5000;
 }

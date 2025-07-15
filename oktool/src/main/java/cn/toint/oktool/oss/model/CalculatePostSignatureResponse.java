@@ -14,26 +14,35 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.model;
+package cn.toint.oktool.oss.model;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
  * @author Toint
- * @date 2025/7/12
+ * @date 2025/7/14
  */
 @Data
-public class PageRequest {
+public class CalculatePostSignatureResponse {
     /**
-     * 页码
+     * 上传地址
      */
-    @NotNull
-    private Long pageNumber;
+    private String uploadUrl;
 
     /**
-     * 每页数据数量
+     * 签名
      */
-    @NotNull
-    private Long pageSize;
+    private String signature;
+
+    private String ossAccessKeyId;
+
+    /**
+     * objectKey
+     */
+    private String key;
+
+    /**
+     * 策略
+     */
+    private String policy;
 }

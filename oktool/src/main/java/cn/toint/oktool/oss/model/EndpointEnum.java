@@ -14,26 +14,20 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.model;
+package cn.toint.oktool.oss.model;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * @author Toint
- * @date 2025/7/12
+ * @date 2025/7/15
  */
-@Data
-public class PageRequest {
-    /**
-     * 页码
-     */
-    @NotNull
-    private Long pageNumber;
+@Getter
+@AllArgsConstructor
+public enum EndpointEnum {
+    HANG_ZHOU("oss-cn-hangzhou.aliyuncs.com"),
+    HANG_ZHOU_INTERNAL("oss-cn-hangzhou-internal.aliyuncs.com");
 
-    /**
-     * 每页数据数量
-     */
-    @NotNull
-    private Long pageSize;
+    private final String value;
 }
