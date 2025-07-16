@@ -131,8 +131,8 @@ public class OssClient {
 
         Long minFileSize = request.getMinFileSize();
         Long maxFileSize = request.getMaxFileSize();
-        Assert.isTrue(minFileSize != null && minFileSize > 0L, "文件最小值不合法");
-        Assert.isTrue(maxFileSize != null && maxFileSize > 0L, "文件最大值不合法");
+        Assert.isTrue(minFileSize != null && minFileSize >= 0L, "文件最小值不合法");
+        Assert.isTrue(maxFileSize != null && maxFileSize >= 0L, "文件最大值不合法");
 
         // 过期时间
         long seconds = request.getTimeout().toSeconds();
