@@ -28,6 +28,15 @@ import java.util.function.Function;
  */
 public class FlexPageUtil {
 
+    /**
+     * 批量转换数据
+     *
+     * @param page     分页对象
+     * @param function 操作
+     * @param <T>      初始类型
+     * @param <R>      转换后的类型
+     * @return 转换后的分页对线
+     */
     public static <T, R> Page<R> map(Page<T> page, Function<List<T>, List<R>> function) {
         Assert.notNull(page, "page must not be null");
         Assert.notNull(function, "function must not be null");
