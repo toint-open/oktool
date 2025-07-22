@@ -34,6 +34,12 @@
     <url>https://github.com/toint-open/oktool</url>
 
     <dependencies>
+        <!--geo-->
+        <dependency>
+            <groupId>org.gavaghan</groupId>
+            <artifactId>geodesy</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
@@ -115,6 +121,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-parameter-names</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>

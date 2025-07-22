@@ -26,7 +26,7 @@
 
     <packaging>pom</packaging>
 
-    <name>oktool</name>
+    <name>oktool-parent</name>
     <description>oktool是一个Java工具类库</description>
     <url>https://github.com/toint-open/oktool</url>
 
@@ -62,7 +62,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <ok-dependencies.version>1.0.3</ok-dependencies.version>
+        <ok-dependencies.version>1.0.7</ok-dependencies.version>
         <springboot.version>3.5.3</springboot.version>
     </properties>
 
@@ -82,6 +82,12 @@
                 <version>${springboot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.13</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

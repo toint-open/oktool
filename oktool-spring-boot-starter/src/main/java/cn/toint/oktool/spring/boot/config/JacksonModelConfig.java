@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.Module;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -37,19 +36,19 @@ import java.time.ZoneId;
 public class JacksonModelConfig {
 
     @Resource
-    private JacksonProperties  jacksonProperties;
+    private JacksonProperties jacksonProperties;
 
     /**
      * jackson LocalDateTime日期模块
      */
     @Bean
     @ConditionalOnProperty(name = "oktool.jackson.local-date-time-module.enabled", havingValue = "true", matchIfMissing = true)
-    public com.fasterxml.jackson.databind.Module jacksonLocalDateTimeModule() {
+    public Module jacksonLocalDateTimeModule() {
         JacksonProperties.LocalDateTimeModule localDateTimeModule = jacksonProperties.getLocalDateTimeModule();
         ZoneId zoneId = ZoneId.of(localDateTimeModule.getZoneId());
         String pattern = localDateTimeModule.getPattern();
-        com.fasterxml.jackson.databind.Module timeModule = JacksonUtil.createLocalDateTimeModule(pattern, zoneId);
-        log.info("Jackson LocalDateTimeModule初始化成功: zoneId={}, pattern={}", zoneId, pattern);
+        Module timeModule = JacksonUtil.createLocalDateTimeModule(pattern, zoneId);
+        log.info("Jackson LocalDateTimeModule初始化成功. 反序列化配置: 动态识别格式. 序列化配置: zoneId={}, pattern={}", zoneId, pattern);
         return timeModule;
     }
 

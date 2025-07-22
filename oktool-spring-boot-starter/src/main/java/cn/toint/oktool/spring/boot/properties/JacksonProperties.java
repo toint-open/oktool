@@ -43,7 +43,7 @@ public class JacksonProperties {
     public static class LocalDateTimeModule {
         private boolean enabled = true;
         private String zoneId = "Asia/Shanghai";
-        private String pattern =  "yyyy-MM-dd HH:mm:ss";
+        private String pattern = "yyyy-MM-dd HH:mm:ss";
     }
 
     /**
