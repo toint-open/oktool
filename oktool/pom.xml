@@ -45,11 +45,6 @@
             <artifactId>okhttp</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>cn.hutool.v7</groupId>-->
-<!--            <artifactId>hutool-all</artifactId>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>cn.hutool.v7</groupId>
             <artifactId>hutool-all</artifactId>
