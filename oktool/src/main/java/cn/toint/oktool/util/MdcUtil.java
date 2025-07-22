@@ -17,7 +17,7 @@
 package cn.toint.oktool.util;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
-import org.dromara.hutool.core.data.id.IdUtil;
+import cn.hutool.v7.core.data.id.IdUtil;
 import org.slf4j.MDC;
 
 import java.util.HashMap;

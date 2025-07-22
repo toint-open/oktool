@@ -17,8 +17,8 @@
 package cn.toint.oktool.util;
 
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.hutool.core.collection.CollUtil;
-import org.dromara.hutool.core.text.split.SplitUtil;
+import cn.hutool.v7.core.collection.CollUtil;
+import cn.hutool.v7.core.text.split.SplitUtil;
 
 import java.util.ArrayList;
 import java.util.List;

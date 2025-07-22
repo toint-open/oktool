@@ -18,9 +18,9 @@ package cn.toint.oktool.util;
 
 import jakarta.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.hutool.core.array.ArrayUtil;
-import org.dromara.hutool.core.text.StrUtil;
-import org.dromara.hutool.extra.validation.ValidationUtil;
+import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.text.StrUtil;
+import cn.hutool.v7.extra.validation.ValidationUtil;
 import org.jetbrains.annotations.Contract;
 
 import java.util.*;

@@ -21,9 +21,9 @@ import cn.toint.oktool.model.RetryPolicy;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
-import org.dromara.hutool.core.array.ArrayUtil;
-import org.dromara.hutool.core.collection.CollUtil;
-import org.dromara.hutool.core.thread.ThreadUtil;
+import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.collection.CollUtil;
+import cn.hutool.v7.core.thread.ThreadUtil;
 
 import java.time.Duration;
 import java.util.*;

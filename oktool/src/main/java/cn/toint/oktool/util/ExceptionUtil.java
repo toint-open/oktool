@@ -16,7 +16,7 @@
 
 package cn.toint.oktool.util;
 
-import org.dromara.hutool.core.text.StrUtil;
+import cn.hutool.v7.core.text.StrUtil;
 
 /**
  * @author Toint

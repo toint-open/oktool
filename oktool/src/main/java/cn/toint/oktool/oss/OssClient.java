@@ -30,12 +30,12 @@ import com.aliyun.oss.model.PolicyConditions;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.hutool.core.codec.binary.Base64;
-import org.dromara.hutool.core.date.DateTime;
-import org.dromara.hutool.core.date.DateUtil;
-import org.dromara.hutool.core.net.url.UrlBuilder;
-import org.dromara.hutool.core.text.StrUtil;
-import org.dromara.hutool.core.util.EnumUtil;
+import cn.hutool.v7.core.codec.binary.Base64;
+import cn.hutool.v7.core.date.DateTime;
+import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.core.net.url.UrlBuilder;
+import cn.hutool.v7.core.text.StrUtil;
+import cn.hutool.v7.core.util.EnumUtil;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;

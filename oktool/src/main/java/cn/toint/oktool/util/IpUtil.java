@@ -17,7 +17,7 @@
 package cn.toint.oktool.util;
 
 import cn.toint.oktool.model.PublicIpInfo;
-import org.dromara.hutool.http.HttpUtil;
+import cn.hutool.v7.http.HttpUtil;
 
 import java.util.Optional;
 

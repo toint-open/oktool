@@ -18,12 +18,12 @@ package cn.toint.oktool.util;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import org.dromara.hutool.core.lang.Singleton;
-import org.dromara.hutool.http.HttpGlobalConfig;
-import org.dromara.hutool.http.client.ClientConfig;
-import org.dromara.hutool.http.client.engine.ClientEngine;
-import org.dromara.hutool.http.client.engine.ClientEngineFactory;
-import org.dromara.hutool.http.client.engine.jdk.JdkClientEngine;
+import cn.hutool.v7.core.lang.Singleton;
+import cn.hutool.v7.http.HttpGlobalConfig;
+import cn.hutool.v7.http.client.ClientConfig;
+import cn.hutool.v7.http.client.engine.ClientEngine;
+import cn.hutool.v7.http.client.engine.ClientEngineFactory;
+import cn.hutool.v7.http.client.engine.jdk.JdkClientEngine;
 
 import java.time.Duration;
 

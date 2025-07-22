@@ -19,7 +19,7 @@ package cn.toint.oktool.spring.boot.model;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import lombok.Data;
-import org.dromara.hutool.core.data.id.IdUtil;
+import cn.hutool.v7.core.data.id.IdUtil;
 
 import java.time.LocalDateTime;
 

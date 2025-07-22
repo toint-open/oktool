@@ -18,7 +18,7 @@ package cn.toint.oktool.spring.boot.cache.impl;
 
 import cn.toint.oktool.spring.boot.cache.Cache;
 import cn.toint.oktool.util.Assert;
-import org.dromara.hutool.core.cache.impl.TimedCache;
+import cn.hutool.v7.core.cache.impl.TimedCache;
 
 import java.time.Duration;
 import java.util.ArrayList;

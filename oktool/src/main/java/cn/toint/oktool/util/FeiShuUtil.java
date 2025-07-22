@@ -16,13 +16,13 @@
 package cn.toint.oktool.util;
 
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.hutool.core.codec.binary.Base64;
-import org.dromara.hutool.core.date.DateUtil;
-import org.dromara.hutool.crypto.SecureUtil;
-import org.dromara.hutool.crypto.digest.mac.HMac;
-import org.dromara.hutool.crypto.digest.mac.HmacAlgorithm;
-import org.dromara.hutool.http.HttpUtil;
-import org.dromara.hutool.http.client.Response;
+import cn.hutool.v7.core.codec.binary.Base64;
+import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.crypto.SecureUtil;
+import cn.hutool.v7.crypto.digest.mac.HMac;
+import cn.hutool.v7.crypto.digest.mac.HmacAlgorithm;
+import cn.hutool.v7.http.HttpUtil;
+import cn.hutool.v7.http.client.Response;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -19,8 +19,8 @@ package cn.toint.oktool.model;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import org.dromara.hutool.core.date.DateTime;
-import org.dromara.hutool.core.date.DateUtil;
+import cn.hutool.v7.core.date.DateTime;
+import cn.hutool.v7.core.date.DateUtil;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

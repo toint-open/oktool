@@ -15,6 +15,7 @@
  */
 package cn.toint.oktool.util;
 
+import cn.hutool.v7.core.func.LambdaUtil;
 import cn.toint.oktool.exception.JsonException;
 import cn.toint.oktool.model.FlexibleLocalDateTimeDeserializer;
 import cn.toint.oktool.model.SafeLongSerializer;
@@ -33,13 +34,12 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.hutool.core.annotation.AnnotationUtil;
-import org.dromara.hutool.core.date.DateFormatPool;
-import org.dromara.hutool.core.func.LambdaUtil;
-import org.dromara.hutool.core.func.SerFunction;
-import org.dromara.hutool.core.lang.Assert;
-import org.dromara.hutool.core.reflect.FieldUtil;
-import org.dromara.hutool.core.text.StrUtil;
+import cn.hutool.v7.core.annotation.AnnotationUtil;
+import cn.hutool.v7.core.date.DateFormatPool;
+import cn.hutool.v7.core.func.SerFunction;
+import cn.hutool.v7.core.lang.Assert;
+import cn.hutool.v7.core.reflect.FieldUtil;
+import cn.hutool.v7.core.text.StrUtil;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
