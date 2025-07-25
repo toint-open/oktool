@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import cn.hutool.v7.core.date.DateTime;
 import cn.hutool.v7.core.date.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -35,6 +36,7 @@ public class FlexibleLocalDateTimeDeserializer extends JsonDeserializer<LocalDat
     @Override
     public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         String dateTimeStr= p.getValueAsString();
+        if (StringUtils.isBlank(dateTimeStr)) return null;
         DateTime dateTime = DateUtil.parse(dateTimeStr);
         return dateTime.toLocalDateTime();
     }

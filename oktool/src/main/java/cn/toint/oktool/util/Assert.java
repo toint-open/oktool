@@ -16,11 +16,10 @@
 
 package cn.toint.oktool.util;
 
-import jakarta.annotation.Nullable;
-import org.apache.commons.lang3.StringUtils;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.extra.validation.ValidationUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
 
 import java.util.*;
@@ -34,76 +33,112 @@ import java.util.*;
  */
 public class Assert {
 
+    @Contract("null -> fail")
+    public static void notNull(final Object object) {
+        if (object == null) {
+            throw new IllegalArgumentException("参数不能为空");
+        }
+    }
+
     @Contract("null, _, _ -> fail")
-    public static void notNull(@Nullable final Object object, @Nullable final CharSequence template, @Nullable final Object... params) {
+    public static void notNull(final Object object, final CharSequence template, final Object... params) {
         if (object == null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
+    @Contract("!null -> fail")
+    public static void isNull(final Object object) {
+        if (object != null) {
+            throw new IllegalArgumentException("参数必须为空");
+        }
+    }
+
     @Contract("!null, _, _ -> fail")
-    public static void isNull(@Nullable final Object object, @Nullable final CharSequence template, @Nullable final Object... params) {
+    public static void isNull(final Object object, final CharSequence template, final Object... params) {
         if (object != null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
+    @Contract("null -> fail")
+    public static void notBlank(final CharSequence text) {
+        if (StringUtils.isBlank(text)) {
+            throw new IllegalArgumentException("参数不能为空");
+        }
+    }
+
     @Contract("null, _, _ -> fail")
-    public static void notBlank(@Nullable final CharSequence text, @Nullable final CharSequence template, @Nullable final Object... params) {
+    public static void notBlank(final CharSequence text, final CharSequence template, final Object... params) {
         if (StringUtils.isBlank(text)) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
+    @Contract("null -> fail")
+    public static void notEmpty(final Object[] arr) {
+        if (arr == null || arr.length == 0) {
+            throw new IllegalArgumentException("参数不能为空");
+        }
+    }
+
     @Contract("null, _, _ -> fail")
-    public static void notEmpty(@Nullable final Object[] arr, @Nullable final CharSequence template, @Nullable final Object... params) {
+    public static void notEmpty(final Object[] arr, final CharSequence template, final Object... params) {
         if (arr == null || arr.length == 0) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
+    @Contract("null -> fail")
+    public static void notEmpty(final Iterable<?> collection) {
+        if (collection == null || !collection.iterator().hasNext()) {
+            throw new IllegalArgumentException("参数不能为空");
+        }
+    }
+
     @Contract("null, _, _ -> fail")
-    public static void notEmpty(@Nullable final Iterable<?> collection, @Nullable final CharSequence template, @Nullable final Object... params) {
+    public static void notEmpty(final Iterable<?> collection, final CharSequence template, final Object... params) {
         if (collection == null || !collection.iterator().hasNext()) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("null, _, _ -> fail")
-    public static void notEmpty(@Nullable final Map<?, ?> map, @Nullable final CharSequence template, @Nullable final Object... params) {
+    public static void notEmpty(final Map<?, ?> map, final CharSequence template, final Object... params) {
         if (map == null || map.isEmpty()) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void equals(@Nullable final Object a, @Nullable final Object b, @Nullable final CharSequence template, @Nullable final Object... params) {
+    public static void equals(final Object a, final Object b, final CharSequence template, final Object... params) {
         if (!Objects.equals(a, b)) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void notEquals(@Nullable final Object a, @Nullable final Object b, @Nullable final CharSequence template, @Nullable final Object... params) {
+    public static void notEquals(final Object a, final Object b, final CharSequence template, final Object... params) {
         if (Objects.equals(a, b)) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("false, _, _ -> fail")
-    public static void isTrue(final boolean b, @Nullable final CharSequence template, @Nullable final Object... params) {
+    public static void isTrue(final boolean b, final CharSequence template, final Object... params) {
         if (!b) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("true, _, _ -> fail")
-    public static void isFalse(final boolean b, @Nullable final CharSequence template, @Nullable final Object... params) {
+    public static void isFalse(final boolean b, final CharSequence template, final Object... params) {
         if (b) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("null, _ -> fail")
-    public static void validate(@Nullable final Object object, final Class<?>... groups) {
+    public static void validate(final Object object, final Class<?>... groups) {
+        Assert.notNull(object);
         ValidationUtil.validateAndThrowFirst(object, groups);
     }
 
@@ -113,7 +148,7 @@ public class Assert {
      * <p>如果校验失败, 异常信息会添加到 {@code params} 数组末尾, 调用者可在 {@code template} 预留位置, 否则忽略</p>
      */
     @Contract("null, _, _ -> fail")
-    public static void validate(@Nullable final Object object, @Nullable final CharSequence template, @Nullable final Object... params) {
+    public static void validate(final Object object, final CharSequence template, final Object... params) {
         if (object == null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
