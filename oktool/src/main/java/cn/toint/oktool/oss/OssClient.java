@@ -89,7 +89,7 @@ public class OssClient {
     /**
      * 预签名下载/预览
      *
-     * @return 下载/预览链接
+     * @return 下载/预览链接. 注意: 原始返回的url可能是http, 而非https
      */
     public String generatePresignedUrl(GeneratePresignedUrlRequest request) {
         Assert.notNull(request, "请求参数不能为空");
@@ -103,6 +103,7 @@ public class OssClient {
         DateTime expiration = DateUtil.offsetMillisecond(DateUtil.now(), Math.toIntExact(timeout.toMillis()));
         URL url = oss.generatePresignedUrl(bucketName, objectKey, expiration);
 
+        // 注意: 原始返回的url是http, 而非https
         if (StringUtils.isBlank(cdnUrl)) {
             return url.toString();
         }
