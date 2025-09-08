@@ -86,8 +86,8 @@ public class BaseOcrRequest {
      * @param fileUrl 文件下载链接, 会校验文件大小并加载仅内存.
      */
     public BaseOcrRequest file(String fileUrl) {
-        Assert.notBlank(url, "url must not be blank");
-        try (Response response = HttpUtil.createGet(url).setMaxRedirects(3).send()) {
+        Assert.notBlank(fileUrl, "fileUrl must not be blank");
+        try (Response response = HttpUtil.createGet(fileUrl).setMaxRedirects(3).send()) {
             long contentLength = response.contentLength();
             checkFileSize(contentLength);
             byte[] fileBytes = response.bodyBytes();
