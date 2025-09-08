@@ -74,6 +74,14 @@ public class BaseOcrRequest {
     public BaseOcrRequest() {
     }
 
+    public BaseOcrRequest(String url) {
+        file(url);
+    }
+
+    public BaseOcrRequest(byte[] bytes) {
+        file(bytes);
+    }
+
     /**
      * @param fileUrl 文件下载链接, 会校验文件大小并加载仅内存.
      */

@@ -25,4 +25,12 @@ public class VatInvoiceRequest extends BaseOcrRequest {
      */
     @JsonProperty("seal_tag")
     private boolean sealTag;
+
+    public VatInvoiceRequest(byte[] bytes) {
+        super(bytes);
+    }
+
+    public VatInvoiceRequest(String url) {
+        super(url);
+    }
 }

@@ -28,4 +28,12 @@ public class MultipleInvoiceRequest extends BaseOcrRequest {
      * 是否返回字段位置坐标，默认为 false，即不返回
      */
     private boolean location;
+
+    public MultipleInvoiceRequest(byte[] bytes) {
+        super(bytes);
+    }
+
+    public MultipleInvoiceRequest(String url) {
+        super(url);
+    }
 }
