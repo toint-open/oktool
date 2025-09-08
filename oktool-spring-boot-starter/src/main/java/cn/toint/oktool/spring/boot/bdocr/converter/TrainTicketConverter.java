@@ -1,7 +1,7 @@
 package cn.toint.oktool.spring.boot.bdocr.converter;
 
 import cn.toint.oktool.spring.boot.bdocr.model.MultipleInvoiceResult;
-import cn.toint.oktool.spring.boot.bdocr.model.TrainTicket;
+import cn.toint.oktool.spring.boot.bdocr.model.TrainTicketResponse;
 import cn.toint.oktool.spring.boot.bdocr.model.TypeEnum;
 import cn.toint.oktool.spring.boot.bdocr.util.MultipleInvoiceUtil;
 import cn.toint.oktool.util.Assert;
@@ -12,12 +12,13 @@ import cn.toint.oktool.util.Assert;
  * @author Toint
  * @dete 2025/9/8
  */
-public class TrainTicketConverter implements OcrResultConverter<TrainTicket> {
+public class TrainTicketConverter implements OcrResultConverter<TrainTicketResponse> {
     @Override
-    public TrainTicket convert(MultipleInvoiceResult value) {
+    public TrainTicketResponse convert(MultipleInvoiceResult value) {
         Assert.notNull(value, "value must not be null");
 
-        TrainTicket trainTicket = new TrainTicket();
+        TrainTicketResponse trainTicket = new TrainTicketResponse();
+        trainTicket.setServiceType(MultipleInvoiceUtil.getFirstWord(value.getServiceType()));
         trainTicket.setTicketNum(MultipleInvoiceUtil.getFirstWord(value.getTicketNum()));
         trainTicket.setStartingStation(MultipleInvoiceUtil.getFirstWord(value.getStartingStation()));
         trainTicket.setTrainNum(MultipleInvoiceUtil.getFirstWord(value.getTrainNum()));
@@ -33,10 +34,14 @@ public class TrainTicketConverter implements OcrResultConverter<TrainTicket> {
         trainTicket.setSeatNum(MultipleInvoiceUtil.getFirstWord(value.getSeatNum()));
         trainTicket.setWaitingArea(MultipleInvoiceUtil.getFirstWord(value.getWaitingArea()));
         trainTicket.setRefundFlag(MultipleInvoiceUtil.getFirstWord(value.getRefundFlag()));
+        trainTicket.setInvoiceNum(MultipleInvoiceUtil.getFirstWord(value.getInvoiceNum()));
+        trainTicket.setInvoiceDate(MultipleInvoiceUtil.getFirstWord(value.getInvoiceDate()));
         trainTicket.setFare(MultipleInvoiceUtil.getFirstWord(value.getFare()));
         trainTicket.setTaxRate(MultipleInvoiceUtil.getFirstWord(value.getTaxRate()));
         trainTicket.setTax(MultipleInvoiceUtil.getFirstWord(value.getTax()));
         trainTicket.setElecTicketNum(MultipleInvoiceUtil.getFirstWord(value.getElecTicketNum()));
+        trainTicket.setPurchaserName(MultipleInvoiceUtil.getFirstWord(value.getPurchaserName()));
+        trainTicket.setPurchaserRegisterNum(MultipleInvoiceUtil.getFirstWord(value.getPurchaserRegisterNum()));
         return trainTicket;
     }
 

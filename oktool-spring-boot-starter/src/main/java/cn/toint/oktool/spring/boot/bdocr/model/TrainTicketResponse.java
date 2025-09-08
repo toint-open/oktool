@@ -9,7 +9,12 @@ import lombok.Data;
  * @dete 2025/9/8
  */
 @Data
-public class TrainTicket {
+public class TrainTicketResponse {
+    /**
+     * 发票消费类型。火车票此字段固定输出：交通
+     */
+    private String serviceType;
+
     /**
      * 车票号
      */
@@ -86,6 +91,16 @@ public class TrainTicket {
     private String refundFlag;
 
     /**
+     * 发票号码
+     */
+    private String invoiceNum;
+
+    /**
+     * 开票日期
+     */
+    private String invoiceDate;
+
+    /**
      * 不含税金额
      */
     private String fare;
@@ -104,4 +119,14 @@ public class TrainTicket {
      * 电子客票号
      */
     private String elecTicketNum;
+
+    /**
+     * 购买方名称
+     */
+    private String purchaserName;
+
+    /**
+     * 购买方统一社会信用代码
+     */
+    private String purchaserRegisterNum;
 }

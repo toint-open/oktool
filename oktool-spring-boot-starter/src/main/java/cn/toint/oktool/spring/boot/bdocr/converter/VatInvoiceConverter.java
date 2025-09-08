@@ -3,7 +3,7 @@ package cn.toint.oktool.spring.boot.bdocr.converter;
 import cn.hutool.v7.core.collection.CollUtil;
 import cn.toint.oktool.spring.boot.bdocr.model.MultipleInvoiceResult;
 import cn.toint.oktool.spring.boot.bdocr.model.TypeEnum;
-import cn.toint.oktool.spring.boot.bdocr.model.VatInvoice;
+import cn.toint.oktool.spring.boot.bdocr.model.VatInvoiceResponse;
 import cn.toint.oktool.spring.boot.bdocr.model.Word;
 import cn.toint.oktool.spring.boot.bdocr.util.MultipleInvoiceUtil;
 import cn.toint.oktool.util.Assert;
@@ -17,11 +17,11 @@ import java.util.List;
  * @author Toint
  * @dete 2025/9/8
  */
-public class VatInvoiceConverter implements OcrResultConverter<VatInvoice> {
+public class VatInvoiceConverter implements OcrResultConverter<VatInvoiceResponse> {
     @Override
-    public VatInvoice convert(MultipleInvoiceResult value) {
+    public VatInvoiceResponse convert(MultipleInvoiceResult value) {
         Assert.notNull(value, "value must not be null");
-        VatInvoice vatInvoice = new VatInvoice();
+        VatInvoiceResponse vatInvoice = new VatInvoiceResponse();
         vatInvoice.setServiceType(MultipleInvoiceUtil.getFirstWord(value.getServiceType()));
         vatInvoice.setInvoiceTypeOrg(MultipleInvoiceUtil.getFirstWord(value.getInvoiceTypeOrg()));
         vatInvoice.setInvoiceType(MultipleInvoiceUtil.getFirstWord(value.getInvoiceType()));
@@ -61,14 +61,14 @@ public class VatInvoiceConverter implements OcrResultConverter<VatInvoice> {
         vatInvoice.setSubTotalTax(MultipleInvoiceUtil.getFirstWord(value.getSubTotalTax()));
 
         //===发票详情列表===
-        List<VatInvoice.Detail> details = new ArrayList<>();
+        List<VatInvoiceResponse.Detail> details = new ArrayList<>();
         vatInvoice.setDetails(details);
 
         List<Word> commodityName = value.getCommodityName();
         if (CollUtil.isNotEmpty(commodityName)) {
             // 确保 details 有足够的大小
             while (details.size() < commodityName.size()) {
-                details.add(new VatInvoice.Detail());
+                details.add(new VatInvoiceResponse.Detail());
             }
             for (int i = 0; i < commodityName.size(); i++) {
                 Word word = commodityName.get(i);
@@ -82,7 +82,7 @@ public class VatInvoiceConverter implements OcrResultConverter<VatInvoice> {
         if (CollUtil.isNotEmpty(commodityType)) {
             // 确保 details 有足够的大小
             while (details.size() < commodityType.size()) {
-                details.add(new VatInvoice.Detail());
+                details.add(new VatInvoiceResponse.Detail());
             }
             for (int i = 0; i < commodityType.size(); i++) {
                 Word word = commodityType.get(i);
@@ -96,7 +96,7 @@ public class VatInvoiceConverter implements OcrResultConverter<VatInvoice> {
         if (CollUtil.isNotEmpty(commodityUnit)) {
             // 确保 details 有足够的大小
             while (details.size() < commodityUnit.size()) {
-                details.add(new VatInvoice.Detail());
+                details.add(new VatInvoiceResponse.Detail());
             }
             for (int i = 0; i < commodityUnit.size(); i++) {
                 Word word = commodityUnit.get(i);
@@ -110,7 +110,7 @@ public class VatInvoiceConverter implements OcrResultConverter<VatInvoice> {
         if (CollUtil.isNotEmpty(commodityNum)) {
             // 确保 details 有足够的大小
             while (details.size() < commodityNum.size()) {
-                details.add(new VatInvoice.Detail());
+                details.add(new VatInvoiceResponse.Detail());
             }
             for (int i = 0; i < commodityNum.size(); i++) {
                 Word word = commodityNum.get(i);
@@ -124,7 +124,7 @@ public class VatInvoiceConverter implements OcrResultConverter<VatInvoice> {
         if (CollUtil.isNotEmpty(commodityPrice)) {
             // 确保 details 有足够的大小
             while (details.size() < commodityPrice.size()) {
-                details.add(new VatInvoice.Detail());
+                details.add(new VatInvoiceResponse.Detail());
             }
             for (int i = 0; i < commodityPrice.size(); i++) {
                 Word word = commodityPrice.get(i);
@@ -138,7 +138,7 @@ public class VatInvoiceConverter implements OcrResultConverter<VatInvoice> {
         if (CollUtil.isNotEmpty(commodityAmount)) {
             // 确保 details 有足够的大小
             while (details.size() < commodityAmount.size()) {
-                details.add(new VatInvoice.Detail());
+                details.add(new VatInvoiceResponse.Detail());
             }
             for (int i = 0; i < commodityAmount.size(); i++) {
                 Word word = commodityAmount.get(i);
@@ -152,7 +152,7 @@ public class VatInvoiceConverter implements OcrResultConverter<VatInvoice> {
         if (CollUtil.isNotEmpty(commodityTaxRate)) {
             // 确保 details 有足够的大小
             while (details.size() < commodityTaxRate.size()) {
-                details.add(new VatInvoice.Detail());
+                details.add(new VatInvoiceResponse.Detail());
             }
             for (int i = 0; i < commodityTaxRate.size(); i++) {
                 Word word = commodityTaxRate.get(i);
@@ -166,7 +166,7 @@ public class VatInvoiceConverter implements OcrResultConverter<VatInvoice> {
         if (CollUtil.isNotEmpty(commodityTax)) {
             // 确保 details 有足够的大小
             while (details.size() < commodityTax.size()) {
-                details.add(new VatInvoice.Detail());
+                details.add(new VatInvoiceResponse.Detail());
             }
             for (int i = 0; i < commodityTax.size(); i++) {
                 Word word = commodityTax.get(i);

@@ -148,18 +148,18 @@ public class BdOcrClient {
         return JacksonUtil.readValue(responseStr, MultipleInvoiceResponse.class);
     }
 
-//    public MultipleInvoiceResponse vatInvoice(VatInvoiceRequest request) {
-//        // image/url/pdf_file/ofd_file, 4选1
-//        if (StringUtils.isAllBlank(request.getUrl(), request.getImage(), request.getPdfFile(), request.getOfdFile())) {
-//            throw new RuntimeException("image/url/pdf_file/ofd_file, 4选1");
-//        }
-//
-//        // 识别发票
-//        Map<String, Object> bodyMap = JacksonUtil.convertValue(request, new TypeReference<>() {
-//        });
-//        UrlEncodedFormBody urlEncodedFormBody = UrlEncodedFormBody.of(bodyMap, StandardCharsets.UTF_8);
-//        String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/vat_invoice";
-//        String responseStr = request(Method.POST, url, urlEncodedFormBody);
-//        return JacksonUtil.readValue(responseStr, MultipleInvoiceResponse.class);
-//    }
+    public SingleInvoiceResponse vatInvoice(VatInvoiceRequest request) {
+        // image/url/pdf_file/ofd_file, 4选1
+        if (StringUtils.isAllBlank(request.getUrl(), request.getImage(), request.getPdfFile(), request.getOfdFile())) {
+            throw new RuntimeException("image/url/pdf_file/ofd_file, 4选1");
+        }
+
+        // 识别发票
+        Map<String, Object> bodyMap = JacksonUtil.convertValue(request, new TypeReference<>() {
+        });
+        UrlEncodedFormBody urlEncodedFormBody = UrlEncodedFormBody.of(bodyMap, StandardCharsets.UTF_8);
+        String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/vat_invoice";
+        String responseStr = request(Method.POST, url, urlEncodedFormBody);
+        return JacksonUtil.readValue(responseStr, SingleInvoiceResponse.class);
+    }
 }

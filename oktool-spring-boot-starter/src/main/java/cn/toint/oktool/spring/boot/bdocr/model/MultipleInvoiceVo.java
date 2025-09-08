@@ -25,7 +25,7 @@ public class MultipleInvoiceVo {
     /**
      * 增值税发票
      */
-    private List<VatInvoice> vatInvoice;
+    private List<VatInvoiceResponse> vatInvoice;
 
     /**
      * 出租车票
@@ -35,7 +35,7 @@ public class MultipleInvoiceVo {
     /**
      * 火车票
      */
-    private List<TrainTicket> trainTicket;
+    private List<TrainTicketResponse> trainTicket;
 
     /**
      * 定额发票
@@ -121,7 +121,16 @@ public class MultipleInvoiceVo {
             if (vatInvoice == null) {
                 vatInvoice = new ArrayList<>();
             }
-            vatInvoice.add((VatInvoice) value);
+            vatInvoice.add((VatInvoiceResponse) value);
+            return;
+        }
+
+        // 火车票
+        if (TypeEnum.TRAIN_TICKET.equals(typeEnum)) {
+            if (trainTicket == null) {
+                trainTicket = new ArrayList<>();
+            }
+            trainTicket.add((TrainTicketResponse) value);
             return;
         }
     }

@@ -11,7 +11,7 @@ import java.util.List;
  * @dete 2025/9/8
  */
 @Data
-public class VatInvoice {
+public class VatInvoiceResponse {
     /**
      * 发票消费类型
      */
