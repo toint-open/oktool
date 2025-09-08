@@ -53,7 +53,7 @@ public class BaseOcrRequest {
      * 需要识别的PDF文件的对应页码，当 pdf_file 参数有效时，识别传入页码的对应页面内容，若不传入，则默认识别第 1 页
      */
     @JsonProperty("pdf_file_num")
-    private Integer pdfFileNum;
+    private String pdfFileNum;
 
     /**
      * OFD文件，base64编码后进行urlencode，要求base64编码和urlencode后大小不超过4M，最短边至少15px，最长边最大4096px
@@ -69,7 +69,7 @@ public class BaseOcrRequest {
      * 需要识别的OFD文件的对应页码，当 ofd_file 参数有效时，识别传入页码的对应页面内容，若不传入，则默认识别第 1 页
      */
     @JsonProperty("ofd_file_num")
-    private Integer ofdFileNum;
+    private String ofdFileNum;
 
     public BaseOcrRequest() {
     }

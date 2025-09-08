@@ -1,5 +1,6 @@
 package cn.toint.oktool.spring.boot.bdocr;
 
+import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.net.url.UrlBuilder;
 import cn.hutool.v7.http.HttpUtil;
 import cn.hutool.v7.http.client.Request;
@@ -142,6 +143,7 @@ public class BdOcrClient {
         // 识别发票
         Map<String, Object> bodyMap = JacksonUtil.convertValue(request, new TypeReference<>() {
         });
+        MapUtil.removeNullValue(bodyMap);
         UrlEncodedFormBody urlEncodedFormBody = UrlEncodedFormBody.of(bodyMap, StandardCharsets.UTF_8);
         String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/multiple_invoice";
         String responseStr = request(Method.POST, url, urlEncodedFormBody);
@@ -157,6 +159,7 @@ public class BdOcrClient {
         // 识别发票
         Map<String, Object> bodyMap = JacksonUtil.convertValue(request, new TypeReference<>() {
         });
+        MapUtil.removeNullValue(bodyMap);
         UrlEncodedFormBody urlEncodedFormBody = UrlEncodedFormBody.of(bodyMap, StandardCharsets.UTF_8);
         String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/vat_invoice";
         String responseStr = request(Method.POST, url, urlEncodedFormBody);
