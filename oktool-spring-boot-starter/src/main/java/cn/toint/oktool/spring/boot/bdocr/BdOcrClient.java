@@ -9,6 +9,7 @@ import cn.hutool.v7.http.client.body.HttpBody;
 import cn.hutool.v7.http.client.body.UrlEncodedFormBody;
 import cn.hutool.v7.http.meta.Method;
 import cn.toint.oktool.spring.boot.bdocr.model.*;
+import cn.toint.oktool.spring.boot.bdocr.mp.VatInvoiceVerificationResponse;
 import cn.toint.oktool.spring.boot.cache.Cache;
 import cn.toint.oktool.util.Assert;
 import cn.toint.oktool.util.JacksonUtil;
@@ -86,8 +87,8 @@ public class BdOcrClient {
      * 执行请求, 内置自动获取鉴权与重试机制
      *
      * @param method 请求方法
-     * @param url 服务地址
-     * @param body 请求体
+     * @param url    服务地址
+     * @param body   请求体
      * @return 响应体
      */
     private String request(Method method, String url, HttpBody body) {
@@ -135,10 +136,8 @@ public class BdOcrClient {
      * @return 识别结果
      */
     public MultipleInvoiceResponse multipleInvoice(MultipleInvoiceRequest request) {
-        // image/url/pdf_file/ofd_file, 4选1
-        if (StringUtils.isAllBlank(request.getUrl(), request.getImage(), request.getPdfFile(), request.getOfdFile())) {
-            throw new RuntimeException("image/url/pdf_file/ofd_file, 4选1");
-        }
+        Assert.notNull(request, "request must not be null");
+        request.checkFile();
 
         // 识别发票
         Map<String, Object> bodyMap = JacksonUtil.convertValue(request, new TypeReference<>() {
@@ -147,14 +146,22 @@ public class BdOcrClient {
         UrlEncodedFormBody urlEncodedFormBody = UrlEncodedFormBody.of(bodyMap, StandardCharsets.UTF_8);
         String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/multiple_invoice";
         String responseStr = request(Method.POST, url, urlEncodedFormBody);
-        return JacksonUtil.readValue(responseStr, MultipleInvoiceResponse.class);
+        return JacksonUtil.readValue(responseStr, MultipleInvoiceResponse.class).checkStatus();
     }
 
+    /**
+     * 增值税专项识别
+     * <br>
+     * 支持对增值税普票、专票、全电发票（新版全国统一电子发票，专票/普票）、卷票、区块链发票的所有字段进行结构化识别，包括发票基本信息、销售方及购买方信息、商品信息、价税信息等，其中五要素字段的识别准确率超过 99.9%；
+     * <br>
+     * 同时，支持对增值税卷票的 21 个关键字段进行识别，包括发票类型、发票代码、发票号码、机打号码、机器编号、收款人、销售方名称、销售方纳税人识别号、开票日期、购买方名称、购买方纳税人识别号、项目、单价、数量、金额、税额、合计金额(小写)、合计金额(大写)、校验码、省、市，四要素字段的识别准确率可达95%。
+     *
+     * @param request req
+     * @return res
+     */
     public VatInvoiceResponse vatInvoice(VatInvoiceRequest request) {
-        // image/url/pdf_file/ofd_file, 4选1
-        if (StringUtils.isAllBlank(request.getUrl(), request.getImage(), request.getPdfFile(), request.getOfdFile())) {
-            throw new RuntimeException("image/url/pdf_file/ofd_file, 4选1");
-        }
+        Assert.notNull(request, "request must not be null");
+        request.checkFile();
 
         // 识别发票
         Map<String, Object> bodyMap = JacksonUtil.convertValue(request, new TypeReference<>() {
@@ -163,6 +170,24 @@ public class BdOcrClient {
         UrlEncodedFormBody urlEncodedFormBody = UrlEncodedFormBody.of(bodyMap, StandardCharsets.UTF_8);
         String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/vat_invoice";
         String responseStr = request(Method.POST, url, urlEncodedFormBody);
-        return JacksonUtil.readValue(responseStr, VatInvoiceResponse.class);
+        return JacksonUtil.readValue(responseStr, VatInvoiceResponse.class).checkStatus();
+    }
+
+    /**
+     * 增值税发票验真
+     * <br>
+     * 支持 14 种增值税发票的信息核验，包括增值税专票、电子专票、普票、电子普票、卷票、区块链发票（深圳地区）、全电发票（新版全国统一电子发票，专票/普票）、通行费增值税电子普通发票、货物运输业增值税专用发票、机动车销售发票、二手车销售发票、电子发票（航空运输电子客票行程单）、电子发票（铁路电子客票）等，支持返回票面的全部信息。同时可直接与同平台的发票识别能力对接，完成发票识别的同时进行自动化验真。
+     */
+    public VatInvoiceVerificationResponse vatInvoiceVerification(VatInvoiceVerificationRequest request) {
+        Assert.notNull(request, "request must not be null");
+
+        // 识别发票
+        Map<String, Object> bodyMap = JacksonUtil.convertValue(request, new TypeReference<>() {
+        });
+        MapUtil.removeNullValue(bodyMap);
+        UrlEncodedFormBody urlEncodedFormBody = UrlEncodedFormBody.of(bodyMap, StandardCharsets.UTF_8);
+        String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/vat_invoice_verification";
+        String responseStr = request(Method.POST, url, urlEncodedFormBody);
+        return JacksonUtil.readValue(responseStr, VatInvoiceVerificationResponse.class).checkStatus();
     }
 }

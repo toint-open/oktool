@@ -3,6 +3,7 @@ package cn.toint.oktool.spring.boot.bdocr.model;
 import cn.toint.oktool.spring.boot.bdocr.util.VatInvoiceUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -12,14 +13,9 @@ import java.util.List;
  * @author Toint
  * @dete 2025/9/8
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class VatInvoiceResponse {
-    /**
-     * 用于定位问题
-     */
-    @JsonProperty("log_id")
-    private Long logId;
-
+public class VatInvoiceResponse extends BaseOcrResponse{
     /**
      * 识别结果数，表示words_result的元素个数
      */

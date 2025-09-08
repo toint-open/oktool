@@ -1,0 +1,68 @@
+package cn.toint.oktool.spring.boot.bdocr.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
+/**
+ * @author Toint
+ * @dete 2025/9/9
+ */
+@Data
+public class VatInvoiceVerificationRequest {
+    /**
+     * 发票代码。
+     * 全电发票（专用发票）、全电发票（普通发票）、全电发票（含通行费标识）、电子发票（机动车销售统一发票）、电子发票（二手车销售统一发票）、电子发票（铁路电子客票）、电子发票（航空运输电子客票行程单）此参数可为空，其他类型发票均不可为空
+     */
+    @JsonProperty("invoice_code")
+    private String invoiceCode;
+
+    /**
+     * 发票号码
+     */
+    @JsonProperty("invoice_num")
+    private String invoiceNum;
+
+    /**
+     * 开票日期。格式YYYYMMDD，例：20210101
+     */
+    @JsonProperty("invoice_date")
+    private String invoiceDate;
+
+    /**
+     * 发票种类
+     * 增值税专用发票：special_vat_invoice
+     * 增值税电子专用发票：elec_special_vat_invoice
+     * 增值税普通发票：normal_invoice
+     * 增值税普通发票（电子）：elec_normal_invoice
+     * 增值税普通发票（卷式）：roll_normal_invoice
+     * 通行费增值税电子普通发票：toll_elec_normal_invoice
+     * 区块链电子发票（目前仅支持深圳地区）：blockchain_invoice
+     * 全电发票（专用发票）：elec_invoice_special
+     * 全电发票（普通发票）：elec_invoice_normal
+     * 货运运输业增值税专用发票：special_freight_transport_invoice
+     * 机动车销售发票/电子发票（纸质机动车销售统一发票）/电子发票（机动车销售统一发票）：motor_vehicle_invoice
+     * 二手车销售发票/电子发票（纸质二手车销售统一发票）/电子发票（二手车销售统一发票）：used_vehicle_invoice
+     * 电子发票（航空运输电子客票行程单）：elec_flight_itinerary_invoice
+     * 电子发票（铁路电子客票）： elec_train_ticket_invoice
+     * 全电发票（含通行费标识）： elec_toll_invoice
+     */
+    @JsonProperty("invoice_type")
+    private String invoiceType;
+
+    /**
+     * 校验码。填写发票校验码后6位。
+     * 增值税电子专票、普票、电子普票、卷票、区块链电子发票、通行费增值税电子普通发票此参数必填；
+     * 其他类型发票此参数可为空
+     */
+    @JsonProperty("check_code")
+    private String checkCode;
+
+    /**
+     * 发票金额。
+     * 增值税专票、电子专票、区块链电子发票、机动车销售发票、电子发票（纸质机动车销售统一发票）、货运专票填写不含税金额；
+     * 二手车销售发票、电子发票（纸质二手车销售统一发票）、电子发票（二手车销售统一发票）填写车价合计；
+     * 全电发票（专用发票）、全电发票（普通发票）、电子发票（铁路电子客票）、电子发票（航空运输电子客票行程单）、电子发票（机动车销售统一发票）、全电发票（含通行费标识）填写价税合计金额，其他类型发票可为空
+     */
+    @JsonProperty("total_amount")
+    private String totalAmount;
+}

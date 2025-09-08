@@ -5,6 +5,7 @@ import cn.toint.oktool.spring.boot.bdocr.util.MultipleInvoiceUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -15,14 +16,9 @@ import java.util.List;
  * @author Toint
  * @dete 2025/9/8
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class MultipleInvoiceResponse {
-    /**
-     * 用于定位问题
-     */
-    @JsonProperty("log_id")
-    private Long logId;
-
+public class MultipleInvoiceResponse extends BaseOcrResponse {
     /**
      * 识别结果数，表示words_result的元素个数
      */

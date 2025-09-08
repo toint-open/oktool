@@ -9,6 +9,7 @@ import cn.hutool.v7.http.client.Response;
 import cn.toint.oktool.util.Assert;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -53,7 +54,7 @@ public class BaseOcrRequest {
      * 需要识别的PDF文件的对应页码，当 pdf_file 参数有效时，识别传入页码的对应页面内容，若不传入，则默认识别第 1 页
      */
     @JsonProperty("pdf_file_num")
-    private String pdfFileNum;
+    private Integer pdfFileNum;
 
     /**
      * OFD文件，base64编码后进行urlencode，要求base64编码和urlencode后大小不超过4M，最短边至少15px，最长边最大4096px
@@ -69,7 +70,7 @@ public class BaseOcrRequest {
      * 需要识别的OFD文件的对应页码，当 ofd_file 参数有效时，识别传入页码的对应页面内容，若不传入，则默认识别第 1 页
      */
     @JsonProperty("ofd_file_num")
-    private String ofdFileNum;
+    private Integer ofdFileNum;
 
     public BaseOcrRequest() {
     }
@@ -139,5 +140,11 @@ public class BaseOcrRequest {
 
     private static String urlEncodeAndBase64(File file) {
         return UrlEncoder.encodeQuery(Base64.encode(file));
+    }
+
+    public void checkFile() {
+        if (StringUtils.isAllBlank(getUrl(), getImage(), getPdfFile(), getOfdFile())) {
+            throw new RuntimeException("image/url/pdf_file/ofd_file, 4选1");
+        }
     }
 }
