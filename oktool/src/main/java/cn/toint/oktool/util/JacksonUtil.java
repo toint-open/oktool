@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -442,5 +443,37 @@ public class JacksonUtil {
         simpleModule.addSerializer(Long.class, SafeLongSerializer.instance);
         simpleModule.addSerializer(long.class, SafeLongSerializer.instance);
         return simpleModule;
+    }
+
+    public static String getString(JsonNode jsonNode, String fieldName) {
+        if (isNull(jsonNode)) return null;
+        JsonNode node = jsonNode.get(fieldName);
+        if (isNull(node)) return null;
+        return node.asText();
+    }
+
+    public static Integer getInteger(JsonNode jsonNode, String fieldName) {
+        if (isNull(jsonNode)) return null;
+        JsonNode node = jsonNode.get(fieldName);
+        if (isNull(node)) return null;
+
+        JsonNodeType nodeType = node.getNodeType();
+
+        // 字符串
+        if (nodeType.equals(JsonNodeType.STRING)) {
+            try {
+                String text = node.asText();
+                return StringUtils.isBlank(text) ? null : Integer.parseInt(node.asText());
+            } catch (NumberFormatException e) {
+                return null;
+            }
+        }
+
+        // 数字
+        if (nodeType.equals(JsonNodeType.NUMBER)) {
+            return node.asInt();
+        }
+
+        return null;
     }
 }

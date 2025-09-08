@@ -41,6 +41,18 @@ public class RetryUtil {
     /**
      * 重试机制
      *
+     * @param callable 执行方法
+     * @param <R>      返回类型
+     * @return 方法执行结果
+     * @throws RetryException 重试失败
+     */
+    public static <R> R execute(final Callable<R> callable) {
+        return RetryUtil.execute(callable, 3, Duration.ofSeconds(1), true, RuntimeException.class);
+    }
+
+    /**
+     * 重试机制
+     *
      * @param callable       执行方法
      * @param retrySize      重试次数 (不包含首次执行, 小于1表示不重试, 但无论如何方法会执行1次)
      * @param intervalTime   间隔时间 (null 或 小于等于0, 表示立刻重试不会等待)
@@ -50,10 +62,10 @@ public class RetryUtil {
      * @throws RetryException 重试失败
      */
     @SafeVarargs
-    public static <R> R execute(@Nonnull final Callable<R> callable,
+    public static <R> R execute(final Callable<R> callable,
                                 final int retrySize,
-                                @Nullable final Duration intervalTime,
-                                @Nullable final Class<? extends Throwable>... exceptionClass) {
+                                final Duration intervalTime,
+                                final Class<? extends Throwable>... exceptionClass) {
         return RetryUtil.execute(callable, retrySize, intervalTime, false, exceptionClass);
     }
 
@@ -70,11 +82,11 @@ public class RetryUtil {
      * @throws RetryException 重试失败
      */
     @SafeVarargs
-    public static <R> R execute(@Nonnull final Callable<R> callable,
+    public static <R> R execute(final Callable<R> callable,
                                 final int retrySize,
-                                @Nullable final Duration intervalTime,
+                                final Duration intervalTime,
                                 final boolean printStackTrace,
-                                @Nullable final Class<? extends Throwable>... exceptionClass) {
+                                final Class<? extends Throwable>... exceptionClass) {
         final List<RetryPolicy> retryPolicies = new ArrayList<>();
         if (ArrayUtil.isNotEmpty(exceptionClass)) {
             for (final Class<? extends Throwable> item : exceptionClass) {
@@ -102,8 +114,8 @@ public class RetryUtil {
      * @return 方法执行结果
      * @throws RetryException 重试失败
      */
-    public static <R> R execute(@Nonnull final Callable<R> callable,
-                                @Nullable Collection<RetryPolicy> retryPolicies) {
+    public static <R> R execute(final Callable<R> callable,
+                                Collection<RetryPolicy> retryPolicies) {
         Assert.notNull(callable, "callable must not be null");
 
         // 为每个策略创建独立的计数器
