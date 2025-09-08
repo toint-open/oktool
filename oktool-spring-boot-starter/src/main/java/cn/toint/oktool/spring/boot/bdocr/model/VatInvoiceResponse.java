@@ -24,7 +24,7 @@ public class VatInvoiceResponse {
      * 识别结果数，表示words_result的元素个数
      */
     @JsonProperty("words_result_num")
-    private String wordsResultNum;
+    private Integer wordsResultNum;
 
     /**
      * 识别结果

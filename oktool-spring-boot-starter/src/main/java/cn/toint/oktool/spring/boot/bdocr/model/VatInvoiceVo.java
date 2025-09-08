@@ -20,7 +20,7 @@ public class VatInvoiceVo {
     /**
      * 识别结果数，表示words_result的元素个数
      */
-    private String wordsResultNum;
+    private Integer wordsResultNum;
 
     /**
      * 识别结果
