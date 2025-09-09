@@ -9,7 +9,7 @@ import cn.hutool.v7.http.client.body.HttpBody;
 import cn.hutool.v7.http.client.body.UrlEncodedFormBody;
 import cn.hutool.v7.http.meta.Method;
 import cn.toint.oktool.spring.boot.bdocr.model.*;
-import cn.toint.oktool.spring.boot.bdocr.mp.VatInvoiceVerificationResponse;
+import cn.toint.oktool.spring.boot.bdocr.model.VatInvoiceVerificationResponse;
 import cn.toint.oktool.spring.boot.cache.Cache;
 import cn.toint.oktool.util.Assert;
 import cn.toint.oktool.util.JacksonUtil;

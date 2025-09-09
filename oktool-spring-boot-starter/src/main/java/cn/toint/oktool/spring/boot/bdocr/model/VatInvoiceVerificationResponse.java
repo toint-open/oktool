@@ -1,6 +1,5 @@
-package cn.toint.oktool.spring.boot.bdocr.mp;
+package cn.toint.oktool.spring.boot.bdocr.model;
 
-import cn.toint.oktool.spring.boot.bdocr.model.BaseOcrResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

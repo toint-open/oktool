@@ -1,7 +1,13 @@
 package cn.toint.oktool.spring.boot.bdocr.model;
 
+import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.core.date.TimeUtil;
+import cn.toint.oktool.util.Assert;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
+import java.time.temporal.TemporalAccessor;
+import java.util.Date;
 
 /**
  * @author Toint
@@ -23,7 +29,7 @@ public class VatInvoiceVerificationRequest {
     private String invoiceNum;
 
     /**
-     * 开票日期。格式YYYYMMDD，例：20210101
+     * 开票日期。格式: yyyyMMdd，例：20210101
      */
     @JsonProperty("invoice_date")
     private String invoiceDate;
@@ -65,4 +71,28 @@ public class VatInvoiceVerificationRequest {
      */
     @JsonProperty("total_amount")
     private String totalAmount;
+
+    public VatInvoiceVerificationRequest invoiceDate(TemporalAccessor invoiceDate) {
+        Assert.notNull(invoiceDate, "invoiceDate must not be null");
+        this.invoiceDate = TimeUtil.format(invoiceDate, "yyyyMMdd");
+        return this;
+    }
+
+    public VatInvoiceVerificationRequest invoiceDate(Date invoiceDate) {
+        Assert.notNull(invoiceDate, "invoiceDate must not be null");
+        this.invoiceDate = DateUtil.format(invoiceDate, "yyyyMMdd");
+        return this;
+    }
+
+    public VatInvoiceVerificationRequest invoiceDate(String invoiceDateStr) {
+        Assert.notBlank(invoiceDateStr, "invoiceDate must not be blank");
+        this.invoiceDate = DateUtil.parse(invoiceDateStr).toString("yyyyMMdd");
+        return this;
+    }
+
+    public VatInvoiceVerificationRequest invoiceType(InvoiceTypeEnum invoiceTypeEnum) {
+        Assert.notNull(invoiceTypeEnum, "invoiceTypeEnum must not be null");
+        this.invoiceType = invoiceTypeEnum.getTypeCode();
+        return this;
+    }
 }
