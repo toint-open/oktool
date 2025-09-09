@@ -84,7 +84,7 @@ public class BaseOcrRequest {
     }
 
     /**
-     * @param fileUrl 文件下载链接, 会校验文件大小并加载仅内存.
+     * @param fileUrl 文件下载链接, 会校验文件大小并加载进内存.
      */
     public BaseOcrRequest file(String fileUrl) {
         Assert.notBlank(fileUrl, "fileUrl must not be blank");
