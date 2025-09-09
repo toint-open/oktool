@@ -55,26 +55,74 @@ public class MultipleInvoiceUtil {
             // 增值税发票
             if (TypeEnum.VAT_INVOICE.equals(typeEnum)) {
                 MultipleInvoiceVo.VatInvoice vatInvoice = convertVatInvoice(JacksonUtil.convertValue(result, MultipleInvoiceResponse.VatInvoiceResult.class));
-                multipleInvoiceVo.vatInvoice().add(vatInvoice);
+                multipleInvoiceVo.getVatInvoice().add(vatInvoice);
                 return;
             }
 
             // 火车票
             if (TypeEnum.TRAIN_TICKET.equals(typeEnum)) {
                 MultipleInvoiceVo.TrainTicket trainTicket = convertVatTrainTicket(JacksonUtil.convertValue(result, MultipleInvoiceResponse.TrainTicketResult.class));
-                multipleInvoiceVo.trainTicket().add(trainTicket);
+                multipleInvoiceVo.getTrainTicket().add(trainTicket);
                 return;
             }
 
             // 网约车
             if (TypeEnum.TAXI_ONLINE_TICKET.equals(typeEnum)) {
                 MultipleInvoiceVo.TaxiOnlineTicket taxiOnlineTicket = convertTaxiOnlineTicket(JacksonUtil.convertValue(result, MultipleInvoiceResponse.TaxiOnlineTicketResult.class));
-                multipleInvoiceVo.taxiOnlineTicket().add(taxiOnlineTicket);
+                multipleInvoiceVo.getTaxiOnlineTicket().add(taxiOnlineTicket);
+                return;
+            }
+
+            // 飞机行程单
+            if (TypeEnum.AIR_TICKET.equals(typeEnum)) {
+                MultipleInvoiceVo.AirTicket airTicket = convertAirTicket(JacksonUtil.convertValue(result, MultipleInvoiceResponse.AirTicketResult.class));
+                multipleInvoiceVo.getAirTicket().add(airTicket);
                 return;
             }
         });
 
         return multipleInvoiceVo;
+    }
+
+    public static MultipleInvoiceVo.AirTicket convertAirTicket(MultipleInvoiceResponse.AirTicketResult airTicketResult) {
+        Assert.notNull(airTicketResult, "airTicketResult must not be null");
+        MultipleInvoiceVo.AirTicket airTicket = new MultipleInvoiceVo.AirTicket();
+        airTicket.setServiceType(WordUtil.getFirstWord(airTicketResult.getServiceType()));
+        airTicket.setName(WordUtil.getFirstWord(airTicketResult.getName()));
+        airTicket.setStartingStation(WordUtil.getFirstWord(airTicketResult.getStartingStation()));
+        airTicket.setDestinationStation(WordUtil.getFirstWord(airTicketResult.getDestinationStation()));
+        airTicket.setFlight(WordUtil.getFirstWord(airTicketResult.getFlight()));
+        airTicket.setDate(WordUtil.getFirstWord(airTicketResult.getDate()));
+        airTicket.setTicketNumber(WordUtil.getFirstWord(airTicketResult.getTicketNumber()));
+        airTicket.setFare(WordUtil.getFirstWord(airTicketResult.getFare()));
+        airTicket.setDevFund(WordUtil.getFirstWord(airTicketResult.getDevFund()));
+        airTicket.setOilMoney(WordUtil.getFirstWord(airTicketResult.getOilMoney()));
+        airTicket.setOtherTax(WordUtil.getFirstWord(airTicketResult.getOtherTax()));
+        airTicket.setTicketRates(WordUtil.getFirstWord(airTicketResult.getTicketRates()));
+        airTicket.setStartDate(WordUtil.getFirstWord(airTicketResult.getStartDate()));
+        airTicket.setIdNo(WordUtil.getFirstWord(airTicketResult.getIdNo()));
+        airTicket.setCarrier(WordUtil.getFirstWord(airTicketResult.getCarrier()));
+        airTicket.setTime(WordUtil.getFirstWord(airTicketResult.getTime()));
+        airTicket.setIssuedBy(WordUtil.getFirstWord(airTicketResult.getIssuedBy()));
+        airTicket.setSerialNumber(WordUtil.getFirstWord(airTicketResult.getSerialNumber()));
+        airTicket.setInsurance(WordUtil.getFirstWord(airTicketResult.getInsurance()));
+        airTicket.setFareBasis(WordUtil.getFirstWord(airTicketResult.getFareBasis()));
+        airTicket.setClazz(WordUtil.getFirstWord(airTicketResult.getClazz()));
+        airTicket.setAgentCode(WordUtil.getFirstWord(airTicketResult.getAgentCode()));
+        airTicket.setEndorsement(WordUtil.getFirstWord(airTicketResult.getEndorsement()));
+        airTicket.setAllow(WordUtil.getFirstWord(airTicketResult.getAllow()));
+        airTicket.setCk(WordUtil.getFirstWord(airTicketResult.getCk()));
+        airTicket.setEffectiveDate(WordUtil.getFirstWord(airTicketResult.getEffectiveDate()));
+        airTicket.setExpirationDate(WordUtil.getFirstWord(airTicketResult.getExpirationDate()));
+        airTicket.setInvoiceTypeOrg(WordUtil.getFirstWord(airTicketResult.getInvoiceTypeOrg()));
+        airTicket.setIdentification(WordUtil.getFirstWord(airTicketResult.getIdentification()));
+        airTicket.setInvoiceStatus(WordUtil.getFirstWord(airTicketResult.getInvoiceStatus()));
+        airTicket.setInvoiceNum(WordUtil.getFirstWord(airTicketResult.getInvoiceNum()));
+        airTicket.setCommodityTaxRate(WordUtil.getFirstWord(airTicketResult.getCommodityTaxRate()));
+        airTicket.setCommodityTax(WordUtil.getFirstWord(airTicketResult.getCommodityTax()));
+        airTicket.setPurchaserName(WordUtil.getFirstWord(airTicketResult.getPurchaserName()));
+        airTicket.setPurchaserRegisterNum(WordUtil.getFirstWord(airTicketResult.getPurchaserRegisterNum()));
+        return airTicket;
     }
 
     public static MultipleInvoiceVo.TaxiOnlineTicket convertTaxiOnlineTicket(MultipleInvoiceResponse.TaxiOnlineTicketResult taxiOnlineTicketResult) {

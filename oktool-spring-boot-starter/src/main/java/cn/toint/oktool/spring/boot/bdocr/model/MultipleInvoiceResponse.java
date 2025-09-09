@@ -602,6 +602,222 @@ public class MultipleInvoiceResponse extends BaseOcrResponse {
         private List<Word> purchaserRegisterNum;
     }
 
+    /**
+     * 飞机行程单
+     */
+    @Data
+    public static class AirTicketResult {
+        /**
+         * 发票消费类型。飞机行程单此字段固定输出：交通
+         */
+        @JsonProperty("ServiceType")
+        private List<Word> serviceType;
+
+        /**
+         * 姓名
+         */
+        @JsonProperty("name")
+        private List<Word> name;
+
+        /**
+         * 始发站
+         */
+        @JsonProperty("starting_station")
+        private List<Word> startingStation;
+
+        /**
+         * 目的站
+         */
+        @JsonProperty("destination_station")
+        private List<Word> destinationStation;
+
+        /**
+         * 航班号
+         */
+        @JsonProperty("flight")
+        private List<Word> flight;
+
+        /**
+         * 日期
+         */
+        @JsonProperty("date")
+        private List<Word> date;
+
+        /**
+         * 电子客票号码
+         */
+        @JsonProperty("ticket_number")
+        private List<Word> ticketNumber;
+
+        /**
+         * 票价
+         */
+        @JsonProperty("fare")
+        private List<Word> fare;
+
+        /**
+         * 民航发展基金/机建费
+         */
+        @JsonProperty("dev_fund")
+        private List<Word> devFund;
+
+        /**
+         * 燃油附加费
+         */
+        @JsonProperty("oil_money")
+        private List<Word> oilMoney;
+
+        /**
+         * 其他税费
+         */
+        @JsonProperty("other_tax")
+        private List<Word> otherTax;
+
+        /**
+         * 合计金额
+         */
+        @JsonProperty("ticket_rates")
+        private List<Word> ticketRates;
+
+        /**
+         * 填开日期
+         */
+        @JsonProperty("start_date")
+        private List<Word> startDate;
+
+        /**
+         * 身份证号
+         */
+        @JsonProperty("id_no")
+        private List<Word> idNo;
+
+        /**
+         * 承运人
+         */
+        @JsonProperty("carrier")
+        private List<Word> carrier;
+
+        /**
+         * 时间
+         */
+        @JsonProperty("time")
+        private List<Word> time;
+
+        /**
+         * 填开单位
+         */
+        @JsonProperty("issued_by")
+        private List<Word> issuedBy;
+
+        /**
+         * 印刷序号
+         */
+        @JsonProperty("serial_number")
+        private List<Word> serialNumber;
+
+        /**
+         * 保险费
+         */
+        @JsonProperty("insurance")
+        private List<Word> insurance;
+
+        /**
+         * 客票级别
+         */
+        @JsonProperty("fare_basis")
+        private List<Word> fareBasis;
+
+        /**
+         * 座位等级
+         */
+        @JsonProperty("class")
+        private List<Word> clazz;
+
+        /**
+         * 销售单位号
+         */
+        @JsonProperty("agent_code")
+        private List<Word> agentCode;
+
+        /**
+         * 签注
+         */
+        @JsonProperty("endorsement")
+        private List<Word> endorsement;
+
+        /**
+         * 免费行李
+         */
+        @JsonProperty("allow")
+        private List<Word> allow;
+
+        /**
+         * 验证码
+         */
+        @JsonProperty("ck")
+        private List<Word> ck;
+
+        /**
+         * 客票生效日期
+         */
+        @JsonProperty("effective_date")
+        private List<Word> effectiveDate;
+
+        /**
+         * 有效期截止日期
+         */
+        @JsonProperty("expiration_date")
+        private List<Word> expirationDate;
+
+        /**
+         * 发票名称
+         */
+        @JsonProperty("invoice_type_org")
+        private List<Word> invoiceTypeOrg;
+
+        /**
+         * 国内国际标识
+         */
+        @JsonProperty("identification")
+        private List<Word> identification;
+
+        /**
+         * 开票状态
+         */
+        @JsonProperty("invoice_status")
+        private List<Word> invoiceStatus;
+
+        /**
+         * 发票号码
+         */
+        @JsonProperty("invoice_num")
+        private List<Word> invoiceNum;
+
+        /**
+         * 增值税税率
+         */
+        @JsonProperty("commodity_tax_rate")
+        private List<Word> commodityTaxRate;
+
+        /**
+         * 增值税税额
+         */
+        @JsonProperty("commodity_tax")
+        private List<Word> commodityTax;
+
+        /**
+         * 购买方名称
+         */
+        @JsonProperty("purchaser_name")
+        private List<Word> purchaserName;
+
+        /**
+         * 统一社会信用代码/纳税人识别号
+         */
+        @JsonProperty("purchaser_register_num")
+        private List<Word> purchaserRegisterNum;
+    }
+
     public MultipleInvoiceVo toVo() {
         return MultipleInvoiceUtil.convert(this);
     }
