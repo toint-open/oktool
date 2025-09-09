@@ -79,6 +79,90 @@ public class MultipleInvoiceUtil {
                 multipleInvoiceVo.getAirTicket().add(airTicket);
                 return;
             }
+
+            // 出租车票（传统纸质出租车票）
+            if (TypeEnum.TAXI_RECEIPT.equals(typeEnum)) {
+                multipleInvoiceVo.getTaxiReceipt().add(result);
+                return;
+            }
+
+            // 定额发票（固定面额的发票）
+            if (TypeEnum.QUOTA_INVOICE.equals(typeEnum)) {
+                multipleInvoiceVo.getQuotaInvoice().add(result);
+                return;
+            }
+
+            // 卷式发票（卷筒式打印的普通发票）
+            if (TypeEnum.ROLL_NORMAL_INVOICE.equals(typeEnum)) {
+                multipleInvoiceVo.getRollNormalInvoice().add(result);
+                return;
+            }
+
+            // 机打发票（通过税控系统打印的发票）
+            if (TypeEnum.PRINTED_INVOICE.equals(typeEnum)) {
+                multipleInvoiceVo.getPrintedInvoice().add(result);
+                return;
+            }
+
+            // 机打电子发票（电子形式但采用机打格式的发票）
+            if (TypeEnum.PRINTED_ELEC_INVOICE.equals(typeEnum)) {
+                multipleInvoiceVo.getPrintedElecInvoice().add(result);
+                return;
+            }
+
+            // 汽车票（公路客运票据）
+            if (TypeEnum.BUS_TICKET.equals(typeEnum)) {
+                multipleInvoiceVo.getBusTicket().add(result);
+                return;
+            }
+
+            // 过路过桥费发票（高速公路等通行费票据）
+            if (TypeEnum.TOLL_INVOICE.equals(typeEnum)) {
+                multipleInvoiceVo.getTollInvoice().add(result);
+                return;
+            }
+
+            // 船票（水路客运票据）
+            if (TypeEnum.FERRY_TICKET.equals(typeEnum)) {
+                multipleInvoiceVo.getFerryTicket().add(result);
+                return;
+            }
+
+            // 机动车销售统一发票（新车销售专用发票）
+            if (TypeEnum.MOTOR_VEHICLE_INVOICE.equals(typeEnum)) {
+                multipleInvoiceVo.getMotorVehicleInvoice().add(result);
+                return;
+            }
+
+            // 二手车销售统一发票（二手车交易专用发票）
+            if (TypeEnum.USED_VEHICLE_INVOICE.equals(typeEnum)) {
+                multipleInvoiceVo.getUsedVehicleInvoice().add(result);
+                return;
+            }
+
+            // 限额发票（有金额限制的发票）
+            if (TypeEnum.LIMIT_INVOICE.equals(typeEnum)) {
+                multipleInvoiceVo.getLimitInvoice().add(result);
+                return;
+            }
+
+            // 购物小票（商场超市等消费凭证）
+            if (TypeEnum.SHOPPING_RECEIPT.equals(typeEnum)) {
+                multipleInvoiceVo.getShoppingReceipt().add(result);
+                return;
+            }
+
+            // POS小票（刷卡消费的签购单）
+            if (TypeEnum.POS_INVOICE.equals(typeEnum)) {
+                multipleInvoiceVo.getPosInvoice().add(result);
+                return;
+            }
+
+            // 其他未分类票据
+            if (TypeEnum.OTHERS.equals(typeEnum)) {
+                multipleInvoiceVo.getOthers().add(result);
+                return;
+            }
         });
 
         return multipleInvoiceVo;
