@@ -6,6 +6,8 @@ import cn.hutool.v7.core.io.file.FileTypeUtil;
 import cn.hutool.v7.core.net.url.UrlEncoder;
 import cn.hutool.v7.http.HttpUtil;
 import cn.hutool.v7.http.client.Response;
+import cn.hutool.v7.http.meta.HeaderName;
+import cn.hutool.v7.http.meta.HttpStatus;
 import cn.toint.oktool.util.Assert;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -88,7 +90,15 @@ public class BaseOcrRequest {
      */
     public BaseOcrRequest file(String fileUrl) {
         Assert.notBlank(fileUrl, "fileUrl must not be blank");
-        try (Response response = HttpUtil.createGet(fileUrl).setMaxRedirects(3).send()) {
+        // http框架存在重定向资源泄露问题, 所以由自己实现重定向.
+        try (Response response = HttpUtil.createGet(fileUrl).send()) {
+            final int code = response.getStatus();
+
+            // 重定向
+            if (HttpStatus.isRedirected(code)) {
+                return file(response.header(HeaderName.LOCATION.getValue()));
+            }
+
             long contentLength = response.contentLength();
             checkFileSize(contentLength);
             byte[] fileBytes = response.bodyBytes();
