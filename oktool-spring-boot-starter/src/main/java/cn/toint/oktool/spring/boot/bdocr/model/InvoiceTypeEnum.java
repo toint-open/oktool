@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 发票类型
+ *
  * @author Toint
  * @dete 2025/9/10
  */

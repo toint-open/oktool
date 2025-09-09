@@ -3,7 +3,7 @@ package cn.toint.oktool.spring.boot.bdocr.util;
 import cn.hutool.v7.core.collection.CollUtil;
 import cn.toint.oktool.spring.boot.bdocr.model.MultipleInvoiceResponse;
 import cn.toint.oktool.spring.boot.bdocr.model.MultipleInvoiceVo;
-import cn.toint.oktool.spring.boot.bdocr.model.TypeEnum;
+import cn.toint.oktool.spring.boot.bdocr.model.TicketTypeEnum;
 import cn.toint.oktool.spring.boot.bdocr.model.Word;
 import cn.toint.oktool.util.Assert;
 import cn.toint.oktool.util.JacksonUtil;
@@ -45,121 +45,121 @@ public class MultipleInvoiceUtil {
         if (CollUtil.isEmpty(wordsResult)) return multipleInvoiceVo;
         wordsResult.forEach(item -> {
             // 识别结果类型
-            TypeEnum typeEnum = item.typeEnum();
-            if (typeEnum == null) return;
+            TicketTypeEnum ticketTypeEnum = item.typeEnum();
+            if (ticketTypeEnum == null) return;
 
             // 原始识别结果
             JsonNode result = item.getResult();
             if (JacksonUtil.isNull(result)) return;
 
             // 增值税发票
-            if (TypeEnum.VAT_INVOICE.equals(typeEnum)) {
+            if (TicketTypeEnum.VAT_INVOICE.equals(ticketTypeEnum)) {
                 MultipleInvoiceVo.VatInvoice vatInvoice = convertVatInvoice(JacksonUtil.convertValue(result, MultipleInvoiceResponse.VatInvoiceResult.class));
                 multipleInvoiceVo.getVatInvoice().add(vatInvoice);
                 return;
             }
 
             // 火车票
-            if (TypeEnum.TRAIN_TICKET.equals(typeEnum)) {
+            if (TicketTypeEnum.TRAIN_TICKET.equals(ticketTypeEnum)) {
                 MultipleInvoiceVo.TrainTicket trainTicket = convertVatTrainTicket(JacksonUtil.convertValue(result, MultipleInvoiceResponse.TrainTicketResult.class));
                 multipleInvoiceVo.getTrainTicket().add(trainTicket);
                 return;
             }
 
             // 网约车
-            if (TypeEnum.TAXI_ONLINE_TICKET.equals(typeEnum)) {
+            if (TicketTypeEnum.TAXI_ONLINE_TICKET.equals(ticketTypeEnum)) {
                 MultipleInvoiceVo.TaxiOnlineTicket taxiOnlineTicket = convertTaxiOnlineTicket(JacksonUtil.convertValue(result, MultipleInvoiceResponse.TaxiOnlineTicketResult.class));
                 multipleInvoiceVo.getTaxiOnlineTicket().add(taxiOnlineTicket);
                 return;
             }
 
             // 飞机行程单
-            if (TypeEnum.AIR_TICKET.equals(typeEnum)) {
+            if (TicketTypeEnum.AIR_TICKET.equals(ticketTypeEnum)) {
                 MultipleInvoiceVo.AirTicket airTicket = convertAirTicket(JacksonUtil.convertValue(result, MultipleInvoiceResponse.AirTicketResult.class));
                 multipleInvoiceVo.getAirTicket().add(airTicket);
                 return;
             }
 
             // 出租车票（传统纸质出租车票）
-            if (TypeEnum.TAXI_RECEIPT.equals(typeEnum)) {
+            if (TicketTypeEnum.TAXI_RECEIPT.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getTaxiReceipt().add(result);
                 return;
             }
 
             // 定额发票（固定面额的发票）
-            if (TypeEnum.QUOTA_INVOICE.equals(typeEnum)) {
+            if (TicketTypeEnum.QUOTA_INVOICE.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getQuotaInvoice().add(result);
                 return;
             }
 
             // 卷式发票（卷筒式打印的普通发票）
-            if (TypeEnum.ROLL_NORMAL_INVOICE.equals(typeEnum)) {
+            if (TicketTypeEnum.ROLL_NORMAL_INVOICE.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getRollNormalInvoice().add(result);
                 return;
             }
 
             // 机打发票（通过税控系统打印的发票）
-            if (TypeEnum.PRINTED_INVOICE.equals(typeEnum)) {
+            if (TicketTypeEnum.PRINTED_INVOICE.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getPrintedInvoice().add(result);
                 return;
             }
 
             // 机打电子发票（电子形式但采用机打格式的发票）
-            if (TypeEnum.PRINTED_ELEC_INVOICE.equals(typeEnum)) {
+            if (TicketTypeEnum.PRINTED_ELEC_INVOICE.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getPrintedElecInvoice().add(result);
                 return;
             }
 
             // 汽车票（公路客运票据）
-            if (TypeEnum.BUS_TICKET.equals(typeEnum)) {
+            if (TicketTypeEnum.BUS_TICKET.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getBusTicket().add(result);
                 return;
             }
 
             // 过路过桥费发票（高速公路等通行费票据）
-            if (TypeEnum.TOLL_INVOICE.equals(typeEnum)) {
+            if (TicketTypeEnum.TOLL_INVOICE.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getTollInvoice().add(result);
                 return;
             }
 
             // 船票（水路客运票据）
-            if (TypeEnum.FERRY_TICKET.equals(typeEnum)) {
+            if (TicketTypeEnum.FERRY_TICKET.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getFerryTicket().add(result);
                 return;
             }
 
             // 机动车销售统一发票（新车销售专用发票）
-            if (TypeEnum.MOTOR_VEHICLE_INVOICE.equals(typeEnum)) {
+            if (TicketTypeEnum.MOTOR_VEHICLE_INVOICE.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getMotorVehicleInvoice().add(result);
                 return;
             }
 
             // 二手车销售统一发票（二手车交易专用发票）
-            if (TypeEnum.USED_VEHICLE_INVOICE.equals(typeEnum)) {
+            if (TicketTypeEnum.USED_VEHICLE_INVOICE.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getUsedVehicleInvoice().add(result);
                 return;
             }
 
             // 限额发票（有金额限制的发票）
-            if (TypeEnum.LIMIT_INVOICE.equals(typeEnum)) {
+            if (TicketTypeEnum.LIMIT_INVOICE.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getLimitInvoice().add(result);
                 return;
             }
 
             // 购物小票（商场超市等消费凭证）
-            if (TypeEnum.SHOPPING_RECEIPT.equals(typeEnum)) {
+            if (TicketTypeEnum.SHOPPING_RECEIPT.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getShoppingReceipt().add(result);
                 return;
             }
 
             // POS小票（刷卡消费的签购单）
-            if (TypeEnum.POS_INVOICE.equals(typeEnum)) {
+            if (TicketTypeEnum.POS_INVOICE.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getPosInvoice().add(result);
                 return;
             }
 
             // 其他未分类票据
-            if (TypeEnum.OTHERS.equals(typeEnum)) {
+            if (TicketTypeEnum.OTHERS.equals(ticketTypeEnum)) {
                 multipleInvoiceVo.getOthers().add(result);
                 return;
             }

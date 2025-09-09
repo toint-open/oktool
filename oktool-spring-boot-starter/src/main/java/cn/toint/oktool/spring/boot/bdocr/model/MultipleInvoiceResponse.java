@@ -44,9 +44,9 @@ public class MultipleInvoiceResponse extends BaseOcrResponse {
          */
         private JsonNode result;
 
-        public TypeEnum typeEnum() {
+        public TicketTypeEnum typeEnum() {
             if (StringUtils.isBlank(type)) return null;
-            return EnumUtil.getBy(TypeEnum::getCode, type);
+            return EnumUtil.getBy(TicketTypeEnum::getCode, type);
         }
     }
 

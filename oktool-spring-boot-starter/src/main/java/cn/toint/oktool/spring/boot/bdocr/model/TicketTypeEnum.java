@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 识别类型
+ * 票据类型
  *
  * @author Toint
  * @dete 2025/9/8
  */
 @AllArgsConstructor
 @Getter
-public enum TypeEnum {
+public enum TicketTypeEnum {
     /**
      * 增值税发票（包含专票、普票、电子票等）
      */
