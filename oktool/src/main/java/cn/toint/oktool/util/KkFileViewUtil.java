@@ -15,7 +15,7 @@ public class KkFileViewUtil {
      *
      * @param viewServerUrl 预览服务链接
      * @param fileUrl       文件地址
-     * @param fileName      文件名称(选填)
+     * @param fileName      文件名称(选填), 文件名称过长可能会导致预览失败, 建议使用随机值作为文件主名称
      * @return kkfileview预览链接
      * @see <a href="https://kkview.cn/zh-cn/docs/usage.html">kkfileview使用指南</a>
      */
@@ -23,7 +23,7 @@ public class KkFileViewUtil {
         Assert.notBlank(viewServerUrl, "viewServerUrl must not be blank");
         Assert.notBlank(fileUrl, "fileUrl must not be blank");
 
-        // 文件链接, 只保留refId属性
+        // 文件链接
         UrlBuilder fileUrlBuilder = UrlBuilder.ofHttp(fileUrl);
 
         // 很多系统内不是直接暴露文件下载地址
