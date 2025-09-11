@@ -319,4 +319,11 @@ public class VatInvoiceResponse extends BaseOcrResponse{
     public VatInvoiceVo toVo() {
         return VatInvoiceUtil.convert(this);
     }
+
+    /**
+     * @param ocrFlag 识别标识, 用于定位识别结果, 会赋值进每一个识别结果对象
+     */
+    public VatInvoiceVo toVo(String ocrFlag) {
+        return VatInvoiceUtil.convert(this, ocrFlag);
+    }
 }

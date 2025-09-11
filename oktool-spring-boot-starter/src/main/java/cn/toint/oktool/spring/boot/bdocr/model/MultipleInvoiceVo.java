@@ -2,6 +2,7 @@ package cn.toint.oktool.spring.boot.bdocr.model;
 
 import cn.toint.oktool.spring.boot.bdocr.util.MultipleInvoiceUtil;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,8 +119,9 @@ public class MultipleInvoiceVo {
      * @author Toint
      * @dete 2025/9/8
      */
+    @EqualsAndHashCode(callSuper = true)
     @Data
-    public static class VatInvoice {
+    public static class VatInvoice extends OcrFlag {
         /**
          * 发票消费类型
          */
@@ -361,8 +363,9 @@ public class MultipleInvoiceVo {
      * @author Toint
      * @dete 2025/9/8
      */
+    @EqualsAndHashCode(callSuper = true)
     @Data
-    public static class TrainTicket {
+    public static class TrainTicket extends OcrFlag {
         /**
          * 发票消费类型。火车票此字段固定输出：交通
          */
@@ -487,8 +490,9 @@ public class MultipleInvoiceVo {
     /**
      * 网约车行程单识别结果
      */
+    @EqualsAndHashCode(callSuper = true)
     @Data
-    public static class TaxiOnlineTicket {
+    public static class TaxiOnlineTicket extends OcrFlag {
         /**
          * 发票消费类型。网约车行程单此字段固定输出：交通
          */
@@ -591,8 +595,9 @@ public class MultipleInvoiceVo {
     /**
      * 飞机行程单
      */
+    @EqualsAndHashCode(callSuper = true)
     @Data
-    public static class AirTicket {
+    public static class AirTicket extends OcrFlag {
         /**
          * 发票消费类型。飞机行程单此字段固定输出：交通
          */

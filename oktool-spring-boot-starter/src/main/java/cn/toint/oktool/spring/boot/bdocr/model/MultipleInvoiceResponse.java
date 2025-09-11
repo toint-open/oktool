@@ -560,7 +560,7 @@ public class MultipleInvoiceResponse extends BaseOcrResponse {
         private List<Word> invoiceNum;
 
         /**
-         * 	开票日期
+         * 开票日期
          */
         @JsonProperty("invoice_date")
         private List<Word> invoiceDate;
@@ -820,5 +820,12 @@ public class MultipleInvoiceResponse extends BaseOcrResponse {
 
     public MultipleInvoiceVo toVo() {
         return MultipleInvoiceUtil.convert(this);
+    }
+
+    /**
+     * @param ocrFlag 识别标识, 用于定位识别结果, 会赋值进每一个识别结果对象
+     */
+    public MultipleInvoiceVo toVo(String ocrFlag) {
+        return MultipleInvoiceUtil.convert(this, ocrFlag);
     }
 }

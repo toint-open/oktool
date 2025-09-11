@@ -1,6 +1,7 @@
 package cn.toint.oktool.spring.boot.bdocr.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -27,8 +28,9 @@ public class VatInvoiceVo {
      */
     private WordsResult wordsResult;
 
+    @EqualsAndHashCode(callSuper = true)
     @Data
-    public static class WordsResult {
+    public static class WordsResult extends OcrFlag {
         /**
          * 发票消费类型。不同消费类型输出：餐饮、电器设备、通讯、服务、日用品食品、医疗、交通、其他
          */

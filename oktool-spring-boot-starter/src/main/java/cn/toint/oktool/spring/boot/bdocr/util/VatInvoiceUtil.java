@@ -14,6 +14,10 @@ import java.util.List;
  */
 public class VatInvoiceUtil {
     public static VatInvoiceVo convert(VatInvoiceResponse vatInvoiceResponse) {
+        return convert(vatInvoiceResponse, null);
+    }
+
+    public static VatInvoiceVo convert(VatInvoiceResponse vatInvoiceResponse, String ocrFlag) {
         VatInvoiceVo vatInvoiceVo = new VatInvoiceVo();
         vatInvoiceVo.setLogId(vatInvoiceResponse.getLogId());
         vatInvoiceVo.setWordsResultNum(vatInvoiceResponse.getWordsResultNum());
@@ -21,6 +25,7 @@ public class VatInvoiceUtil {
         VatInvoiceResponse.WordsResult originWordsResult = vatInvoiceResponse.getWordsResult();
         VatInvoiceVo.WordsResult wordsResultVo = new VatInvoiceVo.WordsResult();
         vatInvoiceVo.setWordsResult(wordsResultVo);
+        wordsResultVo.setOcrFlag(ocrFlag);
         wordsResultVo.setServiceType(originWordsResult.getServiceType());
         wordsResultVo.setInvoiceType(originWordsResult.getInvoiceType());
         wordsResultVo.setInvoiceTypeOrg(originWordsResult.getInvoiceTypeOrg());

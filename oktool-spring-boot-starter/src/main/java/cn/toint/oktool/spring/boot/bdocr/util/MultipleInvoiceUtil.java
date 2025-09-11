@@ -27,6 +27,17 @@ public class MultipleInvoiceUtil {
      * @return 解析结果
      */
     public static MultipleInvoiceVo convert(MultipleInvoiceResponse multipleInvoiceResponse) {
+        return convert(multipleInvoiceResponse, null);
+    }
+
+    /**
+     * 解析识别结果
+     *
+     * @param multipleInvoiceResponse 识别结果
+     * @param ocrFlag                 识别标识
+     * @return 解析结果
+     */
+    public static MultipleInvoiceVo convert(MultipleInvoiceResponse multipleInvoiceResponse, String ocrFlag) {
         Assert.notNull(multipleInvoiceResponse, "multipleInvoiceResponse must not be null");
 
         // 视图对象
@@ -55,6 +66,7 @@ public class MultipleInvoiceUtil {
             // 增值税发票
             if (TicketTypeEnum.VAT_INVOICE.equals(ticketTypeEnum)) {
                 MultipleInvoiceVo.VatInvoice vatInvoice = convertVatInvoice(JacksonUtil.convertValue(result, MultipleInvoiceResponse.VatInvoiceResult.class));
+                vatInvoice.setOcrFlag(ocrFlag);
                 multipleInvoiceVo.getVatInvoice().add(vatInvoice);
                 return;
             }
@@ -62,6 +74,7 @@ public class MultipleInvoiceUtil {
             // 火车票
             if (TicketTypeEnum.TRAIN_TICKET.equals(ticketTypeEnum)) {
                 MultipleInvoiceVo.TrainTicket trainTicket = convertVatTrainTicket(JacksonUtil.convertValue(result, MultipleInvoiceResponse.TrainTicketResult.class));
+                trainTicket.setOcrFlag(ocrFlag);
                 multipleInvoiceVo.getTrainTicket().add(trainTicket);
                 return;
             }
@@ -69,6 +82,7 @@ public class MultipleInvoiceUtil {
             // 网约车
             if (TicketTypeEnum.TAXI_ONLINE_TICKET.equals(ticketTypeEnum)) {
                 MultipleInvoiceVo.TaxiOnlineTicket taxiOnlineTicket = convertTaxiOnlineTicket(JacksonUtil.convertValue(result, MultipleInvoiceResponse.TaxiOnlineTicketResult.class));
+                taxiOnlineTicket.setOcrFlag(ocrFlag);
                 multipleInvoiceVo.getTaxiOnlineTicket().add(taxiOnlineTicket);
                 return;
             }
@@ -76,6 +90,7 @@ public class MultipleInvoiceUtil {
             // 飞机行程单
             if (TicketTypeEnum.AIR_TICKET.equals(ticketTypeEnum)) {
                 MultipleInvoiceVo.AirTicket airTicket = convertAirTicket(JacksonUtil.convertValue(result, MultipleInvoiceResponse.AirTicketResult.class));
+                airTicket.setOcrFlag(ocrFlag);
                 multipleInvoiceVo.getAirTicket().add(airTicket);
                 return;
             }
