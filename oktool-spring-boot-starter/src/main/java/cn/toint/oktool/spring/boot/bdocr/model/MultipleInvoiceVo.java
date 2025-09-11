@@ -1,7 +1,6 @@
 package cn.toint.oktool.spring.boot.bdocr.model;
 
 import cn.toint.oktool.spring.boot.bdocr.util.MultipleInvoiceUtil;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -597,211 +596,176 @@ public class MultipleInvoiceVo {
         /**
          * 发票消费类型。飞机行程单此字段固定输出：交通
          */
-        @JsonProperty("ServiceType")
         private String serviceType;
 
         /**
          * 姓名
          */
-        @JsonProperty("name")
         private String name;
 
         /**
          * 始发站
          */
-        @JsonProperty("starting_station")
         private String startingStation;
 
         /**
          * 目的站
          */
-        @JsonProperty("destination_station")
         private String destinationStation;
 
         /**
          * 航班号
          */
-        @JsonProperty("flight")
         private String flight;
 
         /**
          * 日期
          */
-        @JsonProperty("date")
         private String date;
 
         /**
          * 电子客票号码
          */
-        @JsonProperty("ticket_number")
         private String ticketNumber;
 
         /**
          * 票价
          */
-        @JsonProperty("fare")
         private String fare;
 
         /**
          * 民航发展基金/机建费
          */
-        @JsonProperty("dev_fund")
         private String devFund;
 
         /**
          * 燃油附加费
          */
-        @JsonProperty("oil_money")
         private String oilMoney;
 
         /**
          * 其他税费
          */
-        @JsonProperty("other_tax")
         private String otherTax;
 
         /**
          * 合计金额
          */
-        @JsonProperty("ticket_rates")
         private String ticketRates;
 
         /**
          * 填开日期
          */
-        @JsonProperty("start_date")
         private String startDate;
 
         /**
          * 身份证号
          */
-        @JsonProperty("id_no")
         private String idNo;
 
         /**
          * 承运人
          */
-        @JsonProperty("carrier")
         private String carrier;
 
         /**
          * 时间
          */
-        @JsonProperty("time")
         private String time;
 
         /**
          * 填开单位
          */
-        @JsonProperty("issued_by")
         private String issuedBy;
 
         /**
          * 印刷序号
          */
-        @JsonProperty("serial_number")
         private String serialNumber;
 
         /**
          * 保险费
          */
-        @JsonProperty("insurance")
         private String insurance;
 
         /**
          * 客票级别
          */
-        @JsonProperty("fare_basis")
         private String fareBasis;
 
         /**
          * 座位等级
          */
-        @JsonProperty("class")
         private String clazz;
 
         /**
          * 销售单位号
          */
-        @JsonProperty("agent_code")
         private String agentCode;
 
         /**
          * 签注
          */
-        @JsonProperty("endorsement")
         private String endorsement;
 
         /**
          * 免费行李
          */
-        @JsonProperty("allow")
         private String allow;
 
         /**
          * 验证码
          */
-        @JsonProperty("ck")
         private String ck;
 
         /**
          * 客票生效日期
          */
-        @JsonProperty("effective_date")
         private String effectiveDate;
 
         /**
          * 有效期截止日期
          */
-        @JsonProperty("expiration_date")
         private String expirationDate;
 
         /**
          * 发票名称
          */
-        @JsonProperty("invoice_type_org")
         private String invoiceTypeOrg;
 
         /**
          * 国内国际标识
          */
-        @JsonProperty("identification")
         private String identification;
 
         /**
          * 开票状态
          */
-        @JsonProperty("invoice_status")
         private String invoiceStatus;
 
         /**
          * 发票号码
          */
-        @JsonProperty("invoice_num")
         private String invoiceNum;
 
         /**
          * 增值税税率
          */
-        @JsonProperty("commodity_tax_rate")
         private String commodityTaxRate;
 
         /**
          * 增值税税额
          */
-        @JsonProperty("commodity_tax")
         private String commodityTax;
 
         /**
          * 购买方名称
          */
-        @JsonProperty("purchaser_name")
         private String purchaserName;
 
         /**
          * 统一社会信用代码/纳税人识别号
          */
-        @JsonProperty("purchaser_register_num")
         private String purchaserRegisterNum;
     }
 }
