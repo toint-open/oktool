@@ -7,8 +7,10 @@ import cn.hutool.v7.core.net.url.UrlEncoder;
 import cn.hutool.v7.http.HttpUtil;
 import cn.hutool.v7.http.client.Response;
 import cn.hutool.v7.http.meta.HeaderName;
+import cn.hutool.v7.http.meta.HttpHeaderUtil;
 import cn.hutool.v7.http.meta.HttpStatus;
 import cn.toint.oktool.util.Assert;
+import cn.toint.oktool.util.FileNameUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
@@ -99,11 +101,20 @@ public class BaseOcrRequest {
                 return file(response.header(HeaderName.LOCATION.getValue()));
             }
 
+            // 校验头信息
             long contentLength = response.contentLength();
             checkFileSize(contentLength);
+
+            // 尝试通过响应头拿到文件类型
+            String extName = null;
+            String fileName = HttpHeaderUtil.getFileNameFromDisposition(response.headers(), null);
+            if (StringUtils.isNotBlank(fileName)) {
+                extName = FileNameUtil.getSuffix(fileName);
+            }
+
+            // 尝试通过二进制头获取
             byte[] fileBytes = response.bodyBytes();
-            checkFileSize(fileBytes.length);
-            return file(fileBytes);
+            return file(fileBytes, extName);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -113,22 +124,36 @@ public class BaseOcrRequest {
      * @param fileBytes 文件字节, 自动识别文件类型并赋值对应字段
      */
     public BaseOcrRequest file(byte[] fileBytes) {
-        String type;
-        try (ByteArrayInputStream byteArrayInputStream = IoUtil.toStream(fileBytes)) {
-            type = FileTypeUtil.getType(byteArrayInputStream);
-            Assert.notBlank(type, "无法读取文件格式");
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
+        file(fileBytes, null);
+        return this;
+    }
+
+    /**
+     * @param fileBytes 文件字节, 会校验字节大小
+     * @param extName 文件类型(后缀), 传空值则通过二进制头获取文件类型
+     */
+    public BaseOcrRequest file(byte[] fileBytes, String extName) {
+        Assert.notNull(fileBytes, "fileBytes must not be null");
+        checkFileSize(fileBytes.length);
+
+        // 文件类型空值, 则通过二进制头获取文件类型
+        if (StringUtils.isBlank(extName)) {
+            try (ByteArrayInputStream byteArrayInputStream = IoUtil.toStream(fileBytes)) {
+                extName = FileTypeUtil.getType(byteArrayInputStream);
+                Assert.notBlank(extName, "无法读取文件格式");
+            } catch (IOException e) {
+                throw new RuntimeException(e.getMessage(), e);
+            }
         }
 
-        if ("pdf".equalsIgnoreCase(type)) {
+        if ("pdf".equalsIgnoreCase(extName)) {
             setPdfFile(urlEncodeAndBase64(fileBytes));
-        } else if ("ofd".equalsIgnoreCase(type)) {
+        } else if ("ofd".contains(extName)) {
             setOfdFile(urlEncodeAndBase64(fileBytes));
-        } else if (List.of("jpg", "jpeg", "png", "bmp").contains(type)) {
+        } else if (List.of("jpg", "jpeg", "png", "bmp").contains(extName)) {
             setImage(urlEncodeAndBase64(fileBytes));
         } else {
-            throw new RuntimeException("不支持的格式: " + type);
+            throw new RuntimeException("不支持的格式: " + extName);
         }
 
         return this;
