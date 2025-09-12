@@ -463,7 +463,7 @@ public class JacksonUtil {
         if (nodeType.equals(JsonNodeType.STRING)) {
             try {
                 String text = node.asText();
-                return StringUtils.isBlank(text) ? null : Integer.parseInt(node.asText());
+                return StringUtils.isBlank(text) ? null : Integer.parseInt(text);
             } catch (NumberFormatException e) {
                 return null;
             }
