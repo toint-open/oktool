@@ -5,6 +5,7 @@ import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.io.file.FileTypeUtil;
 import cn.hutool.v7.core.net.url.UrlEncoder;
 import cn.hutool.v7.http.HttpUtil;
+import cn.hutool.v7.http.client.Request;
 import cn.hutool.v7.http.client.Response;
 import cn.hutool.v7.http.meta.HeaderName;
 import cn.hutool.v7.http.meta.HttpHeaderUtil;
@@ -19,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 优先级：image > url > pdf_file > ofd_file ，当image字段存在时，url、pdf_file、ofd_file 字段失效
@@ -92,12 +94,19 @@ public class BaseOcrRequest {
      */
     public BaseOcrRequest file(String fileUrl) {
         Assert.notBlank(fileUrl, "fileUrl must not be blank");
-        // http框架存在重定向资源泄露问题, 所以由自己实现重定向.
-        try (Response response = HttpUtil.createGet(fileUrl).send()) {
+
+        // 最大重定向次数, 避免一直重定向
+        AtomicInteger maxRedirectSize = new AtomicInteger(5);
+        Request request = HttpUtil.createGet(fileUrl);
+        // hutool会给默认的user-agent, 默认的user-agent存在一些问题, 所以这里去掉
+        request.header(HeaderName.USER_AGENT, null);
+
+        try (Response response = request.send()) {
             final int code = response.getStatus();
 
-            // 重定向
+            // http框架存在重定向资源泄露问题, 所以由自己实现重定向.
             if (HttpStatus.isRedirected(code)) {
+                Assert.isTrue(maxRedirectSize.decrementAndGet() >= 0, "文件下载达到最大重定向次数, 已拦截");
                 return file(response.header(HeaderName.LOCATION.getValue()));
             }
 
