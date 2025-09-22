@@ -3,13 +3,14 @@ package cn.toint.oktool.spring.boot.bdocr.model;
 import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.date.TimeUtil;
 import cn.toint.oktool.spring.boot.bdocr.util.InvoiceTypeConverter;
+import cn.toint.oktool.util.AmountUtil;
 import cn.toint.oktool.util.Assert;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
-import java.util.Optional;
 
 /**
  * @author Toint
@@ -104,9 +105,21 @@ public class VatInvoiceVerificationRequest {
     /**
      * 发票类型(自动识别)
      */
-    public VatInvoiceVerificationRequest invoiceType(String invoiceVerifyType) {
-        Optional.ofNullable(InvoiceTypeConverter.convertOcrToVerifyType(invoiceVerifyType))
-                .ifPresent(this::invoiceType);
+    public VatInvoiceVerificationRequest invoiceType(String invoiceVerifyTypeStr) {
+        Assert.notBlank(invoiceVerifyTypeStr, "invoiceVerifyType must not be blank");
+        InvoiceVerifyType invoiceVerifyType = InvoiceTypeConverter.convertOcrToVerifyType(invoiceVerifyTypeStr);
+        Assert.notNull(invoiceVerifyType, "发票类型解析失败");
+        this.invoiceType = invoiceVerifyType.getCode();
+        return this;
+    }
+
+    /**
+     * 金额(自动识别)
+     */
+    public VatInvoiceVerificationRequest totalAmount(String totalAmount) {
+        BigDecimal bigDecimal = AmountUtil.toBigDecimal(totalAmount);
+        Assert.notNull(bigDecimal, "金额转换失败");
+        this.totalAmount = bigDecimal.toPlainString();
         return this;
     }
 }

@@ -19,6 +19,7 @@ public class VatInvoiceVerificationResponse extends BaseOcrResponse {
 
     /**
      * 查验结果。查验成功返回“0001”，查验失败返回对应查验结果错误码.
+     * <p>
      * 9999	查验失败	查验失败，业务出现异常，请提交工单咨询
      * 0002	超过该张票当天查验次数	此发票今日查询次数已达上限（5次），请次日查询
      * 0005	请求不合法	发票入参格式有误，请核对后再查询
@@ -50,8 +51,49 @@ public class VatInvoiceVerificationResponse extends BaseOcrResponse {
     private String verifyFrequency;
 
     /**
-     * 发票状态。Y：已作废；H：已冲红；N：未作废；BH：部分红冲；QH：全额红冲
+     * 发票状态。
+     * <p>
+     * Y：已作废；H：已冲红；N：未作废；BH：部分红冲；QH：全额红冲
      */
     @JsonProperty("InvalidSign")
     private String invalidSign;
+
+    /**
+     * 发票种类。
+     * <p>
+     * 即增值税专用发票、增值税电子专用发票、增值税普通发票、增值税普通发票（电子）、增值税普通发票（卷式）、通行费增值税电子普通发票、区块链电子发票、全电发票（专用发票）、全电发票（普通发票）、机动车销售发票、电子发票（机动车销售统一发票）、电子发票（纸质二手车销售统一发票）、二手车销售发票、电子发票（二手车销售统一发票）、货物运输业增值税专用发票、电子发票（航空运输电子客票行程单）、电子发票（铁路电子客票）、全电发票（含通行费标识）
+     */
+    @JsonProperty("InvoiceType")
+    private String invoiceType;
+
+    /**
+     * 发票代码
+     */
+    @JsonProperty("InvoiceCode")
+    private String invoiceCode;
+
+    /**
+     * 发票号码
+     */
+    @JsonProperty("InvoiceNum")
+    private String invoiceNum;
+
+    /**
+     * 校验码
+     */
+    @JsonProperty("CheckCode")
+    private String checkCode;
+
+    /**
+     * 开票日期
+     */
+    @JsonProperty("InvoiceDate")
+    private String invoiceDate;
+
+    /**
+     * 机器编号
+     */
+    @JsonProperty("MachineCode")
+    private String machineCode;
+
 }
