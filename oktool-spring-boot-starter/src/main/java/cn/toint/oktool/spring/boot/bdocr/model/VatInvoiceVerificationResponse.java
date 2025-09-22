@@ -96,4 +96,12 @@ public class VatInvoiceVerificationResponse extends BaseOcrResponse {
     @JsonProperty("MachineCode")
     private String machineCode;
 
+    /**
+     * 校验验真状态, 校验失败抛出异常
+     */
+    public void checkVerifyStatus() {
+        if (!"0001".equals(this.verifyResult)) {
+            throw new RuntimeException(this.verifyMessage);
+        }
+    }
 }
