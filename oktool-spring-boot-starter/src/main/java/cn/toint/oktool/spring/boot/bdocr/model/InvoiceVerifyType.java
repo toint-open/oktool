@@ -2,16 +2,15 @@ package cn.toint.oktool.spring.boot.bdocr.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
- * 发票类型
- *
- * @author Toint
- * @dete 2025/9/10
+ * 发票验真-发票类型类型枚举
  */
-@AllArgsConstructor
 @Getter
-public enum InvoiceTypeEnum {
+@AllArgsConstructor
+@ToString
+public enum InvoiceVerifyType {
     /**
      * 增值税专用发票
      */
@@ -58,42 +57,40 @@ public enum InvoiceTypeEnum {
     ELEC_INVOICE_NORMAL("elec_invoice_normal", "全电发票（普通发票）"),
 
     /**
-     * 货物运输业增值税专用发票
+     * 货运运输业增值税专用发票
      */
-    SPECIAL_FREIGHT_TRANSPORT_INVOICE("special_freight_transport_invoice", "货物运输业增值税专用发票"),
+    SPECIAL_FREIGHT_TRANSPORT_INVOICE("special_freight_transport_invoice", "货运运输业增值税专用发票"),
 
     /**
-     * 机动车销售统一发票 / 电子发票
+     * 机动车销售发票
      */
-    MOTOR_VEHICLE_INVOICE("motor_vehicle_invoice", "机动车销售统一发票/电子发票"),
+    MOTOR_VEHICLE_INVOICE("motor_vehicle_invoice", "机动车销售发票"),
 
     /**
-     * 二手车销售统一发票 / 电子发票
+     * 二手车销售发票
      */
-    USED_VEHICLE_INVOICE("used_vehicle_invoice", "二手车销售统一发票/电子发票"),
+    USED_VEHICLE_INVOICE("used_vehicle_invoice", "二手车销售发票"),
 
     /**
-     * 航空运输电子客票行程单
+     * 电子发票（航空运输电子客票行程单）
      */
-    ELEC_FLIGHT_ITINERARY_INVOICE("elec_flight_itinerary_invoice", "航空运输电子客票行程单"),
+    ELEC_FLIGHT_ITINERARY_INVOICE("elec_flight_itinerary_invoice", "电子发票（航空运输电子客票行程单）"),
 
     /**
-     * 铁路电子客票
+     * 电子发票（铁路电子客票）
      */
-    ELEC_TRAIN_TICKET_INVOICE("elec_train_ticket_invoice", "铁路电子客票"),
+    ELEC_TRAIN_TICKET_INVOICE("elec_train_ticket_invoice", "电子发票（铁路电子客票）"),
 
     /**
      * 全电发票（含通行费标识）
      */
-    ELEC_TOLL_INVOICE("elec_toll_invoice", "全电发票（含通行费标识）");
+    ELEC_TOLL_INVOICE("elec_toll_invoice", "全电发票（含通行费标识）"),
 
     /**
-     * 发票类型代码
+     * 未知类型
      */
-    private final String typeCode;
+    UNKNOWN("unknown", "未知发票类型");
 
-    /**
-     * 发票类型描述
-     */
+    private final String code;
     private final String description;
 }

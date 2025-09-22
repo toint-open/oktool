@@ -2,12 +2,14 @@ package cn.toint.oktool.spring.boot.bdocr.model;
 
 import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.date.TimeUtil;
+import cn.toint.oktool.spring.boot.bdocr.util.InvoiceTypeConverter;
 import cn.toint.oktool.util.Assert;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * @author Toint
@@ -84,15 +86,27 @@ public class VatInvoiceVerificationRequest {
         return this;
     }
 
+    /**
+     * 发票日期(自动识别)
+     */
     public VatInvoiceVerificationRequest invoiceDate(String invoiceDateStr) {
         Assert.notBlank(invoiceDateStr, "invoiceDate must not be blank");
         this.invoiceDate = DateUtil.parse(invoiceDateStr).toString("yyyyMMdd");
         return this;
     }
 
-    public VatInvoiceVerificationRequest invoiceType(InvoiceTypeEnum invoiceTypeEnum) {
-        Assert.notNull(invoiceTypeEnum, "invoiceTypeEnum must not be null");
-        this.invoiceType = invoiceTypeEnum.getTypeCode();
+    public VatInvoiceVerificationRequest invoiceType(InvoiceVerifyType invoiceVerifyType) {
+        Assert.notNull(invoiceVerifyType, "invoiceVerifyType must not be null");
+        this.invoiceType = invoiceVerifyType.getCode();
+        return this;
+    }
+
+    /**
+     * 发票类型(自动识别)
+     */
+    public VatInvoiceVerificationRequest invoiceType(String invoiceVerifyType) {
+        Optional.ofNullable(InvoiceTypeConverter.convertOcrToVerifyType(invoiceVerifyType))
+                .ifPresent(this::invoiceType);
         return this;
     }
 }
