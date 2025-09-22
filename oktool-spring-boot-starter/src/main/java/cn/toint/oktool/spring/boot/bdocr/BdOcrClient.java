@@ -194,6 +194,10 @@ public class BdOcrClient {
             request.totalAmount(request.getTotalAmount());
         }
 
+        if (StringUtils.isNotBlank(request.getCheckCode())) {
+            request.checkCode(request.getCheckCode());
+        }
+
         // 识别发票
         Map<String, Object> bodyMap = JacksonUtil.convertValue(request, new TypeReference<>() {
         });

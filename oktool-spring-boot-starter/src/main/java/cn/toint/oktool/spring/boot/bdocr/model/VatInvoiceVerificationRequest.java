@@ -2,6 +2,7 @@ package cn.toint.oktool.spring.boot.bdocr.model;
 
 import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.date.TimeUtil;
+import cn.hutool.v7.core.text.StrUtil;
 import cn.toint.oktool.spring.boot.bdocr.util.InvoiceTypeConverter;
 import cn.toint.oktool.util.AmountUtil;
 import cn.toint.oktool.util.Assert;
@@ -120,6 +121,14 @@ public class VatInvoiceVerificationRequest {
         BigDecimal bigDecimal = AmountUtil.toBigDecimal(totalAmount);
         Assert.notNull(bigDecimal, "金额转换失败");
         this.totalAmount = bigDecimal.toPlainString();
+        return this;
+    }
+
+    public VatInvoiceVerificationRequest checkCode(String checkCode) {
+        Assert.notBlank(checkCode, "checkCode must not be blank");
+        String subCheckCode = StrUtil.subSufByLength(checkCode, 6);
+        Assert.isTrue(subCheckCode.length() == 6, "校验码长度必须为6位");
+        this.checkCode = subCheckCode;
         return this;
     }
 }
