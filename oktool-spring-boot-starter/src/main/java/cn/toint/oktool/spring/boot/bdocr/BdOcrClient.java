@@ -181,6 +181,19 @@ public class BdOcrClient {
     public VatInvoiceVerificationResponse vatInvoiceVerification(VatInvoiceVerificationRequest request) {
         Assert.notNull(request, "request must not be null");
 
+        // 格式化相关请求参数, 保证请求前格式正确
+        if (StringUtils.isNotBlank(request.getInvoiceType())) {
+            request.invoiceType(request.getInvoiceType());
+        }
+
+        if (StringUtils.isNotBlank(request.getInvoiceDate())) {
+            request.invoiceDate(request.getInvoiceDate());
+        }
+
+        if (StringUtils.isNotBlank(request.getTotalAmount())) {
+            request.totalAmount(request.getTotalAmount());
+        }
+
         // 识别发票
         Map<String, Object> bodyMap = JacksonUtil.convertValue(request, new TypeReference<>() {
         });
