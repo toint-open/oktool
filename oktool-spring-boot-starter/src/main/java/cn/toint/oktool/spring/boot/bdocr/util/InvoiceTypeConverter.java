@@ -120,6 +120,8 @@ public class InvoiceTypeConverter {
         OCR_TO_VERIFY_TYPE_MAP.put("电子发票（机动车销售统一发票）", InvoiceVerifyType.MOTOR_VEHICLE_INVOICE);
         OCR_TO_VERIFY_TYPE_MAP.put("电子发票(机动车销售统一发票)", InvoiceVerifyType.MOTOR_VEHICLE_INVOICE);
         OCR_TO_VERIFY_TYPE_MAP.put("纸质机动车销售统一发票", InvoiceVerifyType.MOTOR_VEHICLE_INVOICE);
+        OCR_TO_VERIFY_TYPE_MAP.put("电子发票（纸质机动车销售统一发票）", InvoiceVerifyType.MOTOR_VEHICLE_INVOICE);
+        OCR_TO_VERIFY_TYPE_MAP.put("电子发票(纸质机动车销售统一发票)", InvoiceVerifyType.MOTOR_VEHICLE_INVOICE);
         OCR_TO_VERIFY_TYPE_MAP.put("新车发票", InvoiceVerifyType.MOTOR_VEHICLE_INVOICE);
 
         // 13. 二手车发票相关映射
@@ -131,6 +133,8 @@ public class InvoiceTypeConverter {
         OCR_TO_VERIFY_TYPE_MAP.put("电子发票（二手车销售统一发票）", InvoiceVerifyType.USED_VEHICLE_INVOICE);
         OCR_TO_VERIFY_TYPE_MAP.put("电子发票(二手车销售统一发票)", InvoiceVerifyType.USED_VEHICLE_INVOICE);
         OCR_TO_VERIFY_TYPE_MAP.put("纸质二手车销售统一发票", InvoiceVerifyType.USED_VEHICLE_INVOICE);
+        OCR_TO_VERIFY_TYPE_MAP.put("电子发票（纸质二手车销售统一发票）", InvoiceVerifyType.USED_VEHICLE_INVOICE);
+        OCR_TO_VERIFY_TYPE_MAP.put("电子发票(纸质二手车销售统一发票)", InvoiceVerifyType.USED_VEHICLE_INVOICE);
 
         // 14. 航空客票相关映射
         OCR_TO_VERIFY_TYPE_MAP.put("航空客票", InvoiceVerifyType.ELEC_FLIGHT_ITINERARY_INVOICE);
