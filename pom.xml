@@ -63,7 +63,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <ok-dependencies.version>1.0.8</ok-dependencies.version>
-        <springboot.version>3.5.3</springboot.version>
+        <springboot.version>3.5.6</springboot.version>
     </properties>
 
     <dependencyManagement>
