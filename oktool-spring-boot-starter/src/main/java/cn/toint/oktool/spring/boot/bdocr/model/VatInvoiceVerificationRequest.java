@@ -9,6 +9,7 @@ import cn.toint.oktool.util.AmountUtil;
 import cn.toint.oktool.util.Assert;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.temporal.TemporalAccessor;
@@ -128,9 +129,11 @@ public class VatInvoiceVerificationRequest {
      * 金额(自动识别)
      */
     public VatInvoiceVerificationRequest totalAmount(String totalAmount) {
-        BigDecimal bigDecimal = AmountUtil.toBigDecimal(totalAmount);
-        Assert.notNull(bigDecimal, "金额转换失败");
-        this.totalAmount = bigDecimal.toPlainString();
+        if (StringUtils.isNotBlank(totalAmount)) {
+            BigDecimal bigDecimal = AmountUtil.toBigDecimal(totalAmount);
+            Assert.notNull(bigDecimal, "金额转换失败");
+            this.totalAmount = bigDecimal.toPlainString();
+        }
         return this;
     }
 
@@ -151,10 +154,11 @@ public class VatInvoiceVerificationRequest {
     }
 
     public VatInvoiceVerificationRequest checkCode(String checkCode) {
-        Assert.notBlank(checkCode, "checkCode must not be blank");
-        String subCheckCode = StrUtil.subSufByLength(checkCode, 6);
-        Assert.isTrue(subCheckCode.length() == 6, "校验码长度必须为6位");
-        this.checkCode = subCheckCode;
+        if (StringUtils.isNotBlank(checkCode)) {
+            String subCheckCode = StrUtil.subSufByLength(checkCode, 6);
+            Assert.isTrue(subCheckCode.length() == 6, "校验码长度必须为6位");
+            this.checkCode = subCheckCode;
+        }
         return this;
     }
 }
