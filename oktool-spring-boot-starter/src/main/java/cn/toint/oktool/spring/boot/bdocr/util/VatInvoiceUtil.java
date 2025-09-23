@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 增值税发票工具
+ *
  * @author Toint
  * @dete 2025/9/9
  */

@@ -4,6 +4,7 @@ import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.date.TimeUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.toint.oktool.spring.boot.bdocr.util.InvoiceTypeConverter;
+import cn.toint.oktool.spring.boot.bdocr.util.InvoiceVerifyAmountUtil;
 import cn.toint.oktool.util.AmountUtil;
 import cn.toint.oktool.util.Assert;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -76,12 +77,18 @@ public class VatInvoiceVerificationRequest {
     @JsonProperty("total_amount")
     private String totalAmount;
 
+    /**
+     * 发票日期
+     */
     public VatInvoiceVerificationRequest invoiceDate(TemporalAccessor invoiceDate) {
         Assert.notNull(invoiceDate, "invoiceDate must not be null");
         this.invoiceDate = TimeUtil.format(invoiceDate, "yyyyMMdd");
         return this;
     }
 
+    /**
+     * 发票日期
+     */
     public VatInvoiceVerificationRequest invoiceDate(Date invoiceDate) {
         Assert.notNull(invoiceDate, "invoiceDate must not be null");
         this.invoiceDate = DateUtil.format(invoiceDate, "yyyyMMdd");
@@ -97,6 +104,9 @@ public class VatInvoiceVerificationRequest {
         return this;
     }
 
+    /**
+     * 发票类型
+     */
     public VatInvoiceVerificationRequest invoiceType(InvoiceVerifyType invoiceVerifyType) {
         Assert.notNull(invoiceVerifyType, "invoiceVerifyType must not be null");
         this.invoiceType = invoiceVerifyType.getCode();
@@ -121,6 +131,22 @@ public class VatInvoiceVerificationRequest {
         BigDecimal bigDecimal = AmountUtil.toBigDecimal(totalAmount);
         Assert.notNull(bigDecimal, "金额转换失败");
         this.totalAmount = bigDecimal.toPlainString();
+        return this;
+    }
+
+    /**
+     * 金额(自动识别)
+     *
+     * @param invoiceType        发票类型
+     * @param totalAmount        不含税金额/车价合计
+     * @param totalAmountInclTax 价税合计
+     */
+    public VatInvoiceVerificationRequest totalAmount(String invoiceType, String totalAmount, String totalAmountInclTax) {
+        // 识别选用的金额, 当识别成功进行赋值金额, 否则不赋值
+        String amount = InvoiceVerifyAmountUtil.getAmountByInvoiceType(invoiceType, totalAmount, totalAmountInclTax);
+        if (amount != null) {
+            return totalAmount(amount);
+        }
         return this;
     }
 
