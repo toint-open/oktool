@@ -34,6 +34,13 @@
     <url>https://github.com/toint-open/oktool</url>
 
     <dependencies>
+        <!--mqtt客户端-->
+        <dependency>
+            <groupId>com.hivemq</groupId>
+            <artifactId>hivemq-mqtt-client</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!--geo-->
         <dependency>
             <groupId>org.gavaghan</groupId>
