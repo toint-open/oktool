@@ -1,7 +1,6 @@
 package cn.toint.oktool.spring.boot.flextenant;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.toint.oktool.spring.boot.traceid.TraceIdInterceptor;
 import com.mybatisflex.core.tenant.TenantFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -31,9 +30,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class FlexTenantAutoConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new TraceIdInterceptor())
+        registry.addInterceptor(new FlexTenantInterceptor())
                 .addPathPatterns("/**");           // 明确拦截路径
-        log.info("任务ID拦截器初始化成功");
+        log.info("mybatis-flex租户ID拦截器初始化成功");
     }
 
     @Bean

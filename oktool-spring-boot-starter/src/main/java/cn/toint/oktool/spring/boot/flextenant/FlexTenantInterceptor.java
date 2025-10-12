@@ -18,7 +18,12 @@ public class FlexTenantInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 将当前访问用户写入租户上下文
-        FlexTenantContextHolder.setTenantIds(List.of(StpUtil.getLoginId()));
+        Object loginId = StpUtil.getLoginIdDefaultNull();
+        if (loginId != null) {
+            FlexTenantContextHolder.setTenantIds(List.of(loginId));
+        } else {
+            FlexTenantContextHolder.clear();
+        }
         return true;
     }
 

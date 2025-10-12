@@ -26,6 +26,6 @@ public class TraceIdAutoConfig implements WebMvcConfigurer {
         registry.addInterceptor(new TraceIdInterceptor())
                 .addPathPatterns("/**")           // 明确拦截路径
                 .order(Ordered.HIGHEST_PRECEDENCE);  // 设置最高优先级，确保最先执行
-        log.info("任务ID拦截器初始化成功");
+        log.info("请求任务ID拦截器初始化成功");
     }
 }
