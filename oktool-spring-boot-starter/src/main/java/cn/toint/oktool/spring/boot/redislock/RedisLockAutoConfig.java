@@ -14,20 +14,27 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.config;
+package cn.toint.oktool.spring.boot.redislock;
 
-import cn.toint.oktool.spring.boot.util.RedisLockUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-@Configuration
+/**
+ * redis分布式锁自动配置
+ *
+ * @author Toint
+ * @date 2025/10/12
+ */
+@AutoConfiguration
 @ConditionalOnClass(StringRedisTemplate.class)
+@ConditionalOnBean(StringRedisTemplate.class)
 @Slf4j
-public class RedisLockConfig {
+public class RedisLockAutoConfig {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;

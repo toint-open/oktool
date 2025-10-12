@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.interceptor;
+package cn.toint.oktool.spring.boot.traceid;
 
 import cn.toint.oktool.util.MdcUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
- * 任务编号拦截器
+ * 请求任务编号拦截器
  * 可多线程传递任务编号
  *
  * @author Toint

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.properties;
+package cn.toint.oktool.spring.boot.cache;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

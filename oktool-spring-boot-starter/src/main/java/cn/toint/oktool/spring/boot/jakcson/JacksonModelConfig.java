@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.config;
+package cn.toint.oktool.spring.boot.jakcson;
 
-import cn.toint.oktool.spring.boot.properties.JacksonProperties;
 import cn.toint.oktool.util.JacksonUtil;
 import com.fasterxml.jackson.databind.Module;
 import jakarta.annotation.Resource;

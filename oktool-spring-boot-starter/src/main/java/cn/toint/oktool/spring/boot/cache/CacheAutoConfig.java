@@ -14,27 +14,26 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.config;
+package cn.toint.oktool.spring.boot.cache;
 
-import cn.toint.oktool.spring.boot.cache.Cache;
 import cn.toint.oktool.spring.boot.cache.impl.LocalCacheImpl;
 import cn.toint.oktool.spring.boot.cache.impl.RedisCacheImpl;
-import cn.toint.oktool.spring.boot.properties.CacheProperties;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ClassUtils;
 
 /**
  * @author Toint
  * @date 2025/7/4
  */
-@Configuration
+@AutoConfiguration
 @Slf4j
-public class CacheConfig {
+@EnableConfigurationProperties(CacheProperties.class)
+public class CacheAutoConfig {
 
     @Resource
     private CacheProperties cacheProperties;
@@ -43,22 +42,22 @@ public class CacheConfig {
     @ConditionalOnMissingBean
     public Cache cacheService() {
         CacheProperties.Type cacheType = cacheProperties.getType();
+        if (cacheType == null) cacheType = CacheProperties.Type.AUTO;
+
         Cache cache;
-        if (cacheType == null || cacheType == CacheProperties.Type.AUTO) {
-            // 优先使用redis
-            boolean hasRedis = ClassUtils.isPresent("org.springframework.data.redis.core.StringRedisTemplate", null);
-            if (hasRedis) {
-                cache = new RedisCacheImpl();
-            } else {
-                cache = new LocalCacheImpl();
-            }
+        if (cacheType == CacheProperties.Type.AUTO &&
+                ClassUtils.isPresent("org.springframework.data.redis.core.StringRedisTemplate", null)) {
+            // auto: 如果有redis依赖, 优先使用redis, 否则使用本地
+            cache = new RedisCacheImpl();
         } else if (cacheType == CacheProperties.Type.REDIS) {
+            // redis: 这里不检查依赖, 如果没有redis依赖, 让框架自己报错
             cache = new RedisCacheImpl();
         } else {
+            // 其他情况, 使用本地缓存
             cache = new LocalCacheImpl();
         }
 
-        log.info("缓存服务初始化成功: 实现类={}", cache.getClass().getName());
+        log.info("Cache缓存服务初始化成功, 实现类: {}", cache.getClass().getName());
         return cache;
     }
 }

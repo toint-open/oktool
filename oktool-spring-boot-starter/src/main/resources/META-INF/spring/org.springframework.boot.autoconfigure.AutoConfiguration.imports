@@ -12,4 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cn.toint.oktool.spring.boot.autoconfig.OkToolAutoConfig
+cn.toint.oktool.spring.boot.cache.CacheAutoConfig
+cn.toint.oktool.spring.boot.jakcson.JacksonAutoConfig
+cn.toint.oktool.spring.boot.redislock.RedisLockAutoConfig
+cn.toint.oktool.spring.boot.traceid.TraceIdAutoConfig
+cn.toint.oktool.spring.boot.flextenant.FlexTenantAutoConfig

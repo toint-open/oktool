@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.util;
+package cn.toint.oktool.spring.boot.redislock;
 
 import cn.toint.oktool.util.Assert;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2025/6/13
  */
 public class RedisLockUtil {
+
     private static StringRedisTemplate stringRedisTemplate;
 
     public static void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
