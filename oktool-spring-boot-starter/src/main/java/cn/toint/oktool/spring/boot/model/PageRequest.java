@@ -17,6 +17,7 @@
 package cn.toint.oktool.spring.boot.model;
 
 import cn.toint.oktool.util.Assert;
+import com.mybatisflex.core.FlexGlobalConfig;
 import com.mybatisflex.core.paginate.Page;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -40,8 +41,17 @@ public class PageRequest {
     private Long pageSize;
 
     public <T> Page<T> toFlexPage() {
-        Assert.notNullParam(this.pageNumber, "pageNumber");
-        Assert.notNullParam(this.pageSize, "pageSize");
-        return new Page<>(this.pageNumber, this.pageSize);
+        Assert.notNullParam(pageNumber, "pageNumber");
+        Assert.notNullParam(pageSize, "pageSize");
+
+        Assert.isTrue(pageNumber > 0, "页码错误");
+
+        // mybatis-flex执行分页查询时, 当pageSize超过最大数量时不会报错, 而是会修改为默认的最大数量
+        // 所以这里进行校验报错
+        if (pageSize > FlexGlobalConfig.getDefaultConfig().getDefaultMaxPageSize()) {
+            throw new IllegalArgumentException("每页显示的数据数量超过最大限制");
+        }
+
+        return new Page<>(pageNumber, pageSize);
     }
 }

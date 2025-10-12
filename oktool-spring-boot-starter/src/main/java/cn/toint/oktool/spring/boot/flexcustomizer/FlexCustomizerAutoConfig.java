@@ -20,7 +20,9 @@ public class FlexCustomizerAutoConfig implements MyBatisFlexCustomizer {
     public void customize(FlexGlobalConfig globalConfig) {
         // 不打印启动信息
         globalConfig.setPrintBanner(false);
+        log.info("mybatis-flex全局配置: globalConfig.isPrintBanner()={}", globalConfig.isPrintBanner());
         // 默认最大分页数量
         globalConfig.setDefaultMaxPageSize(200);
+        log.info("mybatis-flex全局配置: globalConfig.getDefaultMaxPageSize()={}", globalConfig.getDefaultMaxPageSize());
     }
 }
