@@ -16,6 +16,7 @@
 
 package cn.toint.oktool.spring.boot.model;
 
+import cn.toint.oktool.util.Assert;
 import com.mybatisflex.core.paginate.Page;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -39,6 +40,8 @@ public class PageRequest {
     private Long pageSize;
 
     public <T> Page<T> toFlexPage() {
+        Assert.notNullParam(this.pageNumber, "pageNumber");
+        Assert.notNullParam(this.pageSize, "pageSize");
         return new Page<>(this.pageNumber, this.pageSize);
     }
 }
