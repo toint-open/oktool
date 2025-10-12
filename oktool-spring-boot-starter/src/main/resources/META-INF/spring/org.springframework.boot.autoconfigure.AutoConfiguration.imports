@@ -17,3 +17,4 @@ cn.toint.oktool.spring.boot.jakcson.JacksonAutoConfig
 cn.toint.oktool.spring.boot.redislock.RedisLockAutoConfig
 cn.toint.oktool.spring.boot.traceid.TraceIdAutoConfig
 cn.toint.oktool.spring.boot.flextenant.FlexTenantAutoConfig
+cn.toint.oktool.spring.boot.flexcustomizer.FlexCustomizerAutoConfig
