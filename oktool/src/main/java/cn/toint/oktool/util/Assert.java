@@ -34,110 +34,110 @@ import java.util.*;
 public class Assert {
 
     @Contract("null -> fail")
-    public static void notNull(final Object object) {
+    public static void notNull(Object object) {
         if (object == null) {
             throw new IllegalArgumentException("参数不能为空");
         }
     }
 
     @Contract("null, _, _ -> fail")
-    public static void notNull(final Object object, final CharSequence template, final Object... params) {
+    public static void notNull(Object object, CharSequence template, Object... params) {
         if (object == null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("!null -> fail")
-    public static void isNull(final Object object) {
+    public static void isNull(Object object) {
         if (object != null) {
             throw new IllegalArgumentException("参数必须为空");
         }
     }
 
     @Contract("!null, _, _ -> fail")
-    public static void isNull(final Object object, final CharSequence template, final Object... params) {
+    public static void isNull(Object object, CharSequence template, Object... params) {
         if (object != null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("null -> fail")
-    public static void notBlank(final CharSequence text) {
+    public static void notBlank(CharSequence text) {
         if (StringUtils.isBlank(text)) {
             throw new IllegalArgumentException("参数不能为空");
         }
     }
 
     @Contract("null, _, _ -> fail")
-    public static void notBlank(final CharSequence text, final CharSequence template, final Object... params) {
+    public static void notBlank(CharSequence text, CharSequence template, Object... params) {
         if (StringUtils.isBlank(text)) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("null -> fail")
-    public static void notEmpty(final Object[] arr) {
+    public static void notEmpty(Object[] arr) {
         if (arr == null || arr.length == 0) {
             throw new IllegalArgumentException("参数不能为空");
         }
     }
 
     @Contract("null, _, _ -> fail")
-    public static void notEmpty(final Object[] arr, final CharSequence template, final Object... params) {
+    public static void notEmpty(Object[] arr, CharSequence template, Object... params) {
         if (arr == null || arr.length == 0) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("null -> fail")
-    public static void notEmpty(final Iterable<?> collection) {
+    public static void notEmpty(Iterable<?> collection) {
         if (collection == null || !collection.iterator().hasNext()) {
             throw new IllegalArgumentException("参数不能为空");
         }
     }
 
     @Contract("null, _, _ -> fail")
-    public static void notEmpty(final Iterable<?> collection, final CharSequence template, final Object... params) {
+    public static void notEmpty(Iterable<?> collection, CharSequence template, Object... params) {
         if (collection == null || !collection.iterator().hasNext()) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("null, _, _ -> fail")
-    public static void notEmpty(final Map<?, ?> map, final CharSequence template, final Object... params) {
+    public static void notEmpty(Map<?, ?> map, CharSequence template, Object... params) {
         if (map == null || map.isEmpty()) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void equals(final Object a, final Object b, final CharSequence template, final Object... params) {
+    public static void equals(Object a, Object b, CharSequence template, Object... params) {
         if (!Objects.equals(a, b)) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
-    public static void notEquals(final Object a, final Object b, final CharSequence template, final Object... params) {
+    public static void notEquals(Object a, Object b, CharSequence template, Object... params) {
         if (Objects.equals(a, b)) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("false, _, _ -> fail")
-    public static void isTrue(final boolean b, final CharSequence template, final Object... params) {
+    public static void isTrue(boolean b, CharSequence template, Object... params) {
         if (!b) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("true, _, _ -> fail")
-    public static void isFalse(final boolean b, final CharSequence template, final Object... params) {
+    public static void isFalse(boolean b, CharSequence template, Object... params) {
         if (b) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
     }
 
     @Contract("null, _ -> fail")
-    public static void validate(final Object object, final Class<?>... groups) {
+    public static void validate(Object object, Class<?>... groups) {
         Assert.notNull(object);
         ValidationUtil.validateAndThrowFirst(object, groups);
     }
@@ -148,7 +148,7 @@ public class Assert {
      * <p>如果校验失败, 异常信息会添加到 {@code params} 数组末尾, 调用者可在 {@code template} 预留位置, 否则忽略</p>
      */
     @Contract("null, _, _ -> fail")
-    public static void validate(final Object object, final CharSequence template, final Object... params) {
+    public static void validate(Object object, CharSequence template, Object... params) {
         if (object == null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
         }
@@ -160,7 +160,7 @@ public class Assert {
                 throw new IllegalArgumentException(e.getMessage(), e);
             }
 
-            final List<Object> newParams = new ArrayList<>();
+            List<Object> newParams = new ArrayList<>();
             if (ArrayUtil.isNotEmpty(params)) {
                 newParams.addAll(Arrays.asList(params));
             }
