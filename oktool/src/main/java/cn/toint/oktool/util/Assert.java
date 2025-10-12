@@ -47,6 +47,13 @@ public class Assert {
         }
     }
 
+    @Contract("null, _ -> fail")
+    public static void notNullParam(Object object, CharSequence paramName) {
+        if (object == null) {
+            throw new IllegalArgumentException(paramName + "不能为空");
+        }
+    }
+
     @Contract("!null -> fail")
     public static void isNull(Object object) {
         if (object != null) {
@@ -58,6 +65,13 @@ public class Assert {
     public static void isNull(Object object, CharSequence template, Object... params) {
         if (object != null) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
+        }
+    }
+
+    @Contract("!null, _ -> fail")
+    public static void isNullParam(Object object, CharSequence paramName) {
+        if (object != null) {
+            throw new IllegalArgumentException(paramName + "必须为空");
         }
     }
 
@@ -75,6 +89,13 @@ public class Assert {
         }
     }
 
+    @Contract("null, _ -> fail")
+    public static void notBlankParam(CharSequence text, CharSequence paramName) {
+        if (StringUtils.isBlank(text)) {
+            throw new IllegalArgumentException(paramName + "不能为空");
+        }
+    }
+
     @Contract("null -> fail")
     public static void notEmpty(Object[] arr) {
         if (arr == null || arr.length == 0) {
@@ -86,6 +107,13 @@ public class Assert {
     public static void notEmpty(Object[] arr, CharSequence template, Object... params) {
         if (arr == null || arr.length == 0) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
+        }
+    }
+
+    @Contract("null, _ -> fail")
+    public static void notEmptyParam(Object[] arr, CharSequence paramName) {
+        if (arr == null || arr.length == 0) {
+            throw new IllegalArgumentException(paramName + "参数不能为空");
         }
     }
 
@@ -103,10 +131,24 @@ public class Assert {
         }
     }
 
+    @Contract("null, _ -> fail")
+    public static void notEmptyParam(Iterable<?> collection, CharSequence paramName) {
+        if (collection == null || !collection.iterator().hasNext()) {
+            throw new IllegalArgumentException(paramName + "不能为空");
+        }
+    }
+
     @Contract("null, _, _ -> fail")
     public static void notEmpty(Map<?, ?> map, CharSequence template, Object... params) {
         if (map == null || map.isEmpty()) {
             throw new IllegalArgumentException(StrUtil.format(template, params));
+        }
+    }
+
+    @Contract("null, _ -> fail")
+    public static void notEmptyParam(Map<?, ?> map, CharSequence paramName) {
+        if (map == null || map.isEmpty()) {
+            throw new IllegalArgumentException(paramName + "不能为空");
         }
     }
 
