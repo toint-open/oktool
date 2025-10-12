@@ -1,6 +1,5 @@
 package cn.toint.oktool.spring.boot.flexcustomizer;
 
-import cn.toint.oktool.util.JacksonUtil;
 import com.mybatisflex.core.FlexGlobalConfig;
 import com.mybatisflex.spring.boot.MyBatisFlexCustomizer;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +22,5 @@ public class FlexCustomizerAutoConfig implements MyBatisFlexCustomizer {
         globalConfig.setPrintBanner(false);
         // 默认最大分页数量
         globalConfig.setDefaultMaxPageSize(200);
-        log.info("mybatis-flex定制配置: {}", JacksonUtil.writeValueAsString(globalConfig));
     }
 }
