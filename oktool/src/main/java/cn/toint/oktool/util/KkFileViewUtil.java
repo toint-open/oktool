@@ -1,6 +1,7 @@
 package cn.toint.oktool.util;
 
 import cn.hutool.v7.core.codec.binary.Base64;
+import cn.hutool.v7.core.net.url.UrlBuilder;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -21,23 +22,18 @@ public class KkFileViewUtil {
         Assert.notBlankParam(previewServerUrl, "文件预览服务地址");
         Assert.notBlankParam(fileUrl, "文件链接");
 
+        UrlBuilder previewServerUrlBuilder = UrlBuilder.ofHttpWithoutEncode(previewServerUrl);
+        UrlBuilder fileUrlBuilder = UrlBuilder.ofHttpWithoutEncode(fileUrl);
+
         // 很多系统内不是直接暴露文件下载地址
         // 而是请求通过id、code等参数到通过统一的接口, 后端通过id或code等参数定位文件
         // 再通过OutputStream输出下载, 此时下载url是不带文件后缀名的
         // 预览时需要拿到文件名, 传一个参数fullfilename=xxx.xxx来指定文件名
         if (StringUtils.isNotBlank(fileName)) {
-            if (fileUrl.contains("?")) {
-                fileUrl += "&fullfilename=" + fileName;
-            } else {
-                fileUrl += "?fullfilename=" + fileName;
-            }
+            fileUrlBuilder.addQuery("fullfilename", fileName);
         }
 
-        String urlSafeBase64FileUrl = Base64.encodeUrlSafe(fileUrl);
-        if (previewServerUrl.contains("?")) {
-            return previewServerUrl + "&url=" + urlSafeBase64FileUrl;
-        } else {
-            return previewServerUrl + "?url=" + urlSafeBase64FileUrl;
-        }
+        String urlSafeBase64FileUrl = Base64.encodeUrlSafe(fileUrlBuilder.build());
+        return previewServerUrlBuilder.addQuery("url", urlSafeBase64FileUrl).build();
     }
 }
