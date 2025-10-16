@@ -18,6 +18,12 @@ public class FlexTenantFactory implements TenantFactory {
         return getTenantIds(null);
     }
 
+    /**
+     * 获取当前上下文的租户ID
+     *
+     * @param tableName 表名
+     * @return 忽略租户条件: 返回 null 或者 空数组
+     */
     @Override
     public Object[] getTenantIds(String tableName) {
         // 获取当前上下文的用户ID
