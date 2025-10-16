@@ -24,7 +24,7 @@ public class FlexTenantContextHolder {
      *
      * @param tenantIds 租户ID(自动过滤null元素)
      */
-    public static void setTenantIds(Object[] tenantIds) {
+    protected static void setTenantIds(Object[] tenantIds) {
         if (ArrayUtil.isEmpty(tenantIds)) {
             clear();
         } else {
@@ -38,7 +38,7 @@ public class FlexTenantContextHolder {
      *
      * @param tenantIds 租户ID(自动过滤null元素)
      */
-    public static void setTenantIds(List<Object> tenantIds) {
+    protected static void setTenantIds(List<Object> tenantIds) {
         if (CollUtil.isEmpty(tenantIds)) {
             clear();
         } else {
@@ -53,14 +53,14 @@ public class FlexTenantContextHolder {
      *
      * @return 租户ID(可能返回null, 但元素不会为null)
      */
-    public static List<Object> getTenantIds() {
+    protected static List<Object> getTenantIds() {
         return TENANT_IDS_TTL.get();
     }
 
     /**
      * 清空租户ID
      */
-    public static void clear() {
+    protected static void clear() {
         TENANT_IDS_TTL.remove();
     }
 }
