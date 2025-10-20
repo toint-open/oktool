@@ -8,7 +8,7 @@ import java.util.List;
  * mybatis-flex租户工厂
  *
  * @author Toint
- * @dete 2025/10/12
+ * @date 2025/10/12
  */
 public class FlexTenantFactory implements TenantFactory {
     @Override

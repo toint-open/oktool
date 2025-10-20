@@ -7,7 +7,7 @@ import java.util.Objects;
  * 增值税发票识别结果
  *
  * @author Toint
- * @dete 2025/9/8
+ * @date 2025/9/8
  */
 public class VatInvoiceVo {
     /**

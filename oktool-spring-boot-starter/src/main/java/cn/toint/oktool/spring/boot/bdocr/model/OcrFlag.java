@@ -6,7 +6,7 @@ import java.util.Objects;
  * 文件识别标识
  *
  * @author Toint
- * @dete 2025/9/12
+ * @date 2025/9/12
  */
 public class OcrFlag {
     public String getOcrFlag() {

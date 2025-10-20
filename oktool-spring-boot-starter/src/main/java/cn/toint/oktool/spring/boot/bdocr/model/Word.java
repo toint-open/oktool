@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  * @author Toint
- * @dete 2025/9/8
+ * @date 2025/9/8
  */
 public class Word {
     private Integer row;

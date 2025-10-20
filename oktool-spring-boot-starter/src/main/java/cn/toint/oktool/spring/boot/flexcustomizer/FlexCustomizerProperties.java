@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * @author Toint
- * @dete 2025/10/14
+ * @date 2025/10/14
  */
 @ConfigurationProperties("oktool.mybatis-flex")
 public class FlexCustomizerProperties {

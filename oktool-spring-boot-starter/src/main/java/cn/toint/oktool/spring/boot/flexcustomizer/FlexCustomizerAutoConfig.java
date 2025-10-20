@@ -12,7 +12,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 /**
  * @author Toint
- * @dete 2025/10/13
+ * @date 2025/10/13
  */
 @AutoConfiguration
 @ConditionalOnClass(MyBatisFlexCustomizer.class)

@@ -8,7 +8,7 @@ import java.util.function.Supplier;
  * mybatis-flex租户工具类
  *
  * @author Toint
- * @dete 2025/10/12
+ * @date 2025/10/12
  */
 public class FlexTenantUtil {
 

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Toint
- * @dete 2025/9/10
+ * @date 2025/9/10
  */
 public class FileNameUtilTest {
 

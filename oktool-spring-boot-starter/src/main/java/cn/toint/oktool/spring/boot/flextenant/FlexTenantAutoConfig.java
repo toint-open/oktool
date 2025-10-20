@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * mybatis-flex租户自动配置
  *
  * @author Toint
- * @dete 2025/10/12
+ * @date 2025/10/12
  */
 @AutoConfiguration
 @ConditionalOnClass({
@@ -35,7 +35,6 @@ public class FlexTenantAutoConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new FlexTenantInterceptor())
                 .addPathPatterns("/**");           // 明确拦截路径
-        log.info("mybatis-flex租户ID拦截器初始化成功");
     }
 
     @Bean

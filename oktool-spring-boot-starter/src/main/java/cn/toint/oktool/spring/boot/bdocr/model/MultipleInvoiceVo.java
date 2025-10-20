@@ -8,7 +8,7 @@ import java.util.Objects;
 
 /**
  * @author Toint
- * @dete 2025/9/8
+ * @date 2025/9/8
  */
 public class MultipleInvoiceVo {
     /**
@@ -313,7 +313,7 @@ public class MultipleInvoiceVo {
      * 增值税发票识别结果
      *
      * @author Toint
-     * @dete 2025/9/8
+     * @date 2025/9/8
      */
     public static class VatInvoice extends OcrFlag {
         /**
@@ -1005,7 +1005,7 @@ public class MultipleInvoiceVo {
      * 火车票
      *
      * @author Toint
-     * @dete 2025/9/8
+     * @date 2025/9/8
      */
     public static class TrainTicket extends OcrFlag {
         /**

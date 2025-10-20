@@ -13,7 +13,7 @@ import java.util.Objects;
  * 识别结果
  *
  * @author Toint
- * @dete 2025/9/8
+ * @date 2025/9/8
  */
 public class MultipleInvoiceResponse extends BaseOcrResponse {
     /**
@@ -123,7 +123,7 @@ public class MultipleInvoiceResponse extends BaseOcrResponse {
      * 增值税发票识别结果
      *
      * @author Toint
-     * @dete 2025/9/8
+     * @date 2025/9/8
      */
     public static class VatInvoiceResult {
         /**

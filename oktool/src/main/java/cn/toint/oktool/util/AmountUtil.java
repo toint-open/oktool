@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  * 金额工具
  *
  * @author Toint
- * @dete 2025/9/9
+ * @date 2025/9/9
  */
 public class AmountUtil {
 

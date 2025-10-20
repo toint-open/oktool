@@ -8,7 +8,7 @@ import java.util.Set;
  * 发票验真金额工具
  *
  * @author Toint
- * @dete 2025/9/23
+ * @date 2025/9/23
  */
 public class InvoiceVerifyAmountUtil {
     /**

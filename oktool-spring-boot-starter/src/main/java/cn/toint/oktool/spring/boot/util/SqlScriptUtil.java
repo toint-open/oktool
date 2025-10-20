@@ -42,7 +42,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Sql脚本执行工具
  *
  * @author Toint
- * @dete 2025/10/11
+ * @date 2025/10/11
  */
 public class SqlScriptUtil {
 

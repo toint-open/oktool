@@ -13,7 +13,7 @@ import java.util.Objects;
  * mybatis-flex租户上下文
  *
  * @author Toint
- * @dete 2025/10/12
+ * @date 2025/10/12
  */
 public class FlexTenantContextHolder {
 

@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 优先级：image > url > pdf_file > ofd_file ，当image字段存在时，url、pdf_file、ofd_file 字段失效
  *
  * @author Toint
- * @dete 2025/9/9
+ * @date 2025/9/9
  */
 public class BaseOcrRequest {
     /**
