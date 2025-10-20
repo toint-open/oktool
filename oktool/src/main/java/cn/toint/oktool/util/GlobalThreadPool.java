@@ -17,9 +17,6 @@
 package cn.toint.oktool.util;
 
 import com.alibaba.ttl.threadpool.TtlExecutors;
-import jakarta.annotation.Nonnull;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,7 +25,6 @@ import java.util.concurrent.Executors;
  * @author Toint
  * @date 2025/6/30
  */
-@Slf4j
 public class GlobalThreadPool {
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -39,8 +35,10 @@ public class GlobalThreadPool {
     /**
      * 全局ttl虚拟线程池
      */
-    @Getter
-    @Nonnull
     private static final ExecutorService ttlVirtualExecutorService = TtlExecutors.getTtlExecutorService(Executors.newVirtualThreadPerTaskExecutor());
+
+    public static ExecutorService getTtlVirtualExecutorService() {
+        return ttlVirtualExecutorService;
+    }
 
 }

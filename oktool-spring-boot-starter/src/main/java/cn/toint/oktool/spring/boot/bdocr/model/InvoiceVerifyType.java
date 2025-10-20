@@ -1,15 +1,8 @@
 package cn.toint.oktool.spring.boot.bdocr.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
-
 /**
  * 发票验真-发票类型类型枚举
  */
-@Getter
-@AllArgsConstructor
-@ToString
 public enum InvoiceVerifyType {
     /**
      * 增值税专用发票
@@ -93,4 +86,27 @@ public enum InvoiceVerifyType {
 
     private final String code;
     private final String description;
+
+    InvoiceVerifyType(String code, String description) {
+        this.code = code;
+        this.description = description;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String toString() {
+        return "InvoiceVerifyType{" +
+                "code='" + code + '\'' +
+                ", description='" + description + '\'' +
+                "} " + super.toString();
+    }
+
+
 }

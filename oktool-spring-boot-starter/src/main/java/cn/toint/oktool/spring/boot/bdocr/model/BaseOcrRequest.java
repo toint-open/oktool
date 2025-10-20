@@ -13,13 +13,13 @@ import cn.hutool.v7.http.meta.HttpStatus;
 import cn.toint.oktool.util.Assert;
 import cn.toint.oktool.util.FileNameUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -28,7 +28,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Toint
  * @dete 2025/9/9
  */
-@Data
 public class BaseOcrRequest {
     /**
      * 图像数据，base64编码后进行urlencode，要求base64编码和urlencode后大小不超过4M，最短边至少15px，最长边最大4096px，支持jpg/jpeg/png/bmp格式
@@ -190,5 +189,77 @@ public class BaseOcrRequest {
         if (StringUtils.isAllBlank(getUrl(), getImage(), getPdfFile(), getOfdFile())) {
             throw new RuntimeException("image/url/pdf_file/ofd_file, 4选1");
         }
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getPdfFile() {
+        return pdfFile;
+    }
+
+    public void setPdfFile(String pdfFile) {
+        this.pdfFile = pdfFile;
+    }
+
+    public int getPdfFileNum() {
+        return pdfFileNum;
+    }
+
+    public void setPdfFileNum(int pdfFileNum) {
+        this.pdfFileNum = pdfFileNum;
+    }
+
+    public String getOfdFile() {
+        return ofdFile;
+    }
+
+    public void setOfdFile(String ofdFile) {
+        this.ofdFile = ofdFile;
+    }
+
+    public int getOfdFileNum() {
+        return ofdFileNum;
+    }
+
+    public void setOfdFileNum(int ofdFileNum) {
+        this.ofdFileNum = ofdFileNum;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseOcrRequest that = (BaseOcrRequest) o;
+        return pdfFileNum == that.pdfFileNum && ofdFileNum == that.ofdFileNum && Objects.equals(image, that.image) && Objects.equals(url, that.url) && Objects.equals(pdfFile, that.pdfFile) && Objects.equals(ofdFile, that.ofdFile);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(image, url, pdfFile, pdfFileNum, ofdFile, ofdFileNum);
+    }
+
+    @Override
+    public String toString() {
+        return "BaseOcrRequest{" +
+                "image='" + image + '\'' +
+                ", url='" + url + '\'' +
+                ", pdfFile='" + pdfFile + '\'' +
+                ", pdfFileNum=" + pdfFileNum +
+                ", ofdFile='" + ofdFile + '\'' +
+                ", ofdFileNum=" + ofdFileNum +
+                '}';
     }
 }

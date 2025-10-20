@@ -1,15 +1,13 @@
 package cn.toint.oktool.spring.boot.bdocr.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import java.util.Objects;
 
 /**
  * @author Toint
  * @dete 2025/9/9
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class VatInvoiceVerificationResponse extends BaseOcrResponse {
     /**
      * 识别结果数，表示words_result的元素个数
@@ -103,5 +101,123 @@ public class VatInvoiceVerificationResponse extends BaseOcrResponse {
         if (!"0001".equals(this.verifyResult)) {
             throw new RuntimeException(this.verifyMessage);
         }
+    }
+
+    public Integer getWordsResultNum() {
+        return wordsResultNum;
+    }
+
+    public void setWordsResultNum(Integer wordsResultNum) {
+        this.wordsResultNum = wordsResultNum;
+    }
+
+    public String getVerifyResult() {
+        return verifyResult;
+    }
+
+    public void setVerifyResult(String verifyResult) {
+        this.verifyResult = verifyResult;
+    }
+
+    public String getVerifyMessage() {
+        return verifyMessage;
+    }
+
+    public void setVerifyMessage(String verifyMessage) {
+        this.verifyMessage = verifyMessage;
+    }
+
+    public String getVerifyFrequency() {
+        return verifyFrequency;
+    }
+
+    public void setVerifyFrequency(String verifyFrequency) {
+        this.verifyFrequency = verifyFrequency;
+    }
+
+    public String getInvalidSign() {
+        return invalidSign;
+    }
+
+    public void setInvalidSign(String invalidSign) {
+        this.invalidSign = invalidSign;
+    }
+
+    public String getInvoiceType() {
+        return invoiceType;
+    }
+
+    public void setInvoiceType(String invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+
+    public String getInvoiceCode() {
+        return invoiceCode;
+    }
+
+    public void setInvoiceCode(String invoiceCode) {
+        this.invoiceCode = invoiceCode;
+    }
+
+    public String getInvoiceNum() {
+        return invoiceNum;
+    }
+
+    public void setInvoiceNum(String invoiceNum) {
+        this.invoiceNum = invoiceNum;
+    }
+
+    public String getCheckCode() {
+        return checkCode;
+    }
+
+    public void setCheckCode(String checkCode) {
+        this.checkCode = checkCode;
+    }
+
+    public String getInvoiceDate() {
+        return invoiceDate;
+    }
+
+    public void setInvoiceDate(String invoiceDate) {
+        this.invoiceDate = invoiceDate;
+    }
+
+    public String getMachineCode() {
+        return machineCode;
+    }
+
+    public void setMachineCode(String machineCode) {
+        this.machineCode = machineCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        VatInvoiceVerificationResponse that = (VatInvoiceVerificationResponse) o;
+        return Objects.equals(wordsResultNum, that.wordsResultNum) && Objects.equals(verifyResult, that.verifyResult) && Objects.equals(verifyMessage, that.verifyMessage) && Objects.equals(verifyFrequency, that.verifyFrequency) && Objects.equals(invalidSign, that.invalidSign) && Objects.equals(invoiceType, that.invoiceType) && Objects.equals(invoiceCode, that.invoiceCode) && Objects.equals(invoiceNum, that.invoiceNum) && Objects.equals(checkCode, that.checkCode) && Objects.equals(invoiceDate, that.invoiceDate) && Objects.equals(machineCode, that.machineCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), wordsResultNum, verifyResult, verifyMessage, verifyFrequency, invalidSign, invoiceType, invoiceCode, invoiceNum, checkCode, invoiceDate, machineCode);
+    }
+
+    @Override
+    public String toString() {
+        return "VatInvoiceVerificationResponse{" +
+                "wordsResultNum=" + wordsResultNum +
+                ", verifyResult='" + verifyResult + '\'' +
+                ", verifyMessage='" + verifyMessage + '\'' +
+                ", verifyFrequency='" + verifyFrequency + '\'' +
+                ", invalidSign='" + invalidSign + '\'' +
+                ", invoiceType='" + invoiceType + '\'' +
+                ", invoiceCode='" + invoiceCode + '\'' +
+                ", invoiceNum='" + invoiceNum + '\'' +
+                ", checkCode='" + checkCode + '\'' +
+                ", invoiceDate='" + invoiceDate + '\'' +
+                ", machineCode='" + machineCode + '\'' +
+                "} " + super.toString();
     }
 }

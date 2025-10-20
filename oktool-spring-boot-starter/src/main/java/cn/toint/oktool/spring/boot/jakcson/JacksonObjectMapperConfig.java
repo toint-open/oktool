@@ -21,7 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mybatisflex.core.handler.JacksonTypeHandler;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ClassUtils;
 
@@ -30,8 +31,9 @@ import org.springframework.util.ClassUtils;
  * @date 2025/7/4
  */
 @Configuration
-@Slf4j
 public class JacksonObjectMapperConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(JacksonObjectMapperConfig.class);
 
     @Resource
     private ObjectMapper objectMapper;

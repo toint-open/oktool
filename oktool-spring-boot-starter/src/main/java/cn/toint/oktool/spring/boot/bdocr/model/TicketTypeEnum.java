@@ -1,16 +1,11 @@
 package cn.toint.oktool.spring.boot.bdocr.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * 票据类型
  *
  * @author Toint
  * @dete 2025/9/8
  */
-@AllArgsConstructor
-@Getter
 public enum TicketTypeEnum {
     /**
      * 增值税发票（包含专票、普票、电子票等）
@@ -111,4 +106,25 @@ public enum TicketTypeEnum {
      * 类型中文描述（用于界面展示）
      */
     private final String description;
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    TicketTypeEnum(String code, String description) {
+        this.code = code;
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "TicketTypeEnum{" +
+                "code='" + code + '\'' +
+                ", description='" + description + '\'' +
+                "} " + super.toString();
+    }
 }

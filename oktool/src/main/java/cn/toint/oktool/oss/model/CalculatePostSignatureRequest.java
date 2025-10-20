@@ -19,15 +19,14 @@ package cn.toint.oktool.oss.model;
 import cn.toint.oktool.oss.OssClientConfig;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  * @author Toint
  * @date 2025/7/14
  */
-@Data
 public class CalculatePostSignatureRequest {
     @NotNull
     private Long minFileSize;
@@ -62,5 +61,77 @@ public class CalculatePostSignatureRequest {
         this.minFileSize = fileSize;
         this.maxFileSize = fileSize;
         return this;
+    }
+
+    public Long getMinFileSize() {
+        return minFileSize;
+    }
+
+    public void setMinFileSize(Long minFileSize) {
+        this.minFileSize = minFileSize;
+    }
+
+    public Long getMaxFileSize() {
+        return maxFileSize;
+    }
+
+    public void setMaxFileSize(Long maxFileSize) {
+        this.maxFileSize = maxFileSize;
+    }
+
+    public String getObjectKey() {
+        return objectKey;
+    }
+
+    public void setObjectKey(String objectKey) {
+        this.objectKey = objectKey;
+    }
+
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+    }
+
+    public Duration getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Duration timeout) {
+        this.timeout = timeout;
+    }
+
+    public Boolean getInternal() {
+        return internal;
+    }
+
+    public void setInternal(Boolean internal) {
+        this.internal = internal;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        CalculatePostSignatureRequest that = (CalculatePostSignatureRequest) o;
+        return Objects.equals(minFileSize, that.minFileSize) && Objects.equals(maxFileSize, that.maxFileSize) && Objects.equals(objectKey, that.objectKey) && Objects.equals(bucketName, that.bucketName) && Objects.equals(timeout, that.timeout) && Objects.equals(internal, that.internal);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(minFileSize, maxFileSize, objectKey, bucketName, timeout, internal);
+    }
+
+    @Override
+    public String toString() {
+        return "CalculatePostSignatureRequest{" +
+                "minFileSize=" + minFileSize +
+                ", maxFileSize=" + maxFileSize +
+                ", objectKey='" + objectKey + '\'' +
+                ", bucketName='" + bucketName + '\'' +
+                ", timeout=" + timeout +
+                ", internal=" + internal +
+                '}';
     }
 }

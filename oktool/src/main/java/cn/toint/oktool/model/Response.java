@@ -16,16 +16,16 @@
 
 package cn.toint.oktool.model;
 
+import cn.hutool.v7.core.date.SystemClock;
 import cn.toint.oktool.constant.ResponseConstant;
 import cn.toint.oktool.util.MdcUtil;
-import lombok.Data;
-import cn.hutool.v7.core.date.SystemClock;
+
+import java.util.Objects;
 
 /**
  * @author Toint
  * @date 2025/7/12
  */
-@Data
 public class Response<T> implements WriteValue {
     private Integer code;
 
@@ -87,5 +87,68 @@ public class Response<T> implements WriteValue {
         response.setMsg(message);
         response.setData(data);
         return response;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Response<?> response = (Response<?>) o;
+        return Objects.equals(code, response.code) && Objects.equals(msg, response.msg) && Objects.equals(data, response.data) && Objects.equals(timestamp, response.timestamp) && Objects.equals(traceId, response.traceId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, msg, data, timestamp, traceId);
+    }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                ", timestamp=" + timestamp +
+                ", traceId='" + traceId + '\'' +
+                '}';
     }
 }

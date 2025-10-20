@@ -1,9 +1,7 @@
 package cn.toint.oktool.spring.boot.bdocr.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 增值税发票识别结果
@@ -11,7 +9,6 @@ import java.util.List;
  * @author Toint
  * @dete 2025/9/8
  */
-@Data
 public class VatInvoiceVo {
     /**
      * 用于定位问题
@@ -28,8 +25,51 @@ public class VatInvoiceVo {
      */
     private WordsResult wordsResult;
 
-    @EqualsAndHashCode(callSuper = true)
-    @Data
+    public Long getLogId() {
+        return logId;
+    }
+
+    public void setLogId(Long logId) {
+        this.logId = logId;
+    }
+
+    public Integer getWordsResultNum() {
+        return wordsResultNum;
+    }
+
+    public void setWordsResultNum(Integer wordsResultNum) {
+        this.wordsResultNum = wordsResultNum;
+    }
+
+    public WordsResult getWordsResult() {
+        return wordsResult;
+    }
+
+    public void setWordsResult(WordsResult wordsResult) {
+        this.wordsResult = wordsResult;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        VatInvoiceVo that = (VatInvoiceVo) o;
+        return Objects.equals(logId, that.logId) && Objects.equals(wordsResultNum, that.wordsResultNum) && Objects.equals(wordsResult, that.wordsResult);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(logId, wordsResultNum, wordsResult);
+    }
+
+    @Override
+    public String toString() {
+        return "VatInvoiceVo{" +
+                "logId=" + logId +
+                ", wordsResultNum=" + wordsResultNum +
+                ", wordsResult=" + wordsResult +
+                '}';
+    }
+
     public static class WordsResult extends OcrFlag {
         /**
          * 发票消费类型。不同消费类型输出：餐饮、电器设备、通讯、服务、日用品食品、医疗、交通、其他
@@ -234,7 +274,385 @@ public class VatInvoiceVo {
          */
         private String supervisionSealInfo;
 
-        @Data
+        public String getServiceType() {
+            return serviceType;
+        }
+
+        public void setServiceType(String serviceType) {
+            this.serviceType = serviceType;
+        }
+
+        public String getInvoiceType() {
+            return invoiceType;
+        }
+
+        public void setInvoiceType(String invoiceType) {
+            this.invoiceType = invoiceType;
+        }
+
+        public String getInvoiceTypeOrg() {
+            return invoiceTypeOrg;
+        }
+
+        public void setInvoiceTypeOrg(String invoiceTypeOrg) {
+            this.invoiceTypeOrg = invoiceTypeOrg;
+        }
+
+        public String getInvoiceCode() {
+            return invoiceCode;
+        }
+
+        public void setInvoiceCode(String invoiceCode) {
+            this.invoiceCode = invoiceCode;
+        }
+
+        public String getInvoiceNum() {
+            return invoiceNum;
+        }
+
+        public void setInvoiceNum(String invoiceNum) {
+            this.invoiceNum = invoiceNum;
+        }
+
+        public String getInvoiceCodeConfirm() {
+            return invoiceCodeConfirm;
+        }
+
+        public void setInvoiceCodeConfirm(String invoiceCodeConfirm) {
+            this.invoiceCodeConfirm = invoiceCodeConfirm;
+        }
+
+        public String getInvoiceNumConfirm() {
+            return invoiceNumConfirm;
+        }
+
+        public void setInvoiceNumConfirm(String invoiceNumConfirm) {
+            this.invoiceNumConfirm = invoiceNumConfirm;
+        }
+
+        public String getInvoiceNumDigit() {
+            return invoiceNumDigit;
+        }
+
+        public void setInvoiceNumDigit(String invoiceNumDigit) {
+            this.invoiceNumDigit = invoiceNumDigit;
+        }
+
+        public String getInvoiceTag() {
+            return invoiceTag;
+        }
+
+        public void setInvoiceTag(String invoiceTag) {
+            this.invoiceTag = invoiceTag;
+        }
+
+        public String getMachineNum() {
+            return machineNum;
+        }
+
+        public void setMachineNum(String machineNum) {
+            this.machineNum = machineNum;
+        }
+
+        public String getMachineCode() {
+            return machineCode;
+        }
+
+        public void setMachineCode(String machineCode) {
+            this.machineCode = machineCode;
+        }
+
+        public String getCheckCode() {
+            return checkCode;
+        }
+
+        public void setCheckCode(String checkCode) {
+            this.checkCode = checkCode;
+        }
+
+        public String getInvoiceDate() {
+            return invoiceDate;
+        }
+
+        public void setInvoiceDate(String invoiceDate) {
+            this.invoiceDate = invoiceDate;
+        }
+
+        public String getPurchaserName() {
+            return purchaserName;
+        }
+
+        public void setPurchaserName(String purchaserName) {
+            this.purchaserName = purchaserName;
+        }
+
+        public String getPurchaserRegisterNum() {
+            return purchaserRegisterNum;
+        }
+
+        public void setPurchaserRegisterNum(String purchaserRegisterNum) {
+            this.purchaserRegisterNum = purchaserRegisterNum;
+        }
+
+        public String getPurchaserAddress() {
+            return purchaserAddress;
+        }
+
+        public void setPurchaserAddress(String purchaserAddress) {
+            this.purchaserAddress = purchaserAddress;
+        }
+
+        public String getPurchaserBank() {
+            return purchaserBank;
+        }
+
+        public void setPurchaserBank(String purchaserBank) {
+            this.purchaserBank = purchaserBank;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getProvince() {
+            return province;
+        }
+
+        public void setProvince(String province) {
+            this.province = province;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getSheetNum() {
+            return sheetNum;
+        }
+
+        public void setSheetNum(String sheetNum) {
+            this.sheetNum = sheetNum;
+        }
+
+        public String getAgent() {
+            return agent;
+        }
+
+        public void setAgent(String agent) {
+            this.agent = agent;
+        }
+
+        public List<Detail> getDetails() {
+            return details;
+        }
+
+        public void setDetails(List<Detail> details) {
+            this.details = details;
+        }
+
+        public String getOnlinePay() {
+            return onlinePay;
+        }
+
+        public void setOnlinePay(String onlinePay) {
+            this.onlinePay = onlinePay;
+        }
+
+        public String getSellerName() {
+            return sellerName;
+        }
+
+        public void setSellerName(String sellerName) {
+            this.sellerName = sellerName;
+        }
+
+        public String getSellerRegisterNum() {
+            return sellerRegisterNum;
+        }
+
+        public void setSellerRegisterNum(String sellerRegisterNum) {
+            this.sellerRegisterNum = sellerRegisterNum;
+        }
+
+        public String getSellerAddress() {
+            return sellerAddress;
+        }
+
+        public void setSellerAddress(String sellerAddress) {
+            this.sellerAddress = sellerAddress;
+        }
+
+        public String getSellerBank() {
+            return sellerBank;
+        }
+
+        public void setSellerBank(String sellerBank) {
+            this.sellerBank = sellerBank;
+        }
+
+        public String getTotalAmount() {
+            return totalAmount;
+        }
+
+        public void setTotalAmount(String totalAmount) {
+            this.totalAmount = totalAmount;
+        }
+
+        public String getTotalTax() {
+            return totalTax;
+        }
+
+        public void setTotalTax(String totalTax) {
+            this.totalTax = totalTax;
+        }
+
+        public String getAmountInWords() {
+            return amountInWords;
+        }
+
+        public void setAmountInWords(String amountInWords) {
+            this.amountInWords = amountInWords;
+        }
+
+        public String getAmountInFigures() {
+            return amountInFigures;
+        }
+
+        public void setAmountInFigures(String amountInFigures) {
+            this.amountInFigures = amountInFigures;
+        }
+
+        public String getPayee() {
+            return payee;
+        }
+
+        public void setPayee(String payee) {
+            this.payee = payee;
+        }
+
+        public String getChecker() {
+            return checker;
+        }
+
+        public void setChecker(String checker) {
+            this.checker = checker;
+        }
+
+        public String getNoteDrawer() {
+            return noteDrawer;
+        }
+
+        public void setNoteDrawer(String noteDrawer) {
+            this.noteDrawer = noteDrawer;
+        }
+
+        public String getRemarks() {
+            return remarks;
+        }
+
+        public void setRemarks(String remarks) {
+            this.remarks = remarks;
+        }
+
+        public String getCompanySeal() {
+            return companySeal;
+        }
+
+        public void setCompanySeal(String companySeal) {
+            this.companySeal = companySeal;
+        }
+
+        public String getSealInfo() {
+            return sealInfo;
+        }
+
+        public void setSealInfo(String sealInfo) {
+            this.sealInfo = sealInfo;
+        }
+
+        public String getSupervisionSeal() {
+            return supervisionSeal;
+        }
+
+        public void setSupervisionSeal(String supervisionSeal) {
+            this.supervisionSeal = supervisionSeal;
+        }
+
+        public String getSupervisionSealInfo() {
+            return supervisionSealInfo;
+        }
+
+        public void setSupervisionSealInfo(String supervisionSealInfo) {
+            this.supervisionSealInfo = supervisionSealInfo;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null || getClass() != o.getClass()) return false;
+            if (!super.equals(o)) return false;
+            WordsResult that = (WordsResult) o;
+            return Objects.equals(serviceType, that.serviceType) && Objects.equals(invoiceType, that.invoiceType) && Objects.equals(invoiceTypeOrg, that.invoiceTypeOrg) && Objects.equals(invoiceCode, that.invoiceCode) && Objects.equals(invoiceNum, that.invoiceNum) && Objects.equals(invoiceCodeConfirm, that.invoiceCodeConfirm) && Objects.equals(invoiceNumConfirm, that.invoiceNumConfirm) && Objects.equals(invoiceNumDigit, that.invoiceNumDigit) && Objects.equals(invoiceTag, that.invoiceTag) && Objects.equals(machineNum, that.machineNum) && Objects.equals(machineCode, that.machineCode) && Objects.equals(checkCode, that.checkCode) && Objects.equals(invoiceDate, that.invoiceDate) && Objects.equals(purchaserName, that.purchaserName) && Objects.equals(purchaserRegisterNum, that.purchaserRegisterNum) && Objects.equals(purchaserAddress, that.purchaserAddress) && Objects.equals(purchaserBank, that.purchaserBank) && Objects.equals(password, that.password) && Objects.equals(province, that.province) && Objects.equals(city, that.city) && Objects.equals(sheetNum, that.sheetNum) && Objects.equals(agent, that.agent) && Objects.equals(details, that.details) && Objects.equals(onlinePay, that.onlinePay) && Objects.equals(sellerName, that.sellerName) && Objects.equals(sellerRegisterNum, that.sellerRegisterNum) && Objects.equals(sellerAddress, that.sellerAddress) && Objects.equals(sellerBank, that.sellerBank) && Objects.equals(totalAmount, that.totalAmount) && Objects.equals(totalTax, that.totalTax) && Objects.equals(amountInWords, that.amountInWords) && Objects.equals(amountInFigures, that.amountInFigures) && Objects.equals(payee, that.payee) && Objects.equals(checker, that.checker) && Objects.equals(noteDrawer, that.noteDrawer) && Objects.equals(remarks, that.remarks) && Objects.equals(companySeal, that.companySeal) && Objects.equals(sealInfo, that.sealInfo) && Objects.equals(supervisionSeal, that.supervisionSeal) && Objects.equals(supervisionSealInfo, that.supervisionSealInfo);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(super.hashCode(), serviceType, invoiceType, invoiceTypeOrg, invoiceCode, invoiceNum, invoiceCodeConfirm, invoiceNumConfirm, invoiceNumDigit, invoiceTag, machineNum, machineCode, checkCode, invoiceDate, purchaserName, purchaserRegisterNum, purchaserAddress, purchaserBank, password, province, city, sheetNum, agent, details, onlinePay, sellerName, sellerRegisterNum, sellerAddress, sellerBank, totalAmount, totalTax, amountInWords, amountInFigures, payee, checker, noteDrawer, remarks, companySeal, sealInfo, supervisionSeal, supervisionSealInfo);
+        }
+
+        @Override
+        public String toString() {
+            return "WordsResult{" +
+                    "serviceType='" + serviceType + '\'' +
+                    ", invoiceType='" + invoiceType + '\'' +
+                    ", invoiceTypeOrg='" + invoiceTypeOrg + '\'' +
+                    ", invoiceCode='" + invoiceCode + '\'' +
+                    ", invoiceNum='" + invoiceNum + '\'' +
+                    ", invoiceCodeConfirm='" + invoiceCodeConfirm + '\'' +
+                    ", invoiceNumConfirm='" + invoiceNumConfirm + '\'' +
+                    ", invoiceNumDigit='" + invoiceNumDigit + '\'' +
+                    ", invoiceTag='" + invoiceTag + '\'' +
+                    ", machineNum='" + machineNum + '\'' +
+                    ", machineCode='" + machineCode + '\'' +
+                    ", checkCode='" + checkCode + '\'' +
+                    ", invoiceDate='" + invoiceDate + '\'' +
+                    ", purchaserName='" + purchaserName + '\'' +
+                    ", purchaserRegisterNum='" + purchaserRegisterNum + '\'' +
+                    ", purchaserAddress='" + purchaserAddress + '\'' +
+                    ", purchaserBank='" + purchaserBank + '\'' +
+                    ", password='" + password + '\'' +
+                    ", province='" + province + '\'' +
+                    ", city='" + city + '\'' +
+                    ", sheetNum='" + sheetNum + '\'' +
+                    ", agent='" + agent + '\'' +
+                    ", details=" + details +
+                    ", onlinePay='" + onlinePay + '\'' +
+                    ", sellerName='" + sellerName + '\'' +
+                    ", sellerRegisterNum='" + sellerRegisterNum + '\'' +
+                    ", sellerAddress='" + sellerAddress + '\'' +
+                    ", sellerBank='" + sellerBank + '\'' +
+                    ", totalAmount='" + totalAmount + '\'' +
+                    ", totalTax='" + totalTax + '\'' +
+                    ", amountInWords='" + amountInWords + '\'' +
+                    ", amountInFigures='" + amountInFigures + '\'' +
+                    ", payee='" + payee + '\'' +
+                    ", checker='" + checker + '\'' +
+                    ", noteDrawer='" + noteDrawer + '\'' +
+                    ", remarks='" + remarks + '\'' +
+                    ", companySeal='" + companySeal + '\'' +
+                    ", sealInfo='" + sealInfo + '\'' +
+                    ", supervisionSeal='" + supervisionSeal + '\'' +
+                    ", supervisionSealInfo='" + supervisionSealInfo + '\'' +
+                    "} " + super.toString();
+        }
+
         public static class Detail {
             /**
              * 货物名称
@@ -275,6 +693,96 @@ public class VatInvoiceVo {
              * 税额
              */
             private String commodityTax;
+
+            public String getCommodityName() {
+                return commodityName;
+            }
+
+            public void setCommodityName(String commodityName) {
+                this.commodityName = commodityName;
+            }
+
+            public String getCommodityType() {
+                return commodityType;
+            }
+
+            public void setCommodityType(String commodityType) {
+                this.commodityType = commodityType;
+            }
+
+            public String getCommodityUnit() {
+                return commodityUnit;
+            }
+
+            public void setCommodityUnit(String commodityUnit) {
+                this.commodityUnit = commodityUnit;
+            }
+
+            public String getCommodityNum() {
+                return commodityNum;
+            }
+
+            public void setCommodityNum(String commodityNum) {
+                this.commodityNum = commodityNum;
+            }
+
+            public String getCommodityPrice() {
+                return commodityPrice;
+            }
+
+            public void setCommodityPrice(String commodityPrice) {
+                this.commodityPrice = commodityPrice;
+            }
+
+            public String getCommodityAmount() {
+                return commodityAmount;
+            }
+
+            public void setCommodityAmount(String commodityAmount) {
+                this.commodityAmount = commodityAmount;
+            }
+
+            public String getCommodityTaxRate() {
+                return commodityTaxRate;
+            }
+
+            public void setCommodityTaxRate(String commodityTaxRate) {
+                this.commodityTaxRate = commodityTaxRate;
+            }
+
+            public String getCommodityTax() {
+                return commodityTax;
+            }
+
+            public void setCommodityTax(String commodityTax) {
+                this.commodityTax = commodityTax;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (o == null || getClass() != o.getClass()) return false;
+                Detail detail = (Detail) o;
+                return Objects.equals(commodityName, detail.commodityName) && Objects.equals(commodityType, detail.commodityType) && Objects.equals(commodityUnit, detail.commodityUnit) && Objects.equals(commodityNum, detail.commodityNum) && Objects.equals(commodityPrice, detail.commodityPrice) && Objects.equals(commodityAmount, detail.commodityAmount) && Objects.equals(commodityTaxRate, detail.commodityTaxRate) && Objects.equals(commodityTax, detail.commodityTax);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(commodityName, commodityType, commodityUnit, commodityNum, commodityPrice, commodityAmount, commodityTaxRate, commodityTax);
+            }
+
+            @Override
+            public String toString() {
+                return "Detail{" +
+                        "commodityName='" + commodityName + '\'' +
+                        ", commodityType='" + commodityType + '\'' +
+                        ", commodityUnit='" + commodityUnit + '\'' +
+                        ", commodityNum='" + commodityNum + '\'' +
+                        ", commodityPrice='" + commodityPrice + '\'' +
+                        ", commodityAmount='" + commodityAmount + '\'' +
+                        ", commodityTaxRate='" + commodityTaxRate + '\'' +
+                        ", commodityTax='" + commodityTax + '\'' +
+                        '}';
+            }
         }
     }
 }

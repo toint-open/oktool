@@ -16,17 +16,20 @@
 
 package cn.toint.oktool.util;
 
-import lombok.extern.slf4j.Slf4j;
 import org.gavaghan.geodesy.GeodeticCurve;
 import org.gavaghan.geodesy.GlobalCoordinates;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Toint
  * @date 2025/7/19
  */
-@Slf4j
 public class GeoUtilTest {
+
+    private static final Logger log = LoggerFactory.getLogger(GeoUtilTest.class);
+
     @Test
     void calculateDistanceTest() {
         // 北京天安门

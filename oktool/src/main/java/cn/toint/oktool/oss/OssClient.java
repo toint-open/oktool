@@ -27,8 +27,6 @@ import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.common.comm.SignVersion;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import cn.hutool.v7.core.codec.binary.Base64;
 import cn.hutool.v7.core.date.DateTime;
@@ -51,13 +49,14 @@ import java.time.Duration;
  */
 public class OssClient {
 
-    @Getter
-    @Setter
-    private OssClientConfig config;
+    private final OssClientConfig config;
 
-    @Getter
-    @Setter
-    private OSSClient oss;
+    private final OSSClient oss;
+
+    public OssClient(OssClientConfig config, OSSClient oss) {
+        this.config = config;
+        this.oss = oss;
+    }
 
     public static OssClient of(OssClientConfig config) {
         Assert.notNull(config, "阿里云OSS配置信息不能为空");
@@ -80,10 +79,7 @@ public class OssClient {
         OSSClient oss = new OSSClient(endpoint, credentialsProvider, clientBuilderConfiguration);
         oss.setRegion(region);
 
-        OssClient ossClient = new OssClient();
-        ossClient.setConfig(config);
-        ossClient.setOss(oss);
-        return ossClient;
+        return new OssClient(config, oss);
     }
 
     /**

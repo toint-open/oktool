@@ -16,13 +16,12 @@
 
 package cn.toint.oktool.oss.model;
 
-import lombok.Data;
+import java.util.Objects;
 
 /**
  * @author Toint
  * @date 2025/7/14
  */
-@Data
 public class CalculatePostSignatureResponse {
     /**
      * 上传地址
@@ -31,7 +30,42 @@ public class CalculatePostSignatureResponse {
 
     private Form form;
 
-    @Data
+    public String getUploadUrl() {
+        return uploadUrl;
+    }
+
+    public void setUploadUrl(String uploadUrl) {
+        this.uploadUrl = uploadUrl;
+    }
+
+    public Form getForm() {
+        return form;
+    }
+
+    public void setForm(Form form) {
+        this.form = form;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        CalculatePostSignatureResponse that = (CalculatePostSignatureResponse) o;
+        return Objects.equals(uploadUrl, that.uploadUrl) && Objects.equals(form, that.form);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uploadUrl, form);
+    }
+
+    @Override
+    public String toString() {
+        return "CalculatePostSignatureResponse{" +
+                "uploadUrl='" + uploadUrl + '\'' +
+                ", form=" + form +
+                '}';
+    }
+
     public static class Form {
         /**
          * 签名
@@ -49,5 +83,59 @@ public class CalculatePostSignatureResponse {
          * 策略
          */
         private String policy;
+
+        public String getSignature() {
+            return signature;
+        }
+
+        public void setSignature(String signature) {
+            this.signature = signature;
+        }
+
+        public String getOssAccessKeyId() {
+            return ossAccessKeyId;
+        }
+
+        public void setOssAccessKeyId(String ossAccessKeyId) {
+            this.ossAccessKeyId = ossAccessKeyId;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getPolicy() {
+            return policy;
+        }
+
+        public void setPolicy(String policy) {
+            this.policy = policy;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null || getClass() != o.getClass()) return false;
+            Form form = (Form) o;
+            return Objects.equals(signature, form.signature) && Objects.equals(ossAccessKeyId, form.ossAccessKeyId) && Objects.equals(key, form.key) && Objects.equals(policy, form.policy);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(signature, ossAccessKeyId, key, policy);
+        }
+
+        @Override
+        public String toString() {
+            return "Form{" +
+                    "signature='" + signature + '\'' +
+                    ", ossAccessKeyId='" + ossAccessKeyId + '\'' +
+                    ", key='" + key + '\'' +
+                    ", policy='" + policy + '\'' +
+                    '}';
+        }
     }
 }

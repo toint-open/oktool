@@ -16,15 +16,41 @@
 
 package cn.toint.oktool.model;
 
-import lombok.Data;
-
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Toint
  * @date 2025/7/18
  */
-@Data
 public class DeleteRequest {
     private List<Long> ids;
+
+    public List<Long> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        DeleteRequest that = (DeleteRequest) o;
+        return Objects.equals(ids, that.ids);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(ids);
+    }
+
+
+    @Override
+    public String toString() {
+        return "DeleteRequest{" +
+                "ids=" + ids +
+                '}';
+    }
 }

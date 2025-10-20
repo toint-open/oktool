@@ -3,8 +3,9 @@ package cn.toint.oktool.util;
 import cn.hutool.v7.core.math.NumberUtil;
 import cn.hutool.v7.core.text.StrPool;
 import cn.hutool.v7.core.text.StrUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 
@@ -14,8 +15,10 @@ import java.math.BigDecimal;
  * @author Toint
  * @dete 2025/9/9
  */
-@Slf4j
 public class AmountUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(AmountUtil.class);
+
     /**
      * 金额转换数字
      *

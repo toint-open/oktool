@@ -16,20 +16,47 @@
 
 package cn.toint.oktool.spring.boot.cache;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.Objects;
 
 /**
  * @author Toint
  * @date 2025/7/4
  */
 @ConfigurationProperties("oktool.cache")
-@Data
 public class CacheProperties {
     /**
      * 缓存类型
      */
     private Type type = Type.AUTO;
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        CacheProperties that = (CacheProperties) o;
+        return type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(type);
+    }
+
+    @Override
+    public String toString() {
+        return "CacheProperties{" +
+                "type=" + type +
+                '}';
+    }
 
     public enum Type {
         AUTO, LOCAL, REDIS

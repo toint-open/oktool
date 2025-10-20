@@ -20,13 +20,13 @@ import cn.toint.oktool.util.Assert;
 import com.mybatisflex.core.FlexGlobalConfig;
 import com.mybatisflex.core.paginate.Page;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+
+import java.util.Objects;
 
 /**
  * @author Toint
  * @date 2025/7/12
  */
-@Data
 public class PageRequest {
     /**
      * 页码
@@ -53,5 +53,41 @@ public class PageRequest {
         }
 
         return new Page<>(pageNumber, pageSize);
+    }
+
+    public Long getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(Long pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public Long getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Long pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        PageRequest that = (PageRequest) o;
+        return Objects.equals(pageNumber, that.pageNumber) && Objects.equals(pageSize, that.pageSize);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pageNumber, pageSize);
+    }
+
+    @Override
+    public String toString() {
+        return "PageRequest{" +
+                "pageNumber=" + pageNumber +
+                ", pageSize=" + pageSize +
+                '}';
     }
 }

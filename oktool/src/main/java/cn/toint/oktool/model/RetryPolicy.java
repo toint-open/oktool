@@ -17,9 +17,9 @@
 package cn.toint.oktool.model;
 
 import jakarta.annotation.Nullable;
-import lombok.Getter;
 
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  * 重试策略
@@ -27,7 +27,6 @@ import java.time.Duration;
  * @author Toint
  * @date 2025/5/31
  */
-@Getter
 public class RetryPolicy {
     /**
      * 重试次数 (不包含首次执行, 小于1表示不重试, 但无论如何方法会执行1次)
@@ -79,5 +78,45 @@ public class RetryPolicy {
         this.intervalTime = intervalTime;
         this.exceptionClass = exceptionClass;
         this.printStackTrace = printStackTrace;
+    }
+
+    public int getRetrySize() {
+        return retrySize;
+    }
+
+    @Nullable
+    public Duration getIntervalTime() {
+        return intervalTime;
+    }
+
+    @Nullable
+    public Class<? extends Throwable> getExceptionClass() {
+        return exceptionClass;
+    }
+
+    public boolean isPrintStackTrace() {
+        return printStackTrace;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        RetryPolicy that = (RetryPolicy) o;
+        return retrySize == that.retrySize && printStackTrace == that.printStackTrace && Objects.equals(intervalTime, that.intervalTime) && Objects.equals(exceptionClass, that.exceptionClass);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(retrySize, intervalTime, exceptionClass, printStackTrace);
+    }
+
+    @Override
+    public String toString() {
+        return "RetryPolicy{" +
+                "retrySize=" + retrySize +
+                ", intervalTime=" + intervalTime +
+                ", exceptionClass=" + exceptionClass +
+                ", printStackTrace=" + printStackTrace +
+                '}';
     }
 }

@@ -19,7 +19,6 @@ package cn.toint.oktool.util;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -75,8 +74,31 @@ public class AssertTest {
 //        Assert.validate(pojo, "发生异常, 时间: {}", DateUtil.formatNow());
     }
 
-    @Data
     private static class Pojo {
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getAge() {
+            return age;
+        }
+
+        public void setAge(Integer age) {
+            this.age = age;
+        }
+
+        public Pojo getPojo() {
+            return pojo;
+        }
+
+        public void setPojo(Pojo pojo) {
+            this.pojo = pojo;
+        }
+
         @NotBlank
         private String name;
 

@@ -1,7 +1,6 @@
 package cn.toint.oktool.spring.boot.flextenant;
 
 import com.mybatisflex.core.tenant.TenantFactory;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -11,7 +10,6 @@ import java.util.List;
  * @author Toint
  * @dete 2025/10/12
  */
-@Slf4j
 public class FlexTenantFactory implements TenantFactory {
     @Override
     public Object[] getTenantIds() {

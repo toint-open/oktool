@@ -18,15 +18,14 @@ package cn.toint.oktool.oss.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  * @author Toint
  * @date 2025/7/15
  */
-@Data
 public class GeneratePresignedUrlRequest {
     @NotBlank
     private String bucketName;
@@ -42,4 +41,57 @@ public class GeneratePresignedUrlRequest {
      */
     private String cdnUrl;
 
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+    }
+
+    public String getObjectKey() {
+        return objectKey;
+    }
+
+    public void setObjectKey(String objectKey) {
+        this.objectKey = objectKey;
+    }
+
+    public Duration getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Duration timeout) {
+        this.timeout = timeout;
+    }
+
+    public String getCdnUrl() {
+        return cdnUrl;
+    }
+
+    public void setCdnUrl(String cdnUrl) {
+        this.cdnUrl = cdnUrl;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        GeneratePresignedUrlRequest that = (GeneratePresignedUrlRequest) o;
+        return Objects.equals(bucketName, that.bucketName) && Objects.equals(objectKey, that.objectKey) && Objects.equals(timeout, that.timeout) && Objects.equals(cdnUrl, that.cdnUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bucketName, objectKey, timeout, cdnUrl);
+    }
+
+    @Override
+    public String toString() {
+        return "GeneratePresignedUrlRequest{" +
+                "bucketName='" + bucketName + '\'' +
+                ", objectKey='" + objectKey + '\'' +
+                ", timeout=" + timeout +
+                ", cdnUrl='" + cdnUrl + '\'' +
+                '}';
+    }
 }

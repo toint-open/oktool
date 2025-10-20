@@ -16,15 +16,10 @@
 
 package cn.toint.oktool.oss.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * @author Toint
  * @date 2025/7/15
  */
-@Getter
-@AllArgsConstructor
 public enum RegionAndEndpointEnum {
     // ========== 公共云 - 亚太-中国 ==========
     HANG_ZHOU("cn-hangzhou", "oss-cn-hangzhou.aliyuncs.com", "oss-cn-hangzhou-internal.aliyuncs.com"),
@@ -79,4 +74,22 @@ public enum RegionAndEndpointEnum {
     private final String region;
     private final String endpoint;
     private final String internalEndpoint;
+
+    public String getRegion() {
+        return region;
+    }
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public String getInternalEndpoint() {
+        return internalEndpoint;
+    }
+
+    RegionAndEndpointEnum(String region, String endpoint, String internalEndpoint) {
+        this.region = region;
+        this.endpoint = endpoint;
+        this.internalEndpoint = internalEndpoint;
+    }
 }

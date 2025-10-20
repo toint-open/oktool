@@ -16,14 +16,13 @@
 
 package cn.toint.oktool.util;
 
-import cn.toint.oktool.exception.RetryException;
-import cn.toint.oktool.model.RetryPolicy;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-import lombok.extern.slf4j.Slf4j;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.collection.CollUtil;
 import cn.hutool.v7.core.thread.ThreadUtil;
+import cn.toint.oktool.exception.RetryException;
+import cn.toint.oktool.model.RetryPolicy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.*;
@@ -36,8 +35,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Toint
  * @date 2025/5/31
  */
-@Slf4j
 public class RetryUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(RetryUtil.class);
+
     /**
      * 重试机制
      *

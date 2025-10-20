@@ -8,18 +8,17 @@ import cn.toint.oktool.spring.boot.bdocr.util.InvoiceVerifyAmountUtil;
 import cn.toint.oktool.util.AmountUtil;
 import cn.toint.oktool.util.Assert;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author Toint
  * @dete 2025/9/9
  */
-@Data
 public class VatInvoiceVerificationRequest {
     /**
      * 发票代码。
@@ -160,5 +159,77 @@ public class VatInvoiceVerificationRequest {
             this.checkCode = subCheckCode;
         }
         return this;
+    }
+
+    public String getInvoiceCode() {
+        return invoiceCode;
+    }
+
+    public void setInvoiceCode(String invoiceCode) {
+        this.invoiceCode = invoiceCode;
+    }
+
+    public String getInvoiceNum() {
+        return invoiceNum;
+    }
+
+    public void setInvoiceNum(String invoiceNum) {
+        this.invoiceNum = invoiceNum;
+    }
+
+    public String getInvoiceDate() {
+        return invoiceDate;
+    }
+
+    public void setInvoiceDate(String invoiceDate) {
+        this.invoiceDate = invoiceDate;
+    }
+
+    public String getInvoiceType() {
+        return invoiceType;
+    }
+
+    public void setInvoiceType(String invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+
+    public String getCheckCode() {
+        return checkCode;
+    }
+
+    public void setCheckCode(String checkCode) {
+        this.checkCode = checkCode;
+    }
+
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        VatInvoiceVerificationRequest that = (VatInvoiceVerificationRequest) o;
+        return Objects.equals(invoiceCode, that.invoiceCode) && Objects.equals(invoiceNum, that.invoiceNum) && Objects.equals(invoiceDate, that.invoiceDate) && Objects.equals(invoiceType, that.invoiceType) && Objects.equals(checkCode, that.checkCode) && Objects.equals(totalAmount, that.totalAmount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(invoiceCode, invoiceNum, invoiceDate, invoiceType, checkCode, totalAmount);
+    }
+
+    @Override
+    public String toString() {
+        return "VatInvoiceVerificationRequest{" +
+                "invoiceCode='" + invoiceCode + '\'' +
+                ", invoiceNum='" + invoiceNum + '\'' +
+                ", invoiceDate='" + invoiceDate + '\'' +
+                ", invoiceType='" + invoiceType + '\'' +
+                ", checkCode='" + checkCode + '\'' +
+                ", totalAmount='" + totalAmount + '\'' +
+                '}';
     }
 }

@@ -25,8 +25,9 @@ import cn.toint.oktool.util.Assert;
 import com.mybatisflex.core.datasource.DataSourceKey;
 import com.mybatisflex.core.row.Db;
 import com.mybatisflex.core.util.SqlUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -43,8 +44,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Toint
  * @dete 2025/10/11
  */
-@Slf4j
 public class SqlScriptUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(SqlScriptUtil.class);
+
     /**
      * 执行SQL脚本
      *

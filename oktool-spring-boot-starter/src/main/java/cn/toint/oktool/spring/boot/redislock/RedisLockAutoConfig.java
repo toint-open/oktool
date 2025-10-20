@@ -18,7 +18,8 @@ package cn.toint.oktool.spring.boot.redislock;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -33,8 +34,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @AutoConfiguration
 @ConditionalOnClass(StringRedisTemplate.class)
 @ConditionalOnBean(StringRedisTemplate.class)
-@Slf4j
 public class RedisLockAutoConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(RedisLockAutoConfig.class);
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;

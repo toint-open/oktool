@@ -19,7 +19,8 @@ package cn.toint.oktool.spring.boot.cache;
 import cn.toint.oktool.spring.boot.cache.impl.LocalCacheImpl;
 import cn.toint.oktool.spring.boot.cache.impl.RedisCacheImpl;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -31,9 +32,10 @@ import org.springframework.util.ClassUtils;
  * @date 2025/7/4
  */
 @AutoConfiguration
-@Slf4j
 @EnableConfigurationProperties(CacheProperties.class)
 public class CacheAutoConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(CacheAutoConfig.class);
 
     @Resource
     private CacheProperties cacheProperties;

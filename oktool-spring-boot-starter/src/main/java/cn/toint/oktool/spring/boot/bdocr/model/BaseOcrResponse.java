@@ -1,14 +1,14 @@
 package cn.toint.oktool.spring.boot.bdocr.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
 
 /**
  * @author Toint
  * @dete 2025/9/9
  */
-@Data
 public class BaseOcrResponse {
     /**
      * 用于定位问题
@@ -34,5 +34,50 @@ public class BaseOcrResponse {
             throw new RuntimeException(errorMsg);
         }
         return (T) this;
+    }
+
+    public Long getLogId() {
+        return logId;
+    }
+
+    public void setLogId(Long logId) {
+        this.logId = logId;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseOcrResponse that = (BaseOcrResponse) o;
+        return Objects.equals(logId, that.logId) && Objects.equals(errorCode, that.errorCode) && Objects.equals(errorMsg, that.errorMsg);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(logId, errorCode, errorMsg);
+    }
+
+    @Override
+    public String toString() {
+        return "BaseOcrResponse{" +
+                "logId=" + logId +
+                ", errorCode='" + errorCode + '\'' +
+                ", errorMsg='" + errorMsg + '\'' +
+                '}';
     }
 }

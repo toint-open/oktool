@@ -16,8 +16,9 @@
 
 package cn.toint.oktool.util;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import java.util.concurrent.ExecutionException;
@@ -26,8 +27,10 @@ import java.util.concurrent.ExecutionException;
  * @author Toint
  * @date 2025/6/30
  */
-@Slf4j
 public class MdcUtilTest {
+
+    private static final Logger log = LoggerFactory.getLogger(MdcUtilTest.class);
+
     @Test
     void traceIdTest() throws InterruptedException, ExecutionException {
         // 主线程任务编号

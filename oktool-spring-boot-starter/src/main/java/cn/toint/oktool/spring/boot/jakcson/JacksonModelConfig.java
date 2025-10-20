@@ -19,7 +19,8 @@ package cn.toint.oktool.spring.boot.jakcson;
 import cn.toint.oktool.util.JacksonUtil;
 import com.fasterxml.jackson.databind.Module;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,8 +32,9 @@ import java.time.ZoneId;
  * @date 2025/7/4
  */
 @Configuration
-@Slf4j
 public class JacksonModelConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(JacksonModelConfig.class);
 
     @Resource
     private JacksonProperties jacksonProperties;

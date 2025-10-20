@@ -2,7 +2,8 @@ package cn.toint.oktool.spring.boot.flextenant;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.mybatisflex.core.tenant.TenantFactory;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -26,8 +27,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         HandlerInterceptor.class
 })
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET) // 仅在Servlet环境启用
-@Slf4j
 public class FlexTenantAutoConfig implements WebMvcConfigurer {
+
+    private static final Logger log = LoggerFactory.getLogger(FlexTenantAutoConfig.class);
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new FlexTenantInterceptor())

@@ -15,7 +15,13 @@
  */
 package cn.toint.oktool.util;
 
+import cn.hutool.v7.core.annotation.AnnotationUtil;
+import cn.hutool.v7.core.date.DateFormatPool;
 import cn.hutool.v7.core.func.LambdaUtil;
+import cn.hutool.v7.core.func.SerFunction;
+import cn.hutool.v7.core.lang.Assert;
+import cn.hutool.v7.core.reflect.FieldUtil;
+import cn.hutool.v7.core.text.StrUtil;
 import cn.toint.oktool.exception.JsonException;
 import cn.toint.oktool.model.FlexibleLocalDateTimeDeserializer;
 import cn.toint.oktool.model.SafeLongSerializer;
@@ -33,14 +39,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.annotation.Nullable;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import cn.hutool.v7.core.annotation.AnnotationUtil;
-import cn.hutool.v7.core.date.DateFormatPool;
-import cn.hutool.v7.core.func.SerFunction;
-import cn.hutool.v7.core.lang.Assert;
-import cn.hutool.v7.core.reflect.FieldUtil;
-import cn.hutool.v7.core.text.StrUtil;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -53,7 +52,6 @@ import java.util.Objects;
  * @author Toint
  * @date 2024/11/15
  */
-@Slf4j
 public class JacksonUtil {
 
     private static ObjectMapper objectMapper = JacksonUtil.initObjectMapper();

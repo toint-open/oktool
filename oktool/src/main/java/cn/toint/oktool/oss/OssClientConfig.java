@@ -21,13 +21,13 @@ import cn.toint.oktool.util.Assert;
 import com.aliyun.oss.ClientConfiguration;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+
+import java.util.Objects;
 
 /**
  * @author Toint
  * @date 2025/7/15
  */
-@Data
 public class OssClientConfig {
     @NotBlank
     private String accessKeyId;
@@ -64,5 +64,86 @@ public class OssClientConfig {
         this.region = regionAndEndpointEnum.getRegion();
         this.endpoint = regionAndEndpointEnum.getEndpoint();
         return this;
+    }
+
+    public String getAccessKeyId() {
+        return accessKeyId;
+    }
+
+    public void setAccessKeyId(String accessKeyId) {
+        this.accessKeyId = accessKeyId;
+    }
+
+    public String getSecretAccessKey() {
+        return secretAccessKey;
+    }
+
+    public void setSecretAccessKey(String secretAccessKey) {
+        this.secretAccessKey = secretAccessKey;
+    }
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public Integer getRequestTimeout() {
+        return requestTimeout;
+    }
+
+    public void setRequestTimeout(Integer requestTimeout) {
+        this.requestTimeout = requestTimeout;
+    }
+
+    public Integer getConnectionTimeout() {
+        return connectionTimeout;
+    }
+
+    public void setConnectionTimeout(Integer connectionTimeout) {
+        this.connectionTimeout = connectionTimeout;
+    }
+
+    public Integer getConnectionRequestTimeout() {
+        return connectionRequestTimeout;
+    }
+
+    public void setConnectionRequestTimeout(Integer connectionRequestTimeout) {
+        this.connectionRequestTimeout = connectionRequestTimeout;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        OssClientConfig that = (OssClientConfig) o;
+        return Objects.equals(accessKeyId, that.accessKeyId) && Objects.equals(secretAccessKey, that.secretAccessKey) && Objects.equals(endpoint, that.endpoint) && Objects.equals(region, that.region) && Objects.equals(requestTimeout, that.requestTimeout) && Objects.equals(connectionTimeout, that.connectionTimeout) && Objects.equals(connectionRequestTimeout, that.connectionRequestTimeout);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accessKeyId, secretAccessKey, endpoint, region, requestTimeout, connectionTimeout, connectionRequestTimeout);
+    }
+
+    @Override
+    public String toString() {
+        return "OssClientConfig{" +
+                "accessKeyId='" + accessKeyId + '\'' +
+                ", secretAccessKey='" + secretAccessKey + '\'' +
+                ", endpoint='" + endpoint + '\'' +
+                ", region='" + region + '\'' +
+                ", requestTimeout=" + requestTimeout +
+                ", connectionTimeout=" + connectionTimeout +
+                ", connectionRequestTimeout=" + connectionRequestTimeout +
+                '}';
     }
 }

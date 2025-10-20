@@ -16,18 +16,17 @@
 
 package cn.toint.oktool.spring.boot.model;
 
+import cn.hutool.v7.core.data.id.IdUtil;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
-import lombok.Data;
-import cn.hutool.v7.core.data.id.IdUtil;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author Toint
  * @date 2025/7/12
  */
-@Data
 public class BaseDo {
     @Id
     private Long id;
@@ -93,5 +92,50 @@ public class BaseDo {
     public BaseDo freshUpdateTime() {
         setUpdateTime(LocalDateTime.now());
         return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseDo baseDo = (BaseDo) o;
+        return Objects.equals(id, baseDo.id) && Objects.equals(createTime, baseDo.createTime) && Objects.equals(updateTime, baseDo.updateTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, createTime, updateTime);
+    }
+
+    @Override
+    public String toString() {
+        return "BaseDo{" +
+                "id=" + id +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

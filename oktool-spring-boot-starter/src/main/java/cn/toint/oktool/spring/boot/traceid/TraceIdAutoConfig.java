@@ -1,6 +1,7 @@
 package cn.toint.oktool.spring.boot.traceid;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -19,8 +20,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @AutoConfiguration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET) // 仅在Servlet环境启用
 @ConditionalOnClass({DispatcherServlet.class, HandlerInterceptor.class})
-@Slf4j
 public class TraceIdAutoConfig implements WebMvcConfigurer {
+
+    private static final Logger log = LoggerFactory.getLogger(TraceIdAutoConfig.class);
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TraceIdInterceptor())

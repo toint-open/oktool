@@ -5,7 +5,6 @@ import com.mybatisflex.core.audit.AuditManager;
 import com.mybatisflex.core.audit.ConsoleMessageCollector;
 import com.mybatisflex.spring.boot.MyBatisFlexCustomizer;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -18,7 +17,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @AutoConfiguration
 @ConditionalOnClass(MyBatisFlexCustomizer.class)
 @ConditionalOnMissingBean(MyBatisFlexCustomizer.class)
-@Slf4j
 @EnableConfigurationProperties(FlexCustomizerProperties.class)
 public class FlexCustomizerAutoConfig implements MyBatisFlexCustomizer {
 
