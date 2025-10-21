@@ -307,7 +307,22 @@ public class ScopedValueUtil {
     }
 
     /**
-     * 判断指定的 ScopedValue 是否已绑定
+     * 安全判断指定的 {@link ScopedValue} 是否已绑定到当前线程的上下文。
+     *
+     * <p>此方法提供空安全检查，避免直接调用 {@code scopedValue.isBound()} 时可能出现的 {@code NullPointerException}。</p>
+     *
+     * <p>典型使用场景：</p>
+     * <pre>{@code
+     * if (ScopedValueUtils.isBound(CONTEXT_KEY)) {
+     *     // 已绑定时执行逻辑
+     * }
+     * }</pre>
+     *
+     * @param <V>         ScopedValue 的泛型类型
+     * @param scopedValue 要检查的 {@link ScopedValue} 实例，允许为 {@code null}
+     * @return {@code true} 如果 {@code scopedValue} 非空且已绑定到当前线程；
+     * {@code false} 如果 {@code scopedValue} 为 {@code null} 或未绑定
+     * @see ScopedValue#isBound()
      */
     public static <V> boolean isBound(ScopedValue<V> scopedValue) {
         return scopedValue != null && scopedValue.isBound();
