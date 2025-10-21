@@ -2,6 +2,7 @@ package cn.toint.oktool.spring.boot.satoken;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
+import cn.dev33.satoken.exception.NotRoleException;
 import cn.toint.oktool.model.ErrCode;
 import cn.toint.oktool.model.Response;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class SaTokenExceptionHandler {
+
     private static final Logger log = LoggerFactory.getLogger(SaTokenExceptionHandler.class);
 
     @ExceptionHandler
@@ -26,6 +28,12 @@ public class SaTokenExceptionHandler {
     @ExceptionHandler
     public Response<Void> notPermissionException(NotPermissionException e) {
         log.warn(e.getMessage());
+        return Response.fail(ErrCode.NOT_PERMISSION.getCode(), ErrCode.NOT_PERMISSION.getMsg());
+    }
+
+    @ExceptionHandler(NotRoleException.class)
+    public Response<Void> exception(NotRoleException e) {
+        log.error(e.getMessage());
         return Response.fail(ErrCode.NOT_PERMISSION.getCode(), ErrCode.NOT_PERMISSION.getMsg());
     }
 }
