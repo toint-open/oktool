@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.spring.boot.traceid;
+package cn.toint.oktool.spring.boot.trace;
 
 import cn.hutool.v7.core.data.id.IdUtil;
 import cn.toint.oktool.spring.boot.content.OkContentHolder;
@@ -27,15 +27,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
- * 请求任务编号拦截器
- * 可多线程传递任务编号
+ * 任务追踪拦截器
  *
  * @author Toint
- * @since 2025/6/30
+ * @since 2025/10/21
  */
-public class TraceIdInterceptor implements HandlerInterceptor {
+public class TraceInterceptor implements HandlerInterceptor {
 
-    private static final Logger log = LoggerFactory.getLogger(TraceIdInterceptor.class);
+    private static final Logger log = LoggerFactory.getLogger(TraceInterceptor.class);
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {

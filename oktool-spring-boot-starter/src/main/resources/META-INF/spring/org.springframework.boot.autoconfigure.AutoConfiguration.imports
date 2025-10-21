@@ -19,7 +19,7 @@ cn.toint.oktool.spring.boot.jakcson.JacksonAutoConfig
 # redis分布式锁
 cn.toint.oktool.spring.boot.redislock.RedisLockAutoConfig
 # 请求任务编号
-cn.toint.oktool.spring.boot.traceid.TraceIdAutoConfig
+cn.toint.oktool.spring.boot.trace.TraceAutoConfig
 # MyBatisFlex租户
 cn.toint.oktool.spring.boot.flextenant.FlexTenantAutoConfig
 # MyBatisFlex自定义配置

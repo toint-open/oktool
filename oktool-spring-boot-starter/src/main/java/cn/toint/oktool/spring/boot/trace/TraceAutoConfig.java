@@ -1,4 +1,4 @@
-package cn.toint.oktool.spring.boot.traceid;
+package cn.toint.oktool.spring.boot.trace;
 
 import cn.toint.oktool.spring.boot.constant.OrderConstant;
 import org.slf4j.Logger;
@@ -16,14 +16,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @AutoConfiguration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET) // 仅在Servlet环境启用
-public class TraceIdAutoConfig implements WebMvcConfigurer {
-    private static final Logger log = LoggerFactory.getLogger(TraceIdAutoConfig.class);
+public class TraceAutoConfig implements WebMvcConfigurer {
+
+    private static final Logger log = LoggerFactory.getLogger(TraceAutoConfig.class);
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new TraceIdInterceptor())
+        registry.addInterceptor(new TraceInterceptor())
                 .addPathPatterns("/**")
-                .order(OrderConstant.TRACE_ID_INTERCEPTOR_ORDER);
-        log.info("TraceIdInterceptor-任务编号拦截器已开启. path: {}, order: {}", "/**", OrderConstant.TRACE_ID_INTERCEPTOR_ORDER);
+                .order(OrderConstant.TRACE_INTERCEPTOR_ORDER);
+        log.info("TraceInterceptor-任务追踪拦截器已开启. path: {}, order: {}", "/**", OrderConstant.TRACE_INTERCEPTOR_ORDER);
     }
 }

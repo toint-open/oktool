@@ -213,10 +213,6 @@ public class OkContentHolder {
      */
     public static String getTraceId() {
         String value = MDC.get(TRACE_ID_NAME);
-        if (StringUtils.isNotBlank(value)) {
-            return value;
-        } else {
-            return get(TRACE_ID_NAME);
-        }
+        return StringUtils.isBlank(value) ? get(TRACE_ID_NAME) : value;
     }
 }
