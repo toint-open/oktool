@@ -22,6 +22,7 @@ import cn.hutool.v7.http.client.ClientConfig;
 import cn.hutool.v7.http.client.engine.ClientEngine;
 import cn.hutool.v7.http.client.engine.ClientEngineFactory;
 import cn.hutool.v7.http.client.engine.jdk.JdkClientEngine;
+import cn.hutool.v7.http.client.engine.okhttp.OkHttpEngine;
 
 import java.time.Duration;
 
@@ -30,18 +31,22 @@ import java.time.Duration;
  * @since 2025/5/25
  */
 public class HttpClientUtil {
+
+    private static final Duration DEFAULT_GLOBAL_TIMEOUT = Duration.ofSeconds(30);
+    private static final Class<? extends ClientEngine> DEFAULT_CLIENT_ENGINE = OkHttpEngine.class;
+
     /**
      * 创建 http 客户端
      *
-     * @param clientEngineClass 客户端(可选), 默认: {@link JdkClientEngine}
-     * @param clientConfig      客户端配置(可选), 默认超时时间: 10s
+     * @param clientEngineClass 客户端(可选), 默认: {@link HttpClientUtil#DEFAULT_CLIENT_ENGINE}
+     * @param clientConfig      客户端配置(可选), 默认超时时间: {@link HttpClientUtil#DEFAULT_GLOBAL_TIMEOUT}
      * @return 单例 http 客户端
      */
     @SuppressWarnings("resource")
     public static ClientEngine clientEngine(Class<? extends ClientEngine> clientEngineClass, ClientConfig clientConfig) {
         // 全局超时时间
         if (HttpGlobalConfig.getTimeout() <= 0) {
-            HttpGlobalConfig.setTimeout(Math.toIntExact(Duration.ofSeconds(10).toMillis()));
+            HttpGlobalConfig.setTimeout((int) DEFAULT_GLOBAL_TIMEOUT.toMillis());
         }
 
         if (clientConfig == null) {
@@ -57,7 +62,7 @@ public class HttpClientUtil {
         }
 
         if (clientEngineClass == null) {
-            clientEngineClass = JdkClientEngine.class;
+            clientEngineClass = DEFAULT_CLIENT_ENGINE;
         }
 
         return ClientEngineFactory.createEngine(clientEngineClass.getName()).init(clientConfig);
@@ -74,31 +79,36 @@ public class HttpClientUtil {
 
     /**
      * 初始化全局配置
-     * 客户端配置, 默认超时时间: 10s
-     * 全局超时时间, 默认: 10s
      *
-     * @param clientEngineClass 客户端(可选), 默认 {@link JdkClientEngine}
+     * <li>客户端默认超时时间: {@link HttpClientUtil#DEFAULT_GLOBAL_TIMEOUT}</li>
+     * <li>全局超时时间: {@link HttpClientUtil#DEFAULT_GLOBAL_TIMEOUT}</li>
+     * <li>客户端类型: {@link HttpClientUtil#DEFAULT_CLIENT_ENGINE}</li>
+     */
+    public static void initGlobalConfig() {
+        initGlobalConfig(null);
+    }
+
+    /**
+     * 初始化全局配置
+     *
+     * <li>客户端默认超时时间: {@link HttpClientUtil#DEFAULT_GLOBAL_TIMEOUT}</li>
+     * <li>全局超时时间: {@link HttpClientUtil#DEFAULT_GLOBAL_TIMEOUT}</li>
+     * <li>客户端类型: {@link HttpClientUtil#DEFAULT_CLIENT_ENGINE}</li>
+     *
+     * @param clientEngineClass 客户端(可选), 默认 {@link OkHttpEngine}
      */
     public static void initGlobalConfig(Class<? extends ClientEngine> clientEngineClass) {
-        // 创建并覆盖全局单例客户端
-        ClientEngine clientEngine = HttpClientUtil.clientEngine(clientEngineClass, null);
-        Singleton.put(ClientEngine.class.getName(), clientEngine);
+        initGlobalConfig(clientEngineClass, null, null);
     }
 
     /**
      * 初始化全局配置
      *
      * @param clientEngineClass 客户端(可选), 允许 null, 默认 {@link JdkClientEngine}
-     * @param clientConfig      客户端配置(可选), 默认超时时间: 10s
-     * @param globalTimeout     全局超时时间(可选), 默认: 10s
+     * @param clientConfig      客户端配置(可选), 默认超时时间: 30s
+     * @param globalTimeout     全局超时时间(可选), 默认: 30s
      */
     public static void initGlobalConfig(Class<? extends ClientEngine> clientEngineClass, ClientConfig clientConfig, Duration globalTimeout) {
-        // 全局超时时间
-        if (globalTimeout == null || globalTimeout.toSeconds() <= 0) {
-            globalTimeout = Duration.ofSeconds(10);
-        }
-        HttpGlobalConfig.setTimeout(Math.toIntExact(globalTimeout.toMillis()));
-
         // 创建并覆盖全局单例客户端
         ClientEngine clientEngine = HttpClientUtil.clientEngine(clientEngineClass, clientConfig);
         Singleton.put(ClientEngine.class.getName(), clientEngine);
