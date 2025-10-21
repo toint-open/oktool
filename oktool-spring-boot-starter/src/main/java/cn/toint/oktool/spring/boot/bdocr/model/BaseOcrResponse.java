@@ -1,5 +1,6 @@
 package cn.toint.oktool.spring.boot.bdocr.model;
 
+import cn.toint.oktool.spring.boot.bdocr.exception.BdOcrLimitException;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 
@@ -30,10 +31,18 @@ public class BaseOcrResponse {
 
     @SuppressWarnings("unchecked")
     public <T> T checkStatus() {
-        if (StringUtils.isNotBlank(errorCode)) {
+        // 错误码为空, 说明响应正常
+        if (StringUtils.isBlank(errorCode)) {
+            return (T) this;
+        }
+
+        if ("18".equals(errorCode)) {
+            // QPS频率限制
+            throw new BdOcrLimitException(errorMsg);
+        } else {
+            // 其他错误
             throw new RuntimeException(errorMsg);
         }
-        return (T) this;
     }
 
     public Long getLogId() {
