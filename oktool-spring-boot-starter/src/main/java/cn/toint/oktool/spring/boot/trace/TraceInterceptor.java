@@ -17,7 +17,7 @@
 package cn.toint.oktool.spring.boot.trace;
 
 import cn.hutool.v7.core.data.id.IdUtil;
-import cn.toint.oktool.spring.boot.content.OkContentHolder;
+import cn.toint.oktool.spring.boot.context.OkContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class TraceInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
         // 初始化任务ID
-        OkContentHolder.setTraceId(IdUtil.fastSimpleUUID());
+        OkContext.setTraceId(IdUtil.fastSimpleUUID());
         return true;
     }
 

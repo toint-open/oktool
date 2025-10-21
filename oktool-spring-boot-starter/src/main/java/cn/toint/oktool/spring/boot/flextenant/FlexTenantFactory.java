@@ -1,6 +1,6 @@
 package cn.toint.oktool.spring.boot.flextenant;
 
-import cn.toint.oktool.spring.boot.content.OkContentHolder;
+import cn.toint.oktool.spring.boot.context.OkContext;
 import com.mybatisflex.core.tenant.TenantFactory;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class FlexTenantFactory implements TenantFactory {
     @Override
     public Object[] getTenantIds(String tableName) {
         // 获取当前上下文的用户ID
-        List<Object> tenantIds = OkContentHolder.getTenantIds();
+        List<Object> tenantIds = OkContext.getTenantIds();
         if (tenantIds == null) {
             return null;
         } else {

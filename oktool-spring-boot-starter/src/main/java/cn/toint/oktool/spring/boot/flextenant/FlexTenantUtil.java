@@ -1,7 +1,7 @@
 //package cn.toint.oktool.spring.boot.flextenant;
 //
 //
-//import cn.toint.oktool.spring.boot.content.OkContentHolder;
+//import cn.toint.oktool.spring.boot.content.OkContextHolder;
 //
 //import java.util.List;
 //import java.util.function.Supplier;
@@ -21,8 +21,8 @@
 //     * @param runnable  执行方法
 //     */
 //    public static void runWithContext(List<Object> tenantIds, Runnable runnable) {
-//        OkContentHolder.runWithNewContext(() -> {
-//            OkContentHolder.setTenantIds(tenantIds);
+//        OkContextHolder.runWithNewContext(() -> {
+//            OkContextHolder.setTenantIds(tenantIds);
 //            runnable.run();
 //        });
 //    }
@@ -35,8 +35,8 @@
 //     * @return 执行结果
 //     */
 //    public static <T> T callWithContext(List<Object> tenantIds, Supplier<T> supplier) {
-//        return OkContentHolder.callWithNewContext(() -> {
-//            OkContentHolder.setTenantIds(tenantIds);
+//        return OkContextHolder.callWithNewContext(() -> {
+//            OkContextHolder.setTenantIds(tenantIds);
 //            return supplier.get();
 //        });
 //    }

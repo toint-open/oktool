@@ -1,5 +1,7 @@
 package cn.toint.oktool.spring.boot.constant;
 
+import org.springframework.core.Ordered;
+
 /**
  * 顺序常量
  *
@@ -9,6 +11,11 @@ package cn.toint.oktool.spring.boot.constant;
 public class OrderConstant {
 
     public static final int DEFAULT_ORDER = -1000;
+
+    /**
+     * OkContextFilter-上下文过滤器
+     */
+    public static final int OK_CONTEXT_FILTER_ORDER = Ordered.HIGHEST_PRECEDENCE;
 
     /**
      * TraceInterceptor-任务追踪拦截器

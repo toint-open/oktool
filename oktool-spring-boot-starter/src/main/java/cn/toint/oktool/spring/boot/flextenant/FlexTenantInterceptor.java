@@ -1,7 +1,7 @@
 package cn.toint.oktool.spring.boot.flextenant;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.toint.oktool.spring.boot.content.OkContentHolder;
+import cn.toint.oktool.spring.boot.context.OkContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class FlexTenantInterceptor implements HandlerInterceptor {
         // 注意: 即使用户使用了satoken的@SaIgnore注解, 任然不会影响这里获取用户信息
         Object loginId = StpUtil.getLoginIdDefaultNull();
         if (loginId != null) {
-            OkContentHolder.setTenantIds(List.of(loginId));
+            OkContext.setTenantIds(List.of(loginId));
         }
         return true;
     }

@@ -1,4 +1,4 @@
-package cn.toint.oktool.spring.boot.content;
+package cn.toint.oktool.spring.boot.context;
 
 import cn.hutool.v7.http.meta.ContentType;
 import cn.hutool.v7.http.server.servlet.ServletUtil;
@@ -18,15 +18,15 @@ import java.nio.charset.StandardCharsets;
  * @author Toint
  * @since 2025/10/21
  */
-public class OkContentFilter implements Filter {
+public class OkContextFilter implements Filter {
 
-    private static final Logger log = LoggerFactory.getLogger(OkContentFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(OkContextFilter.class);
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        OkContentHolder.runWithNewContext(() -> {
+        OkContext.runWithNewContext(() -> {
             try {
                 chain.doFilter(request, response);
             } catch (Exception e) {
@@ -39,7 +39,7 @@ public class OkContentFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("OkContentFilter-上下文过滤器初始化成功 (基于ScopedValue)");
+        log.info("OkContextFilter-上下文过滤器初始化成功 (基于ScopedValue)");
     }
 
     /**
