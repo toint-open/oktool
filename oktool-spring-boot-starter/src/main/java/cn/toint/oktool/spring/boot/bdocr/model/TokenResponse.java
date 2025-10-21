@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * @author Toint
- * @date 2025/9/8
+ * @since 2025/9/8
  */
 public class TokenResponse {
     public String getAccessToken() {

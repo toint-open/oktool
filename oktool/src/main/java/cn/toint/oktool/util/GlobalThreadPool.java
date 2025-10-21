@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 
 /**
  * @author Toint
- * @date 2025/6/30
+ * @since 2025/6/30
  */
 public class GlobalThreadPool {
     static {

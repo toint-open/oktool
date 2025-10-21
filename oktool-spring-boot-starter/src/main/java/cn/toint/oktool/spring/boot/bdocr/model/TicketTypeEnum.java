@@ -4,7 +4,7 @@ package cn.toint.oktool.spring.boot.bdocr.model;
  * 票据类型
  *
  * @author Toint
- * @date 2025/9/8
+ * @since 2025/9/8
  */
 public enum TicketTypeEnum {
     /**

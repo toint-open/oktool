@@ -8,7 +8,7 @@ import java.util.Objects;
  * 百度ocr配置
  *
  * @author Toint
- * @date 2025/9/7
+ * @since 2025/9/7
  */
 public class BdOcrClientConfig {
     @NotBlank

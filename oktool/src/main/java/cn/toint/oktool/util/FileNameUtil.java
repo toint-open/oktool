@@ -4,7 +4,7 @@ import cn.hutool.v7.core.text.StrUtil;
 
 /**
  * @author Toint
- * @date 2025/9/10
+ * @since 2025/9/10
  */
 public class FileNameUtil extends cn.hutool.v7.core.io.file.FileNameUtil {
     /**

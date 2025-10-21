@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Toint
- * @date 2025/9/10
+ * @since 2025/9/10
  */
 public class KkFileViewUtil {
     /**

@@ -20,7 +20,7 @@ import cn.hutool.v7.core.text.StrUtil;
 
 /**
  * @author Toint
- * @date 2025/5/30
+ * @since 2025/5/30
  */
 public class ExceptionUtil {
     public static RuntimeException wrapRuntimeException(final String msgTemplate, final Object... params) {

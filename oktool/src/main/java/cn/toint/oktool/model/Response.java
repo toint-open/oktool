@@ -17,14 +17,13 @@
 package cn.toint.oktool.model;
 
 import cn.hutool.v7.core.date.SystemClock;
-import cn.toint.oktool.constant.ResponseConstant;
-import cn.toint.oktool.util.MdcUtil;
+import org.slf4j.MDC;
 
 import java.util.Objects;
 
 /**
  * @author Toint
- * @date 2025/7/12
+ * @since 2025/7/12
  */
 public class Response<T> implements WriteValue {
     private Integer code;
@@ -35,41 +34,41 @@ public class Response<T> implements WriteValue {
 
     private Long timestamp = SystemClock.now();
 
-    private String traceId = MdcUtil.getTraceId();
+    private String traceId = MDC.get("traceId");
 
     public static <T> Response<T> success() {
         Response<T> response = new Response<>();
-        response.setCode(ResponseConstant.successCode);
-        response.setMsg(ResponseConstant.successMsg);
+        response.setCode(ErrCode.SUCCESS.getCode());
+        response.setMsg(ErrCode.SUCCESS.getMsg());
         return response;
     }
 
     public static <T> Response<T> success(T data) {
         Response<T> response = new Response<>();
-        response.setCode(ResponseConstant.successCode);
-        response.setMsg(ResponseConstant.successMsg);
+        response.setCode(ErrCode.SUCCESS.getCode());
+        response.setMsg(ErrCode.SUCCESS.getMsg());
         response.setData(data);
         return response;
     }
 
     public static <T> Response<T> fail() {
         Response<T> response = new Response<>();
-        response.setCode(ResponseConstant.failCode);
-        response.setMsg(ResponseConstant.failMsg);
+        response.setCode(ErrCode.FAIL.getCode());
+        response.setMsg(ErrCode.FAIL.getMsg());
         return response;
     }
 
     public static <T> Response<T> fail(T data) {
         Response<T> response = new Response<>();
-        response.setCode(ResponseConstant.failCode);
-        response.setMsg(ResponseConstant.failMsg);
+        response.setCode(ErrCode.FAIL.getCode());
+        response.setMsg(ErrCode.FAIL.getMsg());
         response.setData(data);
         return response;
     }
 
     public static <T> Response<T> fail(String message) {
         Response<T> response = new Response<>();
-        response.setCode(ResponseConstant.failCode);
+        response.setCode(ErrCode.FAIL.getCode());
         response.setMsg(message);
         return response;
     }

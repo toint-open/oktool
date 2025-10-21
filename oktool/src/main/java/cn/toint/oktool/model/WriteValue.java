@@ -23,7 +23,7 @@ import java.io.Serializable;
  * 实现本接口, 默认拥有 {@link #toJsonString} 和 {@link #toJsonBytes()} 方法
  *
  * @author Toint
- * @date 2025/1/15
+ * @since 2025/1/15
  */
 public interface WriteValue extends Serializable {
 

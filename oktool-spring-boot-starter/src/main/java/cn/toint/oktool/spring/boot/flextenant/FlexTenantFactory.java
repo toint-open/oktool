@@ -1,5 +1,6 @@
 package cn.toint.oktool.spring.boot.flextenant;
 
+import cn.toint.oktool.spring.boot.content.OkContentHolder;
 import com.mybatisflex.core.tenant.TenantFactory;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * mybatis-flex租户工厂
  *
  * @author Toint
- * @date 2025/10/12
+ * @since 2025/10/12
  */
 public class FlexTenantFactory implements TenantFactory {
     @Override
@@ -25,7 +26,7 @@ public class FlexTenantFactory implements TenantFactory {
     @Override
     public Object[] getTenantIds(String tableName) {
         // 获取当前上下文的用户ID
-        List<Object> tenantIds = FlexTenantContextHolder.getTenantIds();
+        List<Object> tenantIds = OkContentHolder.getTenantIds();
         if (tenantIds == null) {
             return null;
         } else {

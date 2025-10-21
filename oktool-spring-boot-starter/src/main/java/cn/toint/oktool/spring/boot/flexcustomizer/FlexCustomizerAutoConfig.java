@@ -11,8 +11,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
+ * MyBatisFlex自定义配置
+ *
  * @author Toint
- * @date 2025/10/13
+ * @since 2025/10/13
  */
 @AutoConfiguration
 @ConditionalOnClass(MyBatisFlexCustomizer.class)

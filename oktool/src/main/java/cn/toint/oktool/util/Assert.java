@@ -29,7 +29,7 @@ import java.util.*;
  * 断言工具
  *
  * @author Toint
- * @date 2025/5/28
+ * @since 2025/5/28
  */
 public class Assert {
 

@@ -22,7 +22,7 @@ import java.util.Objects;
 
 /**
  * @author Toint
- * @date 2025/7/4
+ * @since 2025/7/4
  */
 @ConfigurationProperties(prefix = "oktool.jackson")
 public class JacksonProperties {

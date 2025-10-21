@@ -17,7 +17,7 @@ import java.util.Objects;
 
 /**
  * @author Toint
- * @date 2025/9/9
+ * @since 2025/9/9
  */
 public class VatInvoiceVerificationRequest {
     /**

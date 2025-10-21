@@ -29,7 +29,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * redis分布式锁自动配置
  *
  * @author Toint
- * @date 2025/10/12
+ * @since 2025/10/12
  */
 @AutoConfiguration
 @ConditionalOnClass(StringRedisTemplate.class)

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * 智能财务票据识别工具
  *
  * @author Toint
- * @date 2025/9/8
+ * @since 2025/9/8
  */
 public class MultipleInvoiceUtil {
     /**

@@ -22,7 +22,7 @@ import java.util.Objects;
 
 /**
  * @author Toint
- * @date 2025/3/18
+ * @since 2025/3/18
  */
 public class PublicIpInfo {
     /**

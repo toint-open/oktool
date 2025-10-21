@@ -30,7 +30,7 @@ import java.math.RoundingMode;
  * <p>坐标系转换可使用{@link CoordinateTransformUtil}</p>
  *
  * @author Toint
- * @date 2025/7/19
+ * @since 2025/7/19
  */
 public class GeoUtil {
 

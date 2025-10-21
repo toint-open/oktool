@@ -50,7 +50,7 @@ import java.util.Objects;
 
 /**
  * @author Toint
- * @date 2024/11/15
+ * @since 2024/11/15
  */
 public class JacksonUtil {
 

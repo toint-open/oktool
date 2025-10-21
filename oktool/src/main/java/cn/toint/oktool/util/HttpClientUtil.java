@@ -27,7 +27,7 @@ import java.time.Duration;
 
 /**
  * @author Toint
- * @date 2025/5/25
+ * @since 2025/5/25
  */
 public class HttpClientUtil {
     /**

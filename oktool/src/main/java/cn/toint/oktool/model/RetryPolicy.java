@@ -25,7 +25,7 @@ import java.util.Objects;
  * 重试策略
  *
  * @author Toint
- * @date 2025/5/31
+ * @since 2025/5/31
  */
 public class RetryPolicy {
     /**

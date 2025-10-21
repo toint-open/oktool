@@ -18,7 +18,7 @@ package cn.toint.oktool.oss.model;
 
 /**
  * @author Toint
- * @date 2025/7/15
+ * @since 2025/7/15
  */
 public enum RegionAndEndpointEnum {
     // ========== 公共云 - 亚太-中国 ==========

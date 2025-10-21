@@ -45,7 +45,7 @@ import java.time.Duration;
  * 一个客户端可以操作当前地域下的所有存储桶.
  *
  * @author Toint
- * @date 2025/7/14
+ * @since 2025/7/14
  */
 public class OssClient {
 

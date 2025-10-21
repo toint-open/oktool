@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
  * jackson自动配置
  *
  * @author Toint
- * @date 2025/10/12
+ * @since 2025/10/12
  */
 @AutoConfiguration
 @EnableConfigurationProperties(JacksonProperties.class)

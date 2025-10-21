@@ -28,8 +28,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.util.ClassUtils;
 
 /**
+ * 缓存自动配置
+ *
  * @author Toint
- * @date 2025/7/4
+ * @since 2025/7/4
  */
 @AutoConfiguration
 @EnableConfigurationProperties(CacheProperties.class)

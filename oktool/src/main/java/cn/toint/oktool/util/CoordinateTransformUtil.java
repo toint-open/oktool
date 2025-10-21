@@ -22,7 +22,7 @@ import org.gavaghan.geodesy.GlobalCoordinates;
  * 百度坐标（BD09）、国测局坐标（火星坐标，GCJ02）、和WGS84坐标系之间的转换的工具
  *
  * @author Toint
- * @date 2025/7/19
+ * @since 2025/7/19
  * @see <a href="https://gist.github.com/jp1017/71bd0976287ce163c11a7cb963b04dd8">源码仓库</a>
  */
 public class CoordinateTransformUtil {

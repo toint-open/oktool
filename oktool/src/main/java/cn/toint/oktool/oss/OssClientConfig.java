@@ -26,7 +26,7 @@ import java.util.Objects;
 
 /**
  * @author Toint
- * @date 2025/7/15
+ * @since 2025/7/15
  */
 public class OssClientConfig {
     @NotBlank

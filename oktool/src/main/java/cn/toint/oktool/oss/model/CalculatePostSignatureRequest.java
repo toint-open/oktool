@@ -25,7 +25,7 @@ import java.util.Objects;
 
 /**
  * @author Toint
- * @date 2025/7/14
+ * @since 2025/7/14
  */
 public class CalculatePostSignatureRequest {
     @NotNull

@@ -1,8 +1,7 @@
-package cn.toint.oktool.spring.boot.flextenant;
+package cn.toint.oktool.spring.boot.satoken;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.toint.oktool.spring.boot.constant.OrderConstant;
-import com.mybatisflex.core.tenant.TenantFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -13,33 +12,36 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * mybatis-flex租户自动配置
+ * SaToken自动配置
  *
  * @author Toint
- * @since 2025/10/12
+ * @since 2025/10/21
  */
 @AutoConfiguration
 @ConditionalOnClass({
-        StpUtil.class, // satoken环境
-        FlexTenantFactory.class // mybatis-flex环境
+        StpUtil.class // satoken环境
 })
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET) // 仅在Servlet环境启用
-public class FlexTenantAutoConfig implements WebMvcConfigurer {
+public class SaTokenAutoConfig implements WebMvcConfigurer {
 
-    private static final Logger log = LoggerFactory.getLogger(FlexTenantAutoConfig.class);
+    private static final Logger log = LoggerFactory.getLogger(SaTokenAutoConfig.class);
 
+    /**
+     * sa-token拦截器
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new FlexTenantInterceptor())
+        SaTokenInterceptor saTokenInterceptor = new SaTokenInterceptor();
+        saTokenInterceptor.setAuth(_ -> StpUtil.checkLogin());
+        registry.addInterceptor(saTokenInterceptor)
                 .addPathPatterns("/**")
-                // 在SaTokenInterceptor之后
-                .order(OrderConstant.FLEX_TENANT_INTERCEPTOR_ORDER);
-        log.info("FlexTenantInterceptor-租户拦截器已注册. path: /**, order: {}]", OrderConstant.FLEX_TENANT_INTERCEPTOR_ORDER);
+                .order(OrderConstant.SA_TOKEN_INTERCEPTOR_ORDER);
+        log.info("SaTokenInterceptor-认证拦截器已开启. path: {}, order: {}", "/**", OrderConstant.DEFAULT_ORDER);
     }
 
     @Bean
-    public TenantFactory tenantFactory() {
-        log.info("TenantFactory-多租户功能已开启");
-        return new FlexTenantFactory();
+    public SaTokenExceptionHandler saTokenExceptionHandler() {
+        log.info("SaTokenExceptionHandler-SaToken异常处理器已开启");
+        return new SaTokenExceptionHandler();
     }
 }

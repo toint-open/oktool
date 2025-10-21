@@ -20,7 +20,7 @@ package cn.toint.oktool.exception;
  * 重试异常
  *
  * @author Toint
- * @date 2025/5/31
+ * @since 2025/5/31
  */
 public class RetryException extends RuntimeException {
     public RetryException(final String message) {

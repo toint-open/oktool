@@ -20,7 +20,7 @@ package cn.toint.oktool.exception;
  * Json 异常
  *
  * @author Toint
- * @date 2025/5/30
+ * @since 2025/5/30
  */
 public class JsonException extends RuntimeException {
 

@@ -16,9 +16,13 @@
 
 package cn.toint.oktool.spring.boot.traceid;
 
-import cn.toint.oktool.util.MdcUtil;
+import cn.hutool.v7.core.data.id.IdUtil;
+import cn.toint.oktool.spring.boot.content.OkContentHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -27,20 +31,21 @@ import org.springframework.web.servlet.HandlerInterceptor;
  * 可多线程传递任务编号
  *
  * @author Toint
- * @date 2025/6/30
+ * @since 2025/6/30
  */
 public class TraceIdInterceptor implements HandlerInterceptor {
+
+    private static final Logger log = LoggerFactory.getLogger(TraceIdInterceptor.class);
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
         // 初始化任务ID
-        MdcUtil.initTraceId();
+        OkContentHolder.setTraceId(IdUtil.fastSimpleUUID());
         return true;
     }
 
     @Override
     public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler, @Nullable final Exception ex) throws Exception {
-        // 清除数据
-        MdcUtil.clear();
+        MDC.clear();
     }
 }

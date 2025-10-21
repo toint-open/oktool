@@ -25,7 +25,7 @@ import java.util.Map;
  * 百度ocr
  *
  * @author Toint
- * @date 2025/9/7
+ * @since 2025/9/7
  */
 public class BdOcrClient {
 

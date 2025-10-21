@@ -8,7 +8,7 @@ import java.util.Objects;
  * 优先级：image > url > pdf_file > ofd_file ，当image字段存在时，url、pdf_file、ofd_file 字段失效
  *
  * @author Toint
- * @date 2025/9/7
+ * @since 2025/9/7
  */
 public class MultipleInvoiceRequest extends BaseOcrRequest {
     /**

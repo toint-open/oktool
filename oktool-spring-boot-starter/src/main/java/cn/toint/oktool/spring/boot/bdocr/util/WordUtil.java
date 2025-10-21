@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author Toint
- * @date 2025/9/9
+ * @since 2025/9/9
  */
 public class WordUtil {
     public static String getFirstWord(List<Word> words) {

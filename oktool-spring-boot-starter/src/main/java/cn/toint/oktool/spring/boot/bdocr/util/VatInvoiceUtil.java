@@ -12,7 +12,7 @@ import java.util.List;
  * 增值税发票工具
  *
  * @author Toint
- * @date 2025/9/9
+ * @since 2025/9/9
  */
 public class VatInvoiceUtil {
     public static VatInvoiceVo convert(VatInvoiceResponse vatInvoiceResponse) {

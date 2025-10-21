@@ -1,5 +1,7 @@
 package cn.toint.oktool.util;
 
+import org.slf4j.MDC;
+
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -115,14 +117,50 @@ public class ScopedValueUtil {
     public static <R> CompletableFuture<R> supplyAsync(Map<ScopedValue<?>, Object> scopedValueMap, Supplier<R> supplier) {
         Objects.requireNonNull(supplier, "supplier must not be null");
 
+        // 捕获当前线程的 MDC 上下文
+        Map<String, String> mdcContext = MDC.getCopyOfContextMap();
+
+        // 如果 scopedValueMap 为空，仍然需要传播 MDC
         if (scopedValueMap == null || scopedValueMap.isEmpty()) {
-            return CompletableFuture.supplyAsync(supplier, executorService);
+            return CompletableFuture.supplyAsync(() -> {
+                // 恢复 MDC
+                restoreMdc(mdcContext);
+                try {
+                    return supplier.get();
+                } finally {
+                    // 清理 MDC，避免线程池中的线程污染
+                    MDC.clear();
+                }
+            }, executorService);
         }
 
+        // 传播 ScopedValue 和 MDC
         return CompletableFuture.supplyAsync(() -> {
-            ScopedValue.Carrier carrier = buildCarrier(scopedValueMap);
-            return carrier.call(supplier::get);
+            // 恢复 MDC
+            restoreMdc(mdcContext);
+
+            try {
+                ScopedValue.Carrier carrier = buildCarrier(scopedValueMap);
+                return carrier.call(supplier::get);
+            } finally {
+                // 清理 MDC，避免线程池中的线程污染
+                MDC.clear();
+            }
         }, executorService);
+    }
+
+    /**
+     * 恢复 MDC 上下文
+     * <p>
+     * 根据提供的 MDC 上下文映射，恢复当前线程的 MDC 上下文。
+     * </p>
+     *
+     * @param mdcContext MDC 上下文映射，包含需要恢复的键值对
+     */
+    private static void restoreMdc(Map<String, String> mdcContext) {
+        if (mdcContext != null && !mdcContext.isEmpty()) {
+            MDC.setContextMap(mdcContext);
+        }
     }
 
     /**

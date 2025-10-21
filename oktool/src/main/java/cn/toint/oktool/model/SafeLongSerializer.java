@@ -27,7 +27,7 @@ import java.io.IOException;
  * Long 安全序列化
  *
  * @author Toint
- * @date 2025/5/26
+ * @since 2025/5/26
  */
 public class SafeLongSerializer extends JsonSerializer<Long> {
     /**
