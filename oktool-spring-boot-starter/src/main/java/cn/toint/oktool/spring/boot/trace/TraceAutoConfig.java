@@ -22,9 +22,10 @@ public class TraceAutoConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        int order = OrderConstant.TRACE_INTERCEPTOR_ORDER;
         registry.addInterceptor(new TraceInterceptor())
                 .addPathPatterns("/**")
-                .order(OrderConstant.TRACE_INTERCEPTOR_ORDER);
-        log.info("TraceInterceptor-任务追踪拦截器已开启. path: {}, order: {}", "/**", OrderConstant.TRACE_INTERCEPTOR_ORDER);
+                .order(order);
+        log.info("TraceInterceptor-任务追踪拦截器已开启. path: {}, order: {}", "/**", order);
     }
 }

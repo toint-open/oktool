@@ -39,7 +39,7 @@ public class OkContentFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("OkContentFilter-上下文过滤器已开启 (基于ScopedValue)");
+        log.info("OkContentFilter-上下文过滤器初始化成功 (基于ScopedValue)");
     }
 
     /**

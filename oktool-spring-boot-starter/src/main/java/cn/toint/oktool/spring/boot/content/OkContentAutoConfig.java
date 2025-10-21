@@ -25,11 +25,12 @@ public class OkContentAutoConfig {
      */
     @Bean
     public FilterRegistrationBean<OkContentFilter> flexTenantFilter() {
+        int order = Ordered.HIGHEST_PRECEDENCE;
         FilterRegistrationBean<OkContentFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new OkContentFilter());
         registration.addUrlPatterns("/*");
-        registration.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        log.info("OkContentFilter-上下文过滤器已注册. path: {}, order: {}", "/*", Ordered.HIGHEST_PRECEDENCE);
+        registration.setOrder(order);
+        log.info("OkContentFilter-上下文过滤器已开启. path: {}, order: {}", "/*", order);
         return registration;
     }
 }

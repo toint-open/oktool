@@ -31,12 +31,13 @@ public class SaTokenAutoConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        int order = OrderConstant.SA_TOKEN_INTERCEPTOR_ORDER;
         SaTokenInterceptor saTokenInterceptor = new SaTokenInterceptor();
         saTokenInterceptor.setAuth(_ -> StpUtil.checkLogin());
         registry.addInterceptor(saTokenInterceptor)
                 .addPathPatterns("/**")
-                .order(OrderConstant.SA_TOKEN_INTERCEPTOR_ORDER);
-        log.info("SaTokenInterceptor-认证拦截器已开启. path: {}, order: {}", "/**", OrderConstant.DEFAULT_ORDER);
+                .order(order);
+        log.info("SaTokenInterceptor-认证拦截器已开启. path: {}, order: {}", "/**", order);
     }
 
     @Bean

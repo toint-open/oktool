@@ -30,11 +30,12 @@ public class FlexTenantAutoConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        int order = OrderConstant.FLEX_TENANT_INTERCEPTOR_ORDER;
         registry.addInterceptor(new FlexTenantInterceptor())
                 .addPathPatterns("/**")
                 // 在SaTokenInterceptor之后
-                .order(OrderConstant.FLEX_TENANT_INTERCEPTOR_ORDER);
-        log.info("FlexTenantInterceptor-租户拦截器已注册. path: /**, order: {}]", OrderConstant.FLEX_TENANT_INTERCEPTOR_ORDER);
+                .order(order);
+        log.info("FlexTenantInterceptor-租户拦截器已开启. path: /**, order: {}", order);
     }
 
     @Bean
