@@ -24,7 +24,7 @@ public class OkContextAutoConfig {
      * 注册上下文过滤器
      */
     @Bean
-    public FilterRegistrationBean<OkContextFilter> flexTenantFilter() {
+    public FilterRegistrationBean<OkContextFilter> okContextFilter() {
         int order = OrderConstant.OK_CONTEXT_FILTER_ORDER;
         FilterRegistrationBean<OkContextFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new OkContextFilter());

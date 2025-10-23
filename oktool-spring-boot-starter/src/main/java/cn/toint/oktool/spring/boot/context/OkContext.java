@@ -1,16 +1,14 @@
 package cn.toint.oktool.spring.boot.context;
 
+import cn.hutool.v7.core.collection.CollUtil;
 import cn.toint.oktool.util.Assert;
 import cn.toint.oktool.util.ScopedValueUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Supplier;
 
 /**
@@ -97,7 +95,7 @@ public class OkContext {
     }
 
     /**
-     * 设置指定key的值
+     * 设置指定key的值 (线程不安全)
      * <p>
      * 注意: 写操作要求上下文必须存在,否则抛出异常
      * </p>
@@ -107,7 +105,7 @@ public class OkContext {
      * @param <V>   泛型
      * @throws RuntimeException 如果上下文未初始化
      */
-    public static <V> void put(String key, V value) {
+    private static <V> void put(String key, V value) {
         Assert.notBlankParam(key, "key");
         Assert.notNullParam(value, "value");
         getContext().put(key, value);
@@ -129,7 +127,7 @@ public class OkContext {
     }
 
     /**
-     * 运行全新的上下文
+     * 运行全新的上下文 (上下文容器线程安全)
      */
     public static void runWithNewContext(Runnable runnable) {
         ScopedValue.where(CONTEXT_INSTANCE, new ConcurrentHashMap<>())
@@ -137,7 +135,7 @@ public class OkContext {
     }
 
     /**
-     * 运行全新的上下文
+     * 运行全新的上下文 (上下文容器线程安全)
      */
     public static <R> R callWithNewContext(Supplier<R> supplier) {
         return ScopedValue.where(CONTEXT_INSTANCE, new ConcurrentHashMap<>())
@@ -145,36 +143,108 @@ public class OkContext {
     }
 
     /**
-     * 在异步任务中传播 OkContext 上下文（无返回值）
-     * <p>
-     * 自动捕获当前的上下文并在异步任务中恢复。
-     * 如果当前没有上下文，则在新上下文中执行。
-     * </p>
+     * 运行指定的上下文 (上下文容器线程安全)
      */
-    public static CompletableFuture<Void> runAsync(Runnable runnable) {
+    public static void runWithContext(Map<String, Object> context, Runnable runnable) {
         Assert.notNullParam(runnable, "runnable");
-        return ScopedValueUtil.runAsync(CONTEXT_INSTANCE, runnable);
+        callWithContext(context, () -> {
+            runnable.run();
+            return null;
+        });
     }
 
     /**
-     * 在异步任务中传播 OkContext 上下文（有返回值）
+     * 运行指定的上下文 (上下文容器线程安全)
+     *
+     * @param context  上下文容器 (允许null)
+     * @param supplier 函数
+     */
+    public static <R> R callWithContext(Map<String, Object> context, Supplier<R> supplier) {
+        Assert.notNullParam(supplier, "supplier");
+        if (context == null) {
+            context = new ConcurrentHashMap<>();
+        } else {
+            context = new ConcurrentHashMap<>(context);
+        }
+        return ScopedValue.where(CONTEXT_INSTANCE, context)
+                .call(supplier::get);
+    }
+
+    /**
+     * 启动异步任务, 并传播当前上下文 (上下文容器线程安全)
+     *
+     * @see OkContext#supplyAsync(Supplier)
+     */
+    public static CompletableFuture<Void> runAsync(Runnable runnable) {
+        Assert.notNullParam(runnable, "runnable");
+        return supplyAsync(() -> {
+            runnable.run();
+            return null;
+        });
+    }
+
+    /**
+     * 启动异步任务, 并传播当前上下文 (上下文容器线程安全)
      * <p>
-     * 自动捕获当前的上下文并在异步任务中恢复。
-     * 如果当前没有上下文，则在新上下文中执行。
+     * <h2>注意事项:</h2>
+     * <li>自动捕获当前的上下文并在异步任务中恢复</li>
+     * <li>如果当前没有上下文，则在新上下文中执行</li>
+     * <li>使用新的上下文容器传播上下文, 避免上下文容器的线程安全问题</li>
+     * <li>如果上下文容器的值为引用对象, 需要谨慎操作, 有线程安全问题</li>
      * </p>
      */
     public static <T> CompletableFuture<T> supplyAsync(Supplier<T> supplier) {
         Assert.notNullParam(supplier, "supplier");
-        return ScopedValueUtil.supplyAsync(CONTEXT_INSTANCE, supplier);
+
+        // 使用新的上下文容器传播上下文, 避免上下文容器的线程安全问题
+        // 如果上下文容器的值为引用对象, 需要谨慎操作, 有线程安全问题
+        Map<String, Object> context;
+        if (hasContext()) {
+            context = new ConcurrentHashMap<>(getContext());
+        } else {
+            context = new ConcurrentHashMap<>();
+        }
+
+        return ScopedValueUtil.supplyAsync(Map.of(CONTEXT_INSTANCE, context), supplier);
     }
 
     /**
      * 获取租户ID
      *
-     * @return 租户ID (null或空集合, 集合中不包含null元素)
+     * @return 租户ID (返回非null的不可变集合, 可能为空集合, 集合中不包含null元素)
+     */
+    public static Object getTenantIdNotNull() {
+        Object tenantId = getTenantId();
+        Assert.notNull(tenantId, "租户ID");
+        return tenantId;
+    }
+
+    /**
+     * 获取租户ID
+     *
+     * @return 租户ID (返回集合中第一个租户ID, 可能为null)
+     */
+    public static Object getTenantId() {
+        List<Object> tenantIds = getTenantIds();
+        return CollUtil.isEmpty(tenantIds) ? null : tenantIds.getFirst();
+    }
+
+    /**
+     * 获取租户ID
+     *
+     * @return 租户ID (返回非null的不可变集合, 可能为空集合, 集合中不包含null元素)
      */
     public static List<Object> getTenantIds() {
-        return get(TENANT_ID_NAME);
+        return getOrDefault(TENANT_ID_NAME, List.of());
+    }
+
+    /**
+     * 设置租户ID
+     *
+     * @param tenantId 租户ID. null代表清空当前租户上下文
+     */
+    public static void setTenantId(Object tenantId) {
+        setTenantIds(Collections.singletonList(tenantId));
     }
 
     /**
@@ -183,17 +253,29 @@ public class OkContext {
      * @param tenantIds 租户ID. null或空集合代表清空当前租户上下文, 集合中的空元素会被自动忽略
      */
     public static void setTenantIds(List<Object> tenantIds) {
-        if (tenantIds == null) {
-            tenantIds = new CopyOnWriteArrayList<>();
+        if (CollUtil.isEmpty(tenantIds)) {
+            tenantIds = List.of();
         } else {
-            tenantIds = tenantIds instanceof CopyOnWriteArrayList ? tenantIds : new CopyOnWriteArrayList<>(tenantIds);
-            tenantIds.removeIf(Objects::isNull);
+            tenantIds = tenantIds.stream()
+                    .filter(Objects::nonNull)
+                    .toList();
         }
         put(TENANT_ID_NAME, tenantIds);
     }
 
     /**
-     * 切换租户上下文并执行
+     * 切换租户上下文并执行 (上下文容器线程安全)
+     *
+     * @param tenantId 租户ID
+     * @param supplier 执行方法
+     * @return 执行结果
+     */
+    public static <T> T callWithTenantId(Object tenantId, Supplier<T> supplier) {
+        return callWithTenantIds(Collections.singletonList(tenantId), supplier);
+    }
+
+    /**
+     * 切换租户上下文并执行 (上下文容器线程安全)
      *
      * @param tenantIds 租户ID
      * @param supplier  执行方法
@@ -201,22 +283,11 @@ public class OkContext {
      */
     public static <T> T callWithTenantIds(List<Object> tenantIds, Supplier<T> supplier) {
         Assert.notNullParam(supplier, "supplier");
-        if (hasContext()) {
-            // 已有上下文：保存旧值 → 设置新值 → 执行 → 恢复旧值
-            List<Object> oldTenantIds = getTenantIds();
-            try {
-                setTenantIds(tenantIds);
-                return supplier.get();
-            } finally {
-                setTenantIds(oldTenantIds);
-            }
-        } else {
-            // 无上下文：创建新上下文 → 设置值 → 执行（自动销毁）
-            return callWithNewContext(() -> {
-                setTenantIds(tenantIds);
-                return supplier.get();
-            });
-        }
+
+        return callWithContext(hasContext() ? getContext() : null, () -> {
+            setTenantIds(tenantIds);
+            return supplier.get();
+        });
     }
 
     /**
