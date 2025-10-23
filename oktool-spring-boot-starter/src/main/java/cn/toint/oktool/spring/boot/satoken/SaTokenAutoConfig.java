@@ -2,6 +2,8 @@ package cn.toint.oktool.spring.boot.satoken;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.toint.oktool.spring.boot.constant.OrderConstant;
+import cn.toint.oktool.spring.boot.context.OkContext;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -33,7 +35,13 @@ public class SaTokenAutoConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         int order = OrderConstant.SA_TOKEN_INTERCEPTOR_ORDER;
         SaTokenInterceptor saTokenInterceptor = new SaTokenInterceptor();
-        saTokenInterceptor.setAuth(_ -> StpUtil.checkLogin());
+        saTokenInterceptor.setAuth(_ -> {
+            StpUtil.checkLogin();
+            String tokenValue = StpUtil.getTokenValue();
+            if (StringUtils.isNotBlank(tokenValue)) {
+                OkContext.setToken(tokenValue);
+            }
+        });
         registry.addInterceptor(saTokenInterceptor)
                 .addPathPatterns("/**")
                 .order(order);

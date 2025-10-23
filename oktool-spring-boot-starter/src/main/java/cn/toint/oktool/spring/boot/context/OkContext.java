@@ -35,6 +35,11 @@ public class OkContext {
     private static final String TRACE_ID_NAME = "traceId";
 
     /**
+     * Token
+     */
+    private static final String TOKEN_NAME = "token";
+
+    /**
      * 检查是否存在上下文
      */
     public static boolean hasContext() {
@@ -107,7 +112,7 @@ public class OkContext {
      * @param <V>   泛型
      * @throws RuntimeException 如果上下文未初始化
      */
-    private static <V> void put(String key, V value) {
+    public static <V> void put(String key, V value) {
         Assert.notBlankParam(key, "key");
         Assert.notNullParam(value, "value");
         getContext().put(key, value);
@@ -121,7 +126,7 @@ public class OkContext {
      *
      * @param key key (非null)
      */
-    private static void delete(String key) {
+    public static void delete(String key) {
         Assert.notBlankParam(key, "key");
         if (hasContext()) {
             getContext().remove(key);
@@ -320,5 +325,14 @@ public class OkContext {
             return value;
         }
         return get(TRACE_ID_NAME);
+    }
+
+    public static void setToken(String token) {
+        Assert.notBlankParam(token, "token");
+        put(TOKEN_NAME, token);
+    }
+
+    public static String getToken() {
+        return get(TOKEN_NAME);
     }
 }
