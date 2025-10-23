@@ -11,7 +11,7 @@ import cn.toint.oktool.spring.boot.bdocr.model.*;
 import cn.toint.oktool.spring.boot.cache.Cache;
 import cn.toint.oktool.util.Assert;
 import cn.toint.oktool.util.JacksonUtil;
-import cn.toint.oktool.util.KeyBuilderUtil;
+import cn.toint.oktool.util.KeyBuilder;
 import cn.toint.oktool.util.RetryUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.StringUtils;
@@ -29,9 +29,8 @@ import java.util.Map;
  */
 public class BdOcrClient {
 
-    private BdOcrClientConfig bdOcrClientConfig;
-    private Cache cache;
-    private final KeyBuilderUtil cacheKeyBuilder = KeyBuilderUtil.of("bdOcrToken");
+    private final BdOcrClientConfig bdOcrClientConfig;
+    private final Cache cache;
 
     public BdOcrClient(BdOcrClientConfig bdOcrClientConfig, Cache cache) {
         Assert.validate(bdOcrClientConfig);
@@ -48,7 +47,7 @@ public class BdOcrClient {
      */
     public String getToken() {
         // 先查询缓存是否存在
-        String cacheToken = cache.get(cacheKeyBuilder.build(bdOcrClientConfig.getApiKey()));
+        String cacheToken = cache.get(buildTokenCacheKey(bdOcrClientConfig.getApiKey()));
         if (StringUtils.isNotBlank(cacheToken)) return cacheToken;
 
         // 未命中缓存, 执行请求获取token
@@ -74,7 +73,7 @@ public class BdOcrClient {
         });
 
         // 缓存token
-        cache.put(cacheKeyBuilder.build(bdOcrClientConfig.getApiKey()),
+        cache.put(buildTokenCacheKey(bdOcrClientConfig.getApiKey()),
                 tokenResponse.getAccessToken(),
                 Duration.ofSeconds(tokenResponse.getExpires_in()));
 
@@ -201,5 +200,9 @@ public class BdOcrClient {
         String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/vat_invoice_verification";
         String responseStr = request(Method.POST, url, urlEncodedFormBody);
         return JacksonUtil.readValue(responseStr, VatInvoiceVerificationResponse.class).checkStatus();
+    }
+
+    private String buildTokenCacheKey(String apiKey) {
+        return KeyBuilder.of("bd-ocr-token").add(apiKey).build();
     }
 }

@@ -97,7 +97,9 @@ public class OkContext {
     /**
      * 设置指定key的值 (线程不安全)
      * <p>
-     * 注意: 写操作要求上下文必须存在,否则抛出异常
+     * 注意事项:
+     * <li>写操作要求上下文必须存在,否则抛出异常</li>
+     * <li>虽然底层使用 ConcurrentHashMap, 但如果值是可变对象（如List、Map）, 对值的修改不受线程安全保护</li>
      * </p>
      *
      * @param key   key (非null)
@@ -215,7 +217,7 @@ public class OkContext {
      */
     public static Object getTenantIdNotNull() {
         Object tenantId = getTenantId();
-        Assert.notNull(tenantId, "租户ID");
+        Assert.notNullParam(tenantId, "租户ID");
         return tenantId;
     }
 
@@ -244,7 +246,7 @@ public class OkContext {
      * @param tenantId 租户ID. null代表清空当前租户上下文
      */
     public static void setTenantId(Object tenantId) {
-        setTenantIds(Collections.singletonList(tenantId));
+        setTenantIds(tenantId == null ? null : List.of(tenantId));
     }
 
     /**
@@ -301,11 +303,7 @@ public class OkContext {
     public static void setTraceId(String traceId) {
         Assert.notBlankParam(traceId, "traceId");
         MDC.put(TRACE_ID_NAME, traceId);
-
-        // 如果有上下文, 也设置到上下文中
-        if (hasContext()) {
-            put(TRACE_ID_NAME, traceId);
-        }
+        put(TRACE_ID_NAME, traceId);
     }
 
     /**
