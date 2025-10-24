@@ -7,7 +7,7 @@ package cn.toint.oktool.model;
 public enum ErrCode {
     NOT_PERMISSION(403, "权限不足, 请联系管理员"),
     NOT_LOGIN(401, "登录已过期, 请重新登录"),
-    FAIL(-1, "操作失败, 请稍后重试"),
+    FAIL(-1, "操作失败"),
     SUCCESS(0, "操作成功");
 
     private final int code;

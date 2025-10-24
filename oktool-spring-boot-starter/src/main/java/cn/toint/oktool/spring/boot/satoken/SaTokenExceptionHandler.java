@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
+ * sa-token异常处理
+ *
+ * <p>想覆盖sa-token异常处理的实现, 声明一个SaTokenExceptionHandler Bean即可</p>
+ *
  * @author Toint
  * @since 2025/10/21
  */
@@ -19,18 +23,27 @@ public class SaTokenExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(SaTokenExceptionHandler.class);
 
-    @ExceptionHandler
+    /**
+     * 登录异常
+     */
+    @ExceptionHandler(NotLoginException.class)
     public Response<Void> notLoginException(NotLoginException e) {
         log.warn(e.getMessage());
         return Response.fail(ErrCode.NOT_LOGIN.getCode(), ErrCode.NOT_LOGIN.getMsg());
     }
 
-    @ExceptionHandler
+    /**
+     * 权限异常
+     */
+    @ExceptionHandler(NotPermissionException.class)
     public Response<Void> notPermissionException(NotPermissionException e) {
         log.warn(e.getMessage());
         return Response.fail(ErrCode.NOT_PERMISSION.getCode(), ErrCode.NOT_PERMISSION.getMsg());
     }
 
+    /**
+     * 角色异常
+     */
     @ExceptionHandler(NotRoleException.class)
     public Response<Void> exception(NotRoleException e) {
         log.error(e.getMessage());

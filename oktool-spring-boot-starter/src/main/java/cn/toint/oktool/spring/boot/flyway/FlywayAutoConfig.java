@@ -4,6 +4,7 @@ import cn.toint.oktool.spring.boot.flyway.service.FlywayService;
 import com.mybatisflex.core.datasource.FlexDataSource;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 public class FlywayAutoConfig {
 
     @Bean
+    @ConditionalOnMissingBean
     public FlywayService flywayService() {
         return new FlywayService();
     }

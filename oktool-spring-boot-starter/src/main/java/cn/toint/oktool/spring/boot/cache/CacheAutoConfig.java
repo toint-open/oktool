@@ -61,7 +61,7 @@ public class CacheAutoConfig {
             cache = new LocalCacheImpl();
         }
 
-        log.info("Cache缓存服务初始化成功, 实现类: {}", cache.getClass().getName());
+        log.info("Cache缓存服务初始化成功, 实现类: {}", cache.getClass().getSimpleName());
         return cache;
     }
 }

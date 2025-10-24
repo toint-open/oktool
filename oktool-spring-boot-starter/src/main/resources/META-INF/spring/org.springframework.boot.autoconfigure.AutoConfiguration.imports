@@ -16,8 +16,6 @@
 cn.toint.oktool.spring.boot.cache.CacheAutoConfig
 # jackson
 cn.toint.oktool.spring.boot.jakcson.JacksonAutoConfig
-# redis分布式锁
-cn.toint.oktool.spring.boot.redislock.RedisLockAutoConfig
 # 请求任务编号
 cn.toint.oktool.spring.boot.trace.TraceAutoConfig
 # MyBatisFlex租户

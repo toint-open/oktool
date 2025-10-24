@@ -1,6 +1,7 @@
 package cn.toint.oktool.spring.boot.context;
 
 import cn.hutool.v7.core.collection.CollUtil;
+import cn.toint.oktool.spring.boot.trace.TraceInfo;
 import cn.toint.oktool.util.Assert;
 import cn.toint.oktool.util.ScopedValueUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +34,11 @@ public class OkContext {
      * 任务ID
      */
     private static final String TRACE_ID_NAME = "traceId";
+
+    /**
+     * 任务追踪信息
+     */
+    private static final String TRACE_INFO_NAME = "traceInfo";
 
     /**
      * Token
@@ -325,6 +331,25 @@ public class OkContext {
             return value;
         }
         return get(TRACE_ID_NAME);
+    }
+
+    /**
+     * 设置任务追踪信息
+     *
+     * @param traceInfo 任务追踪信息 (不能为空)
+     */
+    public static void setTraceInfo(TraceInfo traceInfo) {
+        Assert.notNullParam(traceInfo, "traceInfo");
+        put(TRACE_INFO_NAME, traceInfo);
+    }
+
+    /**
+     * 获取任务追踪信息
+     *
+     * @return 任务追踪信息 (可能为null)
+     */
+    public static TraceInfo getTraceInfo() {
+        return get(TRACE_INFO_NAME);
     }
 
     public static void setToken(String token) {

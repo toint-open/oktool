@@ -4,6 +4,7 @@ import cn.toint.oktool.spring.boot.constant.OrderConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ public class OkContextAutoConfig {
      * 注册上下文过滤器
      */
     @Bean
+    @ConditionalOnMissingBean
     public FilterRegistrationBean<OkContextFilter> okContextFilter() {
         int order = OrderConstant.OK_CONTEXT_FILTER_ORDER;
         FilterRegistrationBean<OkContextFilter> registration = new FilterRegistrationBean<>();

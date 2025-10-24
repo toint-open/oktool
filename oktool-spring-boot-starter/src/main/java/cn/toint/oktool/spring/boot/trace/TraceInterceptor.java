@@ -17,14 +17,17 @@
 package cn.toint.oktool.spring.boot.trace;
 
 import cn.hutool.v7.core.data.id.IdUtil;
+import cn.hutool.v7.http.server.servlet.ServletUtil;
 import cn.toint.oktool.spring.boot.context.OkContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
+import org.springframework.http.HttpHeaders;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.time.LocalDateTime;
 
 /**
  * 任务追踪拦截器
@@ -39,12 +42,36 @@ public class TraceInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
         // 初始化任务ID
-        OkContext.setTraceId(IdUtil.fastSimpleUUID());
+        String traceId = IdUtil.fastSimpleUUID();
+        OkContext.setTraceId(traceId);
+
+        TraceInfo traceInfo = new TraceInfo();
+        traceInfo.setTraceId(traceId);
+        traceInfo.setMethod(request.getMethod());
+        traceInfo.setUri(request.getRequestURI());
+        traceInfo.setQuery(request.getQueryString());
+        traceInfo.setClientIp(ServletUtil.getClientIP(request));
+        traceInfo.setUserAgent(getUserAgent(request));
+        traceInfo.setStartTime(LocalDateTime.now());
+        OkContext.setTraceInfo(traceInfo);
+
+        log.info("请求开始: {}", traceInfo.toJsonString());
+        // 任务
         return true;
     }
 
     @Override
     public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler, @Nullable final Exception ex) throws Exception {
-        MDC.clear();
+        TraceInfo traceInfo = OkContext.getTraceInfo();
+        if (traceInfo != null) {
+            traceInfo.setStatus(response.getStatus());
+            traceInfo.setEndTime(LocalDateTime.now());
+            traceInfo.calculateDuration();
+            log.info("请求结束: {}", traceInfo.toJsonString());
+        }
+    }
+
+    private String getUserAgent(HttpServletRequest request) {
+        return request.getHeader(HttpHeaders.USER_AGENT);
     }
 }
