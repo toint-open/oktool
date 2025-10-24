@@ -10,8 +10,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 
 /**
  * SaToken自动配置
@@ -25,8 +23,6 @@ import org.springframework.core.annotation.Order;
 })
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET) // 仅在Servlet环境启用
 public class SaTokenAutoConfig {
-
-    private static final Logger log = LoggerFactory.getLogger(SaTokenAutoConfig.class);
 
     /**
      * SaToken拦截器扩展, 优先使用其他的{@link SaTokenInterceptorExtension}
@@ -44,18 +40,6 @@ public class SaTokenAutoConfig {
     @ConditionalOnMissingBean(SaInterceptor.class)
     public SaTokenInterceptor saTokenInterceptor() {
         return new SaTokenInterceptor();
-    }
-
-    /**
-     * 默认的SaToken全局异常处理器, 优先使用其他的{@link SaTokenExceptionHandler}
-     * @see SaTokenExceptionHandler
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SaTokenExceptionHandler saTokenExceptionHandler() {
-        log.info("SaTokenExceptionHandler-SaToken异常处理器已开启");
-        return new SaTokenExceptionHandler();
     }
 
     /**

@@ -8,17 +8,13 @@ import cn.toint.oktool.model.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * sa-token异常处理
  *
- * <p>想覆盖sa-token异常处理的实现, 声明一个SaTokenExceptionHandler Bean即可</p>
- *
  * @author Toint
  * @since 2025/10/21
  */
-@RestControllerAdvice
 public class SaTokenExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(SaTokenExceptionHandler.class);
