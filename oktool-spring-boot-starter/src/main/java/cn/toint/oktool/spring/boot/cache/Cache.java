@@ -123,6 +123,16 @@ public interface Cache {
      * 缓存自增（整数）
      *
      * @param key 缓存键, 不能为空
+     * @return 自增后的值
+     */
+    default long increment(String key) {
+        return add(key, 1L);
+    }
+
+    /**
+     * 缓存自增（整数）
+     *
+     * @param key 缓存键, 不能为空
      * @param delta 自增值
      * @return 自增后的值
      */
@@ -139,6 +149,16 @@ public interface Cache {
      */
     default double increment(String key, double delta) {
         return add(key, delta);
+    }
+
+    /**
+     * 缓存自减（整数）
+     *
+     * @param key 缓存键, 不能为空
+     * @return 自减后的值
+     */
+    default long decrement(String key) {
+        return add(key, -1L);
     }
 
     /**
