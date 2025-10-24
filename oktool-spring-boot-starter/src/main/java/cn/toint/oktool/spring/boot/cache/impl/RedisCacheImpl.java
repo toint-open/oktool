@@ -16,15 +16,18 @@
 
 package cn.toint.oktool.spring.boot.cache.impl;
 
+import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.core.date.TimeUtil;
 import cn.toint.oktool.spring.boot.cache.Cache;
 import cn.toint.oktool.util.Assert;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Toint
@@ -35,17 +38,15 @@ public class RedisCacheImpl implements Cache {
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
-    public void put(String key, String value, Duration timeout) {
+    public void put(String key, String value, long timeout) {
         Assert.notBlank(key, "key不能为空");
-        Assert.notNull(timeout, "缓存时间不能为空");
-        stringRedisTemplate.opsForValue().set(key, value, timeout);
+        stringRedisTemplate.opsForValue().set(key, value, timeout, TimeUnit.MILLISECONDS);
     }
 
     @Override
-    public boolean putIfAbsent(String key, String value, Duration timeout) {
+    public boolean putIfAbsent(String key, String value, long timeout) {
         Assert.notBlank(key, "key不能为空");
-        Assert.notNull(timeout, "缓存时间不能为空");
-        Boolean status = stringRedisTemplate.opsForValue().setIfAbsent(key, value, timeout);
+        Boolean status = stringRedisTemplate.opsForValue().setIfAbsent(key, value, timeout, TimeUnit.MILLISECONDS);
         return Objects.equals(Boolean.TRUE, status);
     }
 
@@ -72,5 +73,44 @@ public class RedisCacheImpl implements Cache {
     public void delete(String key) {
         Assert.notBlank(key, "key不能为空");
         stringRedisTemplate.delete(key);
+    }
+
+    @Override
+    public long add(String key, long delta) {
+        Assert.notBlank(key, "key不能为空");
+        Long valueNum = stringRedisTemplate.opsForValue().increment(key, delta);
+        Assert.notNull(valueNum, "Redis 操作失败");
+        return valueNum;
+    }
+
+    @Override
+    public double add(String key, double delta) {
+        Assert.notBlank(key, "key不能为空");
+        Double valueNum = stringRedisTemplate.opsForValue().increment(key, delta);
+        Assert.notNull(valueNum, "Redis 操作失败");
+        return valueNum;
+    }
+
+    @Override
+    public void expire(String key, long timeout) {
+        Assert.notBlank(key, "key不能为空");
+        if (timeout <= 0) {
+            stringRedisTemplate.delete(key);
+        } else {
+            stringRedisTemplate.expire(key, timeout, TimeUnit.MILLISECONDS);
+        }
+    }
+
+    @Override
+    public void expireAt(String key, LocalDateTime timeout) {
+        Assert.notBlank(key, "key不能为空");
+        Assert.notNull(timeout, "过期时间不能为空");
+
+        // 已经过期的就删除key
+        if (TimeUtil.now().isAfter(timeout)) {
+            stringRedisTemplate.delete(key);
+        } else {
+            stringRedisTemplate.expireAt(key, DateUtil.date(timeout));
+        }
     }
 }

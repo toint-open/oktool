@@ -17,6 +17,7 @@
 package cn.toint.oktool.spring.boot.cache;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,7 +35,18 @@ public interface Cache {
      * @param value   缓存值
      * @param timeout 缓存时间, 不能为空
      */
-    void put(String key, String value, Duration timeout);
+    default void put(String key, String value, Duration timeout) {
+        put(key, value, timeout.toMillis());
+    }
+
+    /**
+     * 设置缓存
+     *
+     * @param key     缓存键, 不能为空
+     * @param value   缓存值
+     * @param timeout 缓存时间(ms)
+     */
+    void put(String key, String value, long timeout);
 
     /**
      * 设置缓存如果不存在
@@ -44,7 +56,19 @@ public interface Cache {
      * @param timeout 缓存时间, 不能为空
      * @return true=设置成功, false=不成功
      */
-    boolean putIfAbsent(String key, String value, Duration timeout);
+    default boolean putIfAbsent(String key, String value, Duration timeout) {
+        return putIfAbsent(key, value, timeout.toMillis());
+    }
+
+    /**
+     * 设置缓存如果不存在
+     *
+     * @param key     缓存键, 不能为空
+     * @param value   缓存值
+     * @param timeout 缓存时间(ms)
+     * @return true=设置成功, false=不成功
+     */
+    boolean putIfAbsent(String key, String value, long timeout);
 
     /**
      * 获取缓存
@@ -76,4 +100,92 @@ public interface Cache {
      * @param key 缓存键, 不能为空
      */
     void delete(String key);
+
+    /**
+     * 缓存增加（整数）
+     *
+     * @param key 缓存键, 不能为空
+     * @param delta 自增值
+     * @return 自增后的值
+     */
+    long add(String key, long delta);
+
+    /**
+     * 缓存增加（浮点数）
+     *
+     * @param key 缓存键, 不能为空
+     * @param delta 自增值
+     * @return 自增后的值
+     */
+    double add(String key, double delta);
+
+    /**
+     * 缓存自增（整数）
+     *
+     * @param key 缓存键, 不能为空
+     * @param delta 自增值
+     * @return 自增后的值
+     */
+    default long increment(String key, long delta) {
+        return add(key, delta);
+    }
+
+    /**
+     * 缓存自增（浮点数）
+     *
+     * @param key 缓存键, 不能为空
+     * @param delta 自增值
+     * @return 自增后的值
+     */
+    default double increment(String key, double delta) {
+        return add(key, delta);
+    }
+
+    /**
+     * 缓存自减（整数）
+     *
+     * @param key 缓存键, 不能为空
+     * @param delta 自减值
+     * @return 自减后的值
+     */
+    default long decrement(String key, long delta) {
+        return add(key, -delta);
+    }
+
+    /**
+     * 缓存自减（浮点数）
+     *
+     * @param key 缓存键, 不能为空
+     * @param delta 自增值
+     * @return 自减后的值
+     */
+    default double decrement(String key, double delta) {
+        return add(key, -delta);
+    }
+
+    /**
+     * 设置缓存过期时间
+     *
+     * @param key 缓存键, 不能为空
+     * @param timeout 过期时间, 不能为空
+     */
+    default void expire(String key, Duration timeout) {
+        expire(key, timeout.toMillis());
+    }
+
+    /**
+     * 设置缓存过期时间
+     *
+     * @param key 缓存键, 不能为空
+     * @param timeout 过期时间(ms)
+     */
+    void expire(String key, long timeout);
+
+    /**
+     * 设置缓存过期时间
+     *
+     * @param key 缓存键, 不能为空
+     * @param timeout 过期时间, 不能为空
+     */
+    void expireAt(String key, LocalDateTime timeout);
 }

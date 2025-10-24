@@ -16,11 +16,13 @@
 
 package cn.toint.oktool.spring.boot.cache.impl;
 
+import cn.hutool.v7.core.cache.impl.TimedCache;
+import cn.hutool.v7.core.date.TimeUtil;
 import cn.toint.oktool.spring.boot.cache.Cache;
 import cn.toint.oktool.util.Assert;
-import cn.hutool.v7.core.cache.impl.TimedCache;
 
-import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,6 +30,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 本地缓存
+ *
+ * <p>使用hutool的{@link TimedCache}实现</p>
  *
  * @author Toint
  * @since 2025/7/2
@@ -38,30 +42,28 @@ public class LocalCacheImpl implements Cache {
      */
     private final TimedCache<String, String> timedCache = initTimedCache();
 
+    private final ReentrantLock lock = new ReentrantLock();
+
     @Override
-    public void put(String key, String value, Duration timeout) {
+    public void put(String key, String value, long timeout) {
         Assert.notBlank(key, "key不能为空");
-        Assert.notNull(timeout, "缓存时间不能为空");
-        timedCache.put(key, value, timeout.toMillis());
+        timedCache.put(key, value, timeout);
     }
 
-    private final ReentrantLock putIfAbsentLock = new ReentrantLock();
-
     @Override
-    public boolean putIfAbsent(String key, String value, Duration timeout) {
+    public boolean putIfAbsent(String key, String value, long timeout) {
         Assert.notBlank(key, "key不能为空");
-        Assert.notNull(timeout, "缓存时间不能为空");
 
-        putIfAbsentLock.lock();
+        lock.lock();
         try {
-            if (timedCache.containsKey(key)) {
+            if (containsKey(key)) {
                 return false;
             } else {
-                timedCache.put(key, value, timeout.toMillis());
+                put(key, value, timeout);
                 return true;
             }
         } finally {
-            putIfAbsentLock.unlock();
+            lock.unlock();
         }
     }
 
@@ -93,6 +95,67 @@ public class LocalCacheImpl implements Cache {
     public void delete(String key) {
         Assert.notBlank(key, "key不能为空");
         timedCache.remove(key);
+    }
+
+    @Override
+    public long add(String key, long delta) {
+        Assert.notBlank(key, "key不能为空");
+
+        lock.lock();
+        try {
+            String valueStr = get(key);
+            long valueNum = valueStr == null ? 0 : Long.parseLong(valueStr);
+            valueNum += delta;
+            put(key, String.valueOf(valueNum), 0);
+            return valueNum;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public double add(String key, double delta) {
+        Assert.notBlank(key, "key不能为空");
+        lock.lock();
+        try {
+            String valueStr = get(key);
+            double valueNum = valueStr == null ? 0 : Double.parseDouble(valueStr);
+            valueNum += delta;
+            put(key, String.valueOf(valueNum), 0);
+            return valueNum;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void expire(String key, long timeout) {
+        Assert.notBlank(key, "key不能为空");
+        lock.lock();
+        try {
+            // 时间小于就删除key
+            if (timeout <= 0) {
+                delete(key);
+                return;
+            }
+
+            String value = get(key);
+            if (value != null) {
+                put(key, value, timeout);
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void expireAt(String key, LocalDateTime timeout) {
+        Assert.notBlank(key, "key不能为空");
+        Assert.notNull(timeout, "过期时间不能为空");
+
+        // 计算时间差(ms), 已经过期的就删除key
+        long between = TimeUtil.between(TimeUtil.now(), timeout, ChronoUnit.MILLIS);
+        expire(key, between);
     }
 
     private TimedCache<String, String> initTimedCache() {
