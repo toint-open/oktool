@@ -1,5 +1,6 @@
 package cn.toint.oktool.spring.boot.satoken;
 
+import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.toint.oktool.spring.boot.constant.OrderConstant;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
@@ -16,7 +17,10 @@ public class SaTokenWebMvcConfig implements WebMvcConfigurer {
     private static final Logger log = LoggerFactory.getLogger(SaTokenWebMvcConfig.class);
 
     @Resource
-    private SaTokenInterceptor saTokenInterceptor;
+    private SaInterceptor saInterceptor;
+
+    @Resource
+    private SaTokenInterceptorExtension saTokenInterceptorExtension;
 
     /**
      * sa-token拦截器
@@ -24,9 +28,12 @@ public class SaTokenWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         int order = OrderConstant.SA_TOKEN_INTERCEPTOR_ORDER;
-        registry.addInterceptor(saTokenInterceptor)
+        saInterceptor.setAuth(handler -> {
+
+        });
+        registry.addInterceptor(saInterceptor)
                 .addPathPatterns("/**")
                 .order(order);
-        log.info("SaTokenInterceptor-认证拦截器已开启. path: {}, order: {}", "/**", order);
+        log.info("SaInterceptor-认证拦截器已开启. path: {}, order: {}", "/**", order);
     }
 }
