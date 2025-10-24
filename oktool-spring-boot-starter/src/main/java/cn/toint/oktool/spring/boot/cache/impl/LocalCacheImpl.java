@@ -68,7 +68,7 @@ public class LocalCacheImpl implements Cache {
     @Override
     public String get(String key) {
         Assert.notBlank(key, "key不能为空");
-        return timedCache.get(key);
+        return timedCache.get(key, false);
     }
 
     @Override
