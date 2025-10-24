@@ -19,18 +19,12 @@ public class SaTokenWebMvcConfig implements WebMvcConfigurer {
     @Resource
     private SaInterceptor saInterceptor;
 
-    @Resource
-    private SaTokenInterceptorExtension saTokenInterceptorExtension;
-
     /**
      * sa-token拦截器
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         int order = OrderConstant.SA_TOKEN_INTERCEPTOR_ORDER;
-        saInterceptor.setAuth(handler -> {
-
-        });
         registry.addInterceptor(saInterceptor)
                 .addPathPatterns("/**")
                 .order(order);
