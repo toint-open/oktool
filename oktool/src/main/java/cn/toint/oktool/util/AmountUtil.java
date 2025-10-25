@@ -30,7 +30,7 @@ public class AmountUtil {
 
         // 去除多余字符
         amountStr = StrUtil.trim(amountStr);
-        amountStr = StrUtil.removeAll(amountStr, "圆", "元", "$", "¥", "￥", "USD", "CNY", "RMB", "人民币", StrPool.SPACE, StrPool.COMMA);
+        amountStr = StrUtil.removeAll(amountStr, "圆", "元", "$", "¥", "￥", "USD", "CNY", "RMB", "人民币", "*", StrPool.SPACE, StrPool.COMMA);
 
         // 再次检查空字符
         if (StringUtils.isBlank(amountStr)) return null;
