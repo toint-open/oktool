@@ -97,7 +97,7 @@ public class RedisTokenBucketRateLimiter implements RateLimiter {
 
         this.redisTemplate = redisTemplate;
         this.config = config;
-        this.redisKey = KeyBuilder.of("rate:limiter").add(name).build();
+        this.redisKey = KeyBuilder.of("rate-limiter").add(name).build();
         this.script = new DefaultRedisScript<>(LUA_SCRIPT, Long.class);
     }
 
