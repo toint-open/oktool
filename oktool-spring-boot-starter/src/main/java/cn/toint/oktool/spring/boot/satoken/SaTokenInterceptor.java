@@ -1,11 +1,13 @@
 package cn.toint.oktool.spring.boot.satoken;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.toint.oktool.spring.boot.context.OkContext;
-import cn.toint.oktool.spring.boot.trace.TraceInfo;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+
+import java.util.Optional;
 
 /**
  * SaToken拦截器包装类
@@ -29,14 +31,22 @@ public class SaTokenInterceptor extends SaInterceptor {
             saTokenInterceptorExtension.afterAuth(handler);
 
             // 写入用户信息到上下文
-            Object loginId = StpUtil.getLoginId();
-            String tokenValue = StpUtil.getTokenValue();
-            OkContext.setToken(tokenValue);
-            TraceInfo traceInfo = OkContext.getTraceInfo();
-            if (traceInfo != null) {
-                traceInfo.setUserId(loginId);
-                traceInfo.setToken(tokenValue);
-            }
+            Optional.ofNullable(StpUtil.getLoginIdDefaultNull())
+                    .ifPresent(loginId -> {
+                        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+                        String tokenValue = tokenInfo.getTokenValue();
+
+                        // 设置 token 到上下文
+                        Optional.ofNullable(tokenValue)
+                                .ifPresent(OkContext::setToken);
+
+                        // 更新追踪信息
+                        Optional.ofNullable(OkContext.getTraceInfo())
+                                .ifPresent(traceInfo -> {
+                                    traceInfo.setUserId(loginId);
+                                    traceInfo.setToken(tokenValue);
+                                });
+                    });
         });
     }
 }
