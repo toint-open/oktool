@@ -17,9 +17,13 @@
 package cn.toint.oktool.util;
 
 import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Objects;
 
 /**
  * @author Toint
@@ -33,45 +37,13 @@ public class AssertTest {
 
     @Test
     void validate() {
-//        // 原生使用
-//        // 报错: jakarta.validation.ValidationException: pojo 不能为null
-//        final Pojo pojo = new Pojo();
-//        pojo.setName("test");
-//        pojo.setAge(18);
-//        pojo.setPojo(null);
-//        Assert.validate(pojo);
-
-//        // 原生使用
-//        // 报错: jakarta.validation.ValidationException: pojo.name 不能为空
-//        final Pojo pojo = new Pojo();
-//        pojo.setName("test");
-//        pojo.setAge(18);
-//        pojo.setPojo(new Pojo());
-//        Assert.validate(pojo);
-
-//        // 模板预留报错信息, 自动填充
-//        // 报错: java.lang.IllegalArgumentException: 发生异常, 原因: pojo.pojo 不能为null
-//        final Pojo pojo = new Pojo();
-//        pojo.setName("test");
-//        pojo.setAge(18);
-//        pojo.setPojo(new Pojo());
-//        Assert.validate(pojo, "发生异常, 原因: {}");
-
-//        // 模板预留报错信息, 并自定义模板与参数, 自动填充
-//        // java.lang.IllegalArgumentException: 发生异常, 时间: 2025-05-31 07:30:51, 原因: pojo.name 不能为空
-//        final Pojo pojo = new Pojo();
-//        pojo.setName("test");
-//        pojo.setAge(18);
-//        pojo.setPojo(new Pojo());
-//        Assert.validate(pojo, "发生异常, 时间: {}, 原因: {}", DateUtil.formatNow());
-
-//        // 模板未预留报错信息, 忽略
-//        // java.lang.IllegalArgumentException: 发生异常, 时间: 2025-05-31 07:31:21
-//        final Pojo pojo = new Pojo();
-//        pojo.setName("test");
-//        pojo.setAge(18);
-//        pojo.setPojo(new Pojo());
-//        Assert.validate(pojo, "发生异常, 时间: {}", DateUtil.formatNow());
+        // 原生使用
+        // 报错: jakarta.validation.ValidationException: pojo 不能为null
+        final Pojo pojo = new Pojo();
+        pojo.setName("test");
+        pojo.setAge(18);
+        pojo.setPojo(null);
+        Assertions.assertThrows(ValidationException.class, () -> Assert.validate(pojo));
     }
 
     private static class Pojo {
@@ -97,6 +69,18 @@ public class AssertTest {
 
         public void setPojo(Pojo pojo) {
             this.pojo = pojo;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (object == null || getClass() != object.getClass()) return false;
+            Pojo pojo1 = (Pojo) object;
+            return Objects.equals(name, pojo1.name) && Objects.equals(age, pojo1.age) && Objects.equals(pojo, pojo1.pojo);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, age, pojo);
         }
 
         @NotBlank
