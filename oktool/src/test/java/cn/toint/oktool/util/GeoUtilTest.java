@@ -18,9 +18,12 @@ package cn.toint.oktool.util;
 
 import org.gavaghan.geodesy.GeodeticCurve;
 import org.gavaghan.geodesy.GlobalCoordinates;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
 
 /**
  * @author Toint
@@ -38,8 +41,8 @@ public class GeoUtilTest {
         GlobalCoordinates g2 = new GlobalCoordinates(23.021351, 113.121586);
 
         GeodeticCurve geodeticCurve = GeoUtil.calculateCurveWgs84(g1, g2);
-        System.out.println(geodeticCurve.getEllipsoidalDistance());
-        log.info("距离(m): {}", GeoUtil.getDistanceM(geodeticCurve));
-        log.info("距离(km): {}", GeoUtil.getDistanceKm(geodeticCurve));
+        Assertions.assertEquals(1897851.8364121385, geodeticCurve.getEllipsoidalDistance());
+        Assertions.assertEquals(1897852L, GeoUtil.getDistanceM(geodeticCurve));
+        Assertions.assertEquals(BigDecimal.valueOf(1897.852), GeoUtil.getDistanceKm(geodeticCurve));
     }
 }

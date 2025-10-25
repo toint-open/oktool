@@ -17,6 +17,7 @@
 package cn.toint.oktool.util;
 
 import cn.toint.oktool.model.PublicIpInfo;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ public class IpUtilTest {
     private static final Logger log = LoggerFactory.getLogger(IpUtilTest.class);
 
     @Test
+    @Disabled
     void getPublicIpInfo() {
         final Optional<PublicIpInfo> publicIpInfo = IpUtil.getPublicIpInfo();
         publicIpInfo.orElseThrow(RuntimeException::new);
