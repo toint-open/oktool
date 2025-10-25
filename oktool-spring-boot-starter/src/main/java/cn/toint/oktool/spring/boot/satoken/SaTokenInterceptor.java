@@ -6,6 +6,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.toint.oktool.spring.boot.context.OkContext;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
@@ -16,6 +18,8 @@ import java.util.Optional;
  * @since 2025/10/21
  */
 public class SaTokenInterceptor extends SaInterceptor {
+
+    private static final Logger log = LoggerFactory.getLogger(SaTokenInterceptor.class);
 
     @Resource
     private SaTokenInterceptorExtension saTokenInterceptorExtension;
@@ -31,22 +35,30 @@ public class SaTokenInterceptor extends SaInterceptor {
             saTokenInterceptorExtension.afterAuth(handler);
 
             // 写入用户信息到上下文
-            Optional.ofNullable(StpUtil.getLoginIdDefaultNull())
-                    .ifPresent(loginId -> {
-                        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-                        String tokenValue = tokenInfo.getTokenValue();
-
-                        // 设置 token 到上下文
-                        Optional.ofNullable(tokenValue)
-                                .ifPresent(OkContext::setToken);
-
-                        // 更新追踪信息
-                        Optional.ofNullable(OkContext.getTraceInfo())
-                                .ifPresent(traceInfo -> {
-                                    traceInfo.setUserId(loginId);
-                                    traceInfo.setToken(tokenValue);
-                                });
-                    });
+            try {
+                writerContext();
+            } catch (Exception e) {
+                log.error("写入用户信息到上下文失败", e);
+            }
         });
+    }
+
+    private void writerContext() {
+        Optional.ofNullable(StpUtil.getLoginIdDefaultNull())
+                .ifPresent(loginId -> {
+                    SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+                    String tokenValue = tokenInfo.getTokenValue();
+
+                    // 设置 token 到上下文
+                    Optional.ofNullable(tokenValue)
+                            .ifPresent(OkContext::setToken);
+
+                    // 更新追踪信息
+                    Optional.ofNullable(OkContext.getTraceInfo())
+                            .ifPresent(traceInfo -> {
+                                traceInfo.setUserId(loginId);
+                                traceInfo.setToken(tokenValue);
+                            });
+                });
     }
 }
