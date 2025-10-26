@@ -47,8 +47,22 @@ public class RetryUtil {
      * @return 方法执行结果
      * @throws RetryException 重试失败
      */
-    public static <R> R execute(final Callable<R> callable) {
+    public static <R> R execute(Callable<R> callable) {
         return RetryUtil.execute(callable, 3, Duration.ofSeconds(1), true, RuntimeException.class);
+    }
+
+    /**
+     * 重试机制
+     *
+     * @param callable 执行方法
+     * @param <R>      返回类型
+     * @param exceptionClass 需要重试的异常类型 (默认 {@link Exception})
+     * @return 方法执行结果
+     * @throws RetryException 重试失败
+     */
+    @SafeVarargs
+    public static <R> R execute(Callable<R> callable, Class<? extends Throwable>... exceptionClass) {
+        return RetryUtil.execute(callable, 3, Duration.ofSeconds(1), true, exceptionClass);
     }
 
     /**
@@ -63,11 +77,11 @@ public class RetryUtil {
      * @throws RetryException 重试失败
      */
     @SafeVarargs
-    public static <R> R execute(final Callable<R> callable,
-                                final int retrySize,
-                                final Duration intervalTime,
-                                final Class<? extends Throwable>... exceptionClass) {
-        return RetryUtil.execute(callable, retrySize, intervalTime, false, exceptionClass);
+    public static <R> R execute(Callable<R> callable,
+                                int retrySize,
+                                Duration intervalTime,
+                                Class<? extends Throwable>... exceptionClass) {
+        return RetryUtil.execute(callable, retrySize, intervalTime, true, exceptionClass);
     }
 
     /**
@@ -83,16 +97,16 @@ public class RetryUtil {
      * @throws RetryException 重试失败
      */
     @SafeVarargs
-    public static <R> R execute(final Callable<R> callable,
-                                final int retrySize,
-                                final Duration intervalTime,
-                                final boolean printStackTrace,
-                                final Class<? extends Throwable>... exceptionClass) {
-        final List<RetryPolicy> retryPolicies = new ArrayList<>();
+    public static <R> R execute(Callable<R> callable,
+                                int retrySize,
+                                Duration intervalTime,
+                                boolean printStackTrace,
+                                Class<? extends Throwable>... exceptionClass) {
+        List<RetryPolicy> retryPolicies = new ArrayList<>();
         if (ArrayUtil.isNotEmpty(exceptionClass)) {
-            for (final Class<? extends Throwable> item : exceptionClass) {
+            for (Class<? extends Throwable> item : exceptionClass) {
                 if (item != null) {
-                    final RetryPolicy retryPolicy = new RetryPolicy(retrySize, intervalTime, item, printStackTrace);
+                    RetryPolicy retryPolicy = new RetryPolicy(retrySize, intervalTime, item, printStackTrace);
                     retryPolicies.add(retryPolicy);
                 }
             }
@@ -115,7 +129,7 @@ public class RetryUtil {
      * @return 方法执行结果
      * @throws RetryException 重试失败
      */
-    public static <R> R execute(final Callable<R> callable,
+    public static <R> R execute(Callable<R> callable,
                                 Collection<RetryPolicy> retryPolicies) {
         Assert.notNull(callable, "callable must not be null");
 
@@ -134,29 +148,30 @@ public class RetryUtil {
                 // 检查异常类型, 没有匹配上抛出异常不重试
                 RetryPolicy retryPolicy = null;
                 if (CollUtil.isNotEmpty(retryPolicies)) {
-                    for (final RetryPolicy item : retryPolicies) {
+                    for (RetryPolicy item : retryPolicies) {
                         if (item.getExceptionClass() != null && item.getExceptionClass().isAssignableFrom(e.getClass())) {
                             retryPolicy = item;
                             break;
                         }
                     }
                 }
+
                 if (retryPolicy == null) {
                     throw new RetryException(e.getMessage(), e);
                 }
 
                 // 剩余重试次数耗尽, 抛出异常
-                final AtomicInteger remainSize = retryCounters.get(retryPolicy);
+                AtomicInteger remainSize = retryCounters.get(retryPolicy);
                 if (remainSize == null || remainSize.decrementAndGet() < 0) {
                     throw new RetryException(e.getMessage(), e);
                 }
 
                 // 打印日志
                 if (retryPolicy.isPrintStackTrace()) {
-                    log.warn("({}/{}) {}", remainSize.get() + 1, retryPolicy.getRetrySize(), e.getMessage(), e);
+                    log.warn("[{}/{}] {}", remainSize.get() + 1, retryPolicy.getRetrySize(), e.getMessage(), e);
                 }
 
-                // 执行休眠重试
+                // 睡眠等待
                 Optional.ofNullable(retryPolicy.getIntervalTime())
                         .filter(Duration::isPositive)
                         .map(Duration::toNanos)
