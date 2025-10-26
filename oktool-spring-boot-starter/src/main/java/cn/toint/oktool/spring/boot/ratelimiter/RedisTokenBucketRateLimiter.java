@@ -147,7 +147,7 @@ public class RedisTokenBucketRateLimiter implements RateLimiter {
         while (!tryAcquire(permits)) {
             LockSupport.parkNanos(waitNanos);
             if (Thread.interrupted()) {
-                throw new RuntimeException("获取令牌被中断");
+                throw new RuntimeException("线程中断");
             }
         }
     }
