@@ -18,7 +18,6 @@ package cn.toint.oktool.util;
 
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.collection.CollUtil;
-import cn.hutool.v7.core.thread.ThreadUtil;
 import cn.toint.oktool.exception.RetryException;
 import cn.toint.oktool.model.RetryPolicy;
 import org.slf4j.Logger;
@@ -28,6 +27,7 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.LockSupport;
 
 /**
  * 重试工具
@@ -157,8 +157,13 @@ public class RetryUtil {
                 }
 
                 // 执行休眠重试
-                if (retryPolicy.getIntervalTime() != null && retryPolicy.getIntervalTime().isPositive()) {
-                    ThreadUtil.sleep(retryPolicy.getIntervalTime());
+                Optional.ofNullable(retryPolicy.getIntervalTime())
+                        .filter(Duration::isPositive)
+                        .map(Duration::toNanos)
+                        .ifPresent(LockSupport::parkNanos);
+
+                if (Thread.interrupted()) {
+                    throw new RuntimeException("线程中断");
                 }
             }
         }
