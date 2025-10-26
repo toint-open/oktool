@@ -16,8 +16,6 @@
 
 package cn.toint.oktool.model;
 
-import jakarta.annotation.Nullable;
-
 import java.time.Duration;
 import java.util.Objects;
 
@@ -36,13 +34,11 @@ public class RetryPolicy {
     /**
      * 间隔时间 (null 或 小于等于0, 表示立刻重试不会等待)
      */
-    @Nullable
     private final Duration intervalTime;
 
     /**
      * 匹配异常类型 (null 不会重试)
      */
-    @Nullable
     private final Class<? extends Throwable> exceptionClass;
 
     /**
@@ -55,9 +51,9 @@ public class RetryPolicy {
      * @param intervalTime   间隔时间 (null 或 小于等于0, 表示立刻重试不会等待)
      * @param exceptionClass 匹配异常类型 (null 不会重试)
      */
-    public RetryPolicy(final int retrySize,
-                       @Nullable final Duration intervalTime,
-                       @Nullable final Class<? extends Throwable> exceptionClass) {
+    public RetryPolicy(int retrySize,
+                       Duration intervalTime,
+                       Class<? extends Throwable> exceptionClass) {
         this.retrySize = retrySize;
         this.intervalTime = intervalTime;
         this.exceptionClass = exceptionClass;
@@ -70,10 +66,10 @@ public class RetryPolicy {
      * @param exceptionClass  匹配异常类型 (null 不会重试)
      * @param printStackTrace 重试时是否打印异常信息 (false 不打印)
      */
-    public RetryPolicy(final int retrySize,
-                       @Nullable final Duration intervalTime,
-                       @Nullable final Class<? extends Throwable> exceptionClass,
-                       final boolean printStackTrace) {
+    public RetryPolicy(int retrySize,
+                       Duration intervalTime,
+                       Class<? extends Throwable> exceptionClass,
+                       boolean printStackTrace) {
         this.retrySize = retrySize;
         this.intervalTime = intervalTime;
         this.exceptionClass = exceptionClass;
@@ -84,12 +80,12 @@ public class RetryPolicy {
         return retrySize;
     }
 
-    @Nullable
+
     public Duration getIntervalTime() {
         return intervalTime;
     }
 
-    @Nullable
+
     public Class<? extends Throwable> getExceptionClass() {
         return exceptionClass;
     }
