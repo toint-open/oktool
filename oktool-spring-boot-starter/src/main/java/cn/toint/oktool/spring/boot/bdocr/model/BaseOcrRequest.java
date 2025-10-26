@@ -100,6 +100,10 @@ public class BaseOcrRequest {
         request.header(HeaderName.USER_AGENT, null);
 
         try (Response response = request.send()) {
+
+            // 校验状态
+            Assert.isTrue(response.isOk(), "文件链接下载失败: {}", response.getStatus());
+
             // 校验头信息
             // http信息可能伪造, 所以只校验最大值
             long contentLength = response.contentLength();
