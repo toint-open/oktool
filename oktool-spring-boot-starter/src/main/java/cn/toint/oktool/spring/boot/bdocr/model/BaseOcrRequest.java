@@ -120,9 +120,26 @@ public class BaseOcrRequest {
                 extName = FileNameUtil.getSuffix(fileName);
             }
 
-            // 尝试通过二进制头获取
-            byte[] fileBytes = response.bodyBytes();
-            return file(fileBytes, extName);
+            // 进度监听避免内存溢出
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            response.body().write(outputStream, true, new StreamProgress() {
+                @Override
+                public void start() {
+
+                }
+
+                @Override
+                public void progress(long total, long progressSize) {
+                    if (progressSize > 0) checkFileSize(progressSize);
+                }
+
+                @Override
+                public void finish() {
+
+                }
+            });
+
+            return file(outputStream.toByteArray(), extName);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
