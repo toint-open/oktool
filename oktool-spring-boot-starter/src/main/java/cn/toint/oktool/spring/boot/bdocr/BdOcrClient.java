@@ -73,6 +73,7 @@ public class BdOcrClient {
         });
 
         // 缓存token
+        // 百度的token每次请求返回的都是一样的, 所以这里不需要让token提前失效
         cache.put(buildTokenCacheKey(bdOcrClientConfig.getApiKey()),
                 tokenResponse.getAccessToken(),
                 Duration.ofSeconds(tokenResponse.getExpires_in()));
