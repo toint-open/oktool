@@ -95,9 +95,9 @@ public class RetryPolicy {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        RetryPolicy that = (RetryPolicy) o;
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
+        RetryPolicy that = (RetryPolicy) object;
         return retrySize == that.retrySize && printStackTrace == that.printStackTrace && Objects.equals(intervalTime, that.intervalTime) && Objects.equals(exceptionClass, that.exceptionClass);
     }
 

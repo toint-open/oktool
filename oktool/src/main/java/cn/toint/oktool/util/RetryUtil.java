@@ -17,7 +17,6 @@
 package cn.toint.oktool.util;
 
 import cn.hutool.v7.core.array.ArrayUtil;
-import cn.hutool.v7.core.collection.CollUtil;
 import cn.toint.oktool.exception.RetryException;
 import cn.toint.oktool.model.RetryPolicy;
 import org.slf4j.Logger;
@@ -54,9 +53,9 @@ public class RetryUtil {
     /**
      * 重试机制
      *
-     * @param callable 执行方法
-     * @param <R>      返回类型
-     * @param exceptionClass 需要重试的异常类型 (默认 {@link Exception})
+     * @param callable       执行方法
+     * @param <R>            返回类型
+     * @param exceptionClass 需要重试的异常类型 (默认 {@link RuntimeException})
      * @return 方法执行结果
      * @throws RetryException 重试失败
      */
@@ -71,7 +70,7 @@ public class RetryUtil {
      * @param callable       执行方法
      * @param retrySize      重试次数 (不包含首次执行, 小于1表示不重试, 但无论如何方法会执行1次)
      * @param intervalTime   间隔时间 (null 或 小于等于0, 表示立刻重试不会等待)
-     * @param exceptionClass 需要重试的异常类型 (默认 {@link Exception})
+     * @param exceptionClass 需要重试的异常类型 (默认 {@link RuntimeException})
      * @param <R>            返回类型
      * @return 方法执行结果
      * @throws RetryException 重试失败
@@ -90,7 +89,7 @@ public class RetryUtil {
      * @param callable        执行方法
      * @param retrySize       重试次数 (不包含首次执行, 小于1表示不重试, 但无论如何方法会执行1次)
      * @param intervalTime    间隔时间 (null 或 小于等于0, 表示立刻重试不会等待)
-     * @param exceptionClass  需要重试的异常类型 (默认 {@link Exception})
+     * @param exceptionClass  需要重试的异常类型 (默认 {@link RuntimeException})
      * @param printStackTrace 重试时是否打印异常信息 (false 不打印)
      * @param <R>             返回类型
      * @return 方法执行结果
@@ -102,20 +101,18 @@ public class RetryUtil {
                                 Duration intervalTime,
                                 boolean printStackTrace,
                                 Class<? extends Throwable>... exceptionClass) {
-        List<RetryPolicy> retryPolicies = new ArrayList<>();
-        if (ArrayUtil.isNotEmpty(exceptionClass)) {
-            for (Class<? extends Throwable> item : exceptionClass) {
-                if (item != null) {
-                    RetryPolicy retryPolicy = new RetryPolicy(retrySize, intervalTime, item, printStackTrace);
-                    retryPolicies.add(retryPolicy);
-                }
-            }
+
+        List<Class<? extends Throwable>> exceptionClassList;
+        if (ArrayUtil.isEmpty(exceptionClass)) {
+            exceptionClassList = List.of(RuntimeException.class);
+        } else {
+            exceptionClassList = Arrays.stream(exceptionClass).toList();
         }
 
-        // 默认捕获: Exception.class
-        if (CollUtil.isEmpty(retryPolicies)) {
-            retryPolicies.add(new RetryPolicy(retrySize, intervalTime, Exception.class, printStackTrace));
-        }
+        List<RetryPolicy> retryPolicies = exceptionClassList.stream()
+                .filter(Objects::nonNull)
+                .map(item -> new RetryPolicy(retrySize, intervalTime, item, printStackTrace))
+                .toList();
 
         return RetryUtil.execute(callable, retryPolicies);
     }
@@ -133,36 +130,36 @@ public class RetryUtil {
                                 Collection<RetryPolicy> retryPolicies) {
         Assert.notNull(callable, "callable must not be null");
 
-        // 为每个策略创建独立的计数器
+        // 重试计数器
         Map<RetryPolicy, AtomicInteger> retryCounters = new HashMap<>();
-        if (CollUtil.isNotEmpty(retryPolicies)) {
-            for (RetryPolicy policy : retryPolicies) {
-                retryCounters.put(policy, new AtomicInteger(policy.getRetrySize()));
-            }
+
+        if (retryPolicies == null) {
+            retryPolicies = List.of();
+        } else {
+            retryPolicies = retryPolicies.stream()
+                    .filter(Objects::nonNull)
+                    // 重试次数小于1的策略不重试
+                    .filter(item -> item.getRetrySize() > 0)
+                    // 无异常类型不会重试
+                    .filter(item -> item.getExceptionClass() != null)
+                    // 初始化计数器
+                    .peek(item -> retryCounters.put(item, new AtomicInteger(item.getRetrySize())))
+                    .toList();
         }
 
         while (true) {
             try {
                 return callable.call();
             } catch (Exception e) {
-                // 检查异常类型, 没有匹配上抛出异常不重试
-                RetryPolicy retryPolicy = null;
-                if (CollUtil.isNotEmpty(retryPolicies)) {
-                    for (RetryPolicy item : retryPolicies) {
-                        if (item.getExceptionClass() != null && item.getExceptionClass().isAssignableFrom(e.getClass())) {
-                            retryPolicy = item;
-                            break;
-                        }
-                    }
-                }
+                // 查找匹配的重试策略, 没有匹配上抛出异常不重试
+                RetryPolicy retryPolicy = retryPolicies.stream()
+                        .filter(item -> item.getExceptionClass().isInstance(e))
+                        .findFirst()
+                        .orElseThrow(() -> new RetryException(e.getMessage(), e));
 
-                if (retryPolicy == null) {
-                    throw new RetryException(e.getMessage(), e);
-                }
-
-                // 剩余重试次数耗尽, 抛出异常
+                // 检查剩余重试次数
                 AtomicInteger remainSize = retryCounters.get(retryPolicy);
-                if (remainSize == null || remainSize.decrementAndGet() < 0) {
+                if (remainSize.decrementAndGet() < 0) {
                     throw new RetryException(e.getMessage(), e);
                 }
 
@@ -178,7 +175,7 @@ public class RetryUtil {
                         .ifPresent(LockSupport::parkNanos);
 
                 if (Thread.interrupted()) {
-                    throw new RuntimeException("线程中断");
+                    throw new RuntimeException("线程中断", e);
                 }
             }
         }
