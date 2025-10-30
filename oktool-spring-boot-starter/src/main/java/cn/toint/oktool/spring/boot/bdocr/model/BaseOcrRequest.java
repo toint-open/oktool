@@ -96,13 +96,12 @@ public class BaseOcrRequest {
 
         Request request = HttpUtil.createGet(fileUrl);
         request.setMaxRedirects(5);
-        // hutool会给默认的user-agent, 默认的user-agent存在一些问题, 所以这里去掉
-        request.header(HeaderName.USER_AGENT, null);
+        request.header(HeaderName.CONTENT_DISPOSITION, "attachment");
 
         try (Response response = request.send()) {
 
             // 校验状态
-            Assert.isTrue(response.isOk(), "文件链接下载失败: {}", response.getStatus());
+            Assert.isTrue(response.isOk(), "文件链接下载失败: {}", response.getStatus() + "-" + response.bodyStr());
 
             // 校验头信息
             // http信息可能伪造, 所以只校验最大值
