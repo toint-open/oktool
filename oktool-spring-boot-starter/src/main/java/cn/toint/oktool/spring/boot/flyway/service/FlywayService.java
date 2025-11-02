@@ -82,7 +82,7 @@ public class FlywayService {
                     .load()
                     // 开始进行数据库迁移
                     .migrate();
-            log.info("数据库迁移任务初始化成功, dataSourceKey: {}", dataSourceKey);
+            log.info("Flyway-数据库迁移任务初始化成功, dataSourceKey: {}", dataSourceKey);
         });
     }
 }
