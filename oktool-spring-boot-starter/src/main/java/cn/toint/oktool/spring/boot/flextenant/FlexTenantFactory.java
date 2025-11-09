@@ -2,6 +2,9 @@ package cn.toint.oktool.spring.boot.flextenant;
 
 import cn.toint.oktool.spring.boot.context.OkContext;
 import com.mybatisflex.core.tenant.TenantFactory;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -12,6 +15,9 @@ import java.util.List;
  * @since 2025/10/12
  */
 public class FlexTenantFactory implements TenantFactory {
+
+    private static final Logger log = LoggerFactory.getLogger(FlexTenantFactory.class);
+
     @Override
     public Object[] getTenantIds() {
         return getTenantIds(null);
@@ -32,5 +38,10 @@ public class FlexTenantFactory implements TenantFactory {
         } else {
             return tenantIds.toArray();
         }
+    }
+
+    @PostConstruct
+    private void init() {
+        log.info("TenantFactory-多租户功能已开启");
     }
 }
