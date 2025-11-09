@@ -27,6 +27,7 @@ public class SaTokenWebMvcConfig implements WebMvcConfigurer {
         int order = OrderConstant.SA_TOKEN_INTERCEPTOR_ORDER;
         registry.addInterceptor(saInterceptor)
                 .addPathPatterns("/**")
+                .excludePathPatterns("/favicon.ico")
                 .order(order);
         log.info("SaInterceptor-认证拦截器已开启. path: {}, order: {}", "/**", order);
     }
