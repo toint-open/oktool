@@ -23,6 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.http.HttpHeaders;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -62,12 +63,17 @@ public class TraceInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler, @Nullable final Exception ex) throws Exception {
-        TraceInfo traceInfo = OkContext.getTraceInfo();
-        if (traceInfo != null) {
-            traceInfo.setStatus(response.getStatus());
-            traceInfo.setEndTime(LocalDateTime.now());
-            traceInfo.calculateDuration();
-            log.info("请求结束: {}", traceInfo.toJsonString());
+        try {
+            TraceInfo traceInfo = OkContext.getTraceInfo();
+            if (traceInfo != null) {
+                traceInfo.setStatus(response.getStatus());
+                traceInfo.setEndTime(LocalDateTime.now());
+                traceInfo.calculateDuration();
+                log.info("请求结束: {}", traceInfo.toJsonString());
+            }
+        } finally {
+            // 确保 MDC 被清理
+            MDC.clear();
         }
     }
 
