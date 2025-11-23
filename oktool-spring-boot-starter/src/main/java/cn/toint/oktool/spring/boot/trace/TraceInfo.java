@@ -29,9 +29,9 @@ import java.util.Objects;
  */
 public class TraceInfo implements WriteValue {
     /**
-     * 请求ID（用于链路追踪）
+     * 请求URI
      */
-    private String traceId;
+    private String uri;
 
     /**
      * 请求方法（GET/POST/PUT/DELETE等）
@@ -39,14 +39,14 @@ public class TraceInfo implements WriteValue {
     private String method;
 
     /**
-     * 请求URI
-     */
-    private String uri;
-
-    /**
      * 查询参数
      */
     private String query;
+
+    /**
+     * 请求ID（用于链路追踪）
+     */
+    private String traceId;
 
     /**
      * 客户端IP
