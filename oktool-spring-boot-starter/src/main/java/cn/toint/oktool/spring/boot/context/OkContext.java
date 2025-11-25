@@ -159,16 +159,14 @@ public class OkContext {
      * 运行全新的上下文 (上下文容器线程安全)
      */
     public static void runWithNewContext(Runnable runnable) {
-        ScopedValue.where(CONTEXT_INSTANCE, new ConcurrentHashMap<>())
-                .run(runnable);
+        runWithContext(null, runnable);
     }
 
     /**
      * 运行全新的上下文 (上下文容器线程安全)
      */
     public static <R> R callWithNewContext(Supplier<R> supplier) {
-        return ScopedValue.where(CONTEXT_INSTANCE, new ConcurrentHashMap<>())
-                .call(supplier::get);
+        return callWithContext(null, supplier);
     }
 
     /**
@@ -190,13 +188,26 @@ public class OkContext {
      */
     public static <R> R callWithContext(Map<String, Object> context, Supplier<R> supplier) {
         Assert.notNullParam(supplier, "supplier");
+
         if (context == null) {
             context = new ConcurrentHashMap<>();
         } else {
             context = new ConcurrentHashMap<>(context);
         }
-        return ScopedValue.where(CONTEXT_INSTANCE, context)
-                .call(supplier::get);
+
+        // 备份MDC上下文
+        Map<String, String> previousMdc = MDC.getCopyOfContextMap();
+
+        try {
+            return ScopedValue.where(CONTEXT_INSTANCE, context)
+                    .call(supplier::get);
+        } finally {
+            // 恢复MDC上下文
+            MDC.clear();
+            if (previousMdc != null && !previousMdc.isEmpty()) {
+                MDC.setContextMap(previousMdc);
+            }
+        }
     }
 
     /**
