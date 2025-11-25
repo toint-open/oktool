@@ -17,6 +17,7 @@
 package cn.toint.oktool.spring.boot.flextenant;
 
 import cn.toint.oktool.spring.boot.constant.OrderConstant;
+import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -30,10 +31,13 @@ public class FlexTenantWebMvcConfig implements WebMvcConfigurer {
 
     private static final Logger log = LoggerFactory.getLogger(FlexTenantWebMvcConfig.class);
 
+    @Resource
+    private FlexTenantInterceptor flexTenantInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         int order = OrderConstant.FLEX_TENANT_INTERCEPTOR_ORDER;
-        registry.addInterceptor(new FlexTenantInterceptor())
+        registry.addInterceptor(flexTenantInterceptor)
                 .addPathPatterns("/**")
                 // 在SaTokenInterceptor之后
                 .order(order);

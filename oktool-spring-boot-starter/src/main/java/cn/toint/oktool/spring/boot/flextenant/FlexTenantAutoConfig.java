@@ -49,4 +49,10 @@ public class FlexTenantAutoConfig {
     public TenantFactory tenantFactory() {
         return new FlexTenantFactory();
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public FlexTenantInterceptor flexTenantInterceptor() {
+        return new FlexTenantInterceptorImpl();
+    }
 }
