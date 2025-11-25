@@ -95,6 +95,11 @@ public class BaseDo {
         return this;
     }
 
+    public BaseDo validate() {
+        Assert.validate(this);
+        return this;
+    }
+
     public Long getId() {
         return id;
     }
@@ -117,10 +122,6 @@ public class BaseDo {
 
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public void validate() {
-        Assert.validate(this);
     }
 
     @Override
