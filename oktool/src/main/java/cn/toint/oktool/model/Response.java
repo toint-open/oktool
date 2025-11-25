@@ -27,14 +27,10 @@ import java.util.Objects;
  */
 public class Response<T> implements WriteValue {
     private Integer code;
-
     private String msg;
-
-    private T data;
-
     private Long timestamp = SystemClock.now();
-
     private String traceId = MDC.get("traceId");
+    private T data;
 
     public static <T> Response<T> success() {
         Response<T> response = new Response<>();
