@@ -195,19 +195,8 @@ public class OkContext {
             context = new ConcurrentHashMap<>(context);
         }
 
-        // 备份MDC上下文
-        Map<String, String> previousMdc = MDC.getCopyOfContextMap();
-
-        try {
-            return ScopedValue.where(CONTEXT_INSTANCE, context)
-                    .call(supplier::get);
-        } finally {
-            // 恢复MDC上下文
-            MDC.clear();
-            if (previousMdc != null && !previousMdc.isEmpty()) {
-                MDC.setContextMap(previousMdc);
-            }
-        }
+        return ScopedValue.where(CONTEXT_INSTANCE, context)
+                .call(supplier::get);
     }
 
     /**
