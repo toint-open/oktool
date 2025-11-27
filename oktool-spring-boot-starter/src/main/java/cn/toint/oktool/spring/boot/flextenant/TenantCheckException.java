@@ -16,26 +16,16 @@
 
 package cn.toint.oktool.spring.boot.flextenant;
 
-import cn.toint.oktool.spring.boot.context.OkContext;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-
 /**
  * @author Toint
  * @since 2025/11/27
  */
-@Aspect
-public class FlexTenantAspect {
-
-    @Around("@annotation(checkTenant)")
-    public Object around(ProceedingJoinPoint joinPoint, CheckTenant checkTenant) throws Throwable {
-
-        if (checkTenant.require() && OkContext.getTenantId() == null) {
-            throw new TenantCheckException("租户校验失败");
-        }
-
-        return joinPoint.proceed();
+public class TenantCheckException extends RuntimeException{
+    public TenantCheckException(String message) {
+        super(message);
     }
 
+    public TenantCheckException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
