@@ -55,4 +55,10 @@ public class FlexTenantAutoConfig {
     public FlexTenantInterceptor flexTenantInterceptor() {
         return new FlexTenantInterceptorImpl();
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public FlexTenantAspect flexTenantAspect() {
+        return new FlexTenantAspect();
+    }
 }
