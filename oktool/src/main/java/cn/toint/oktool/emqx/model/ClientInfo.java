@@ -21,10 +21,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 /**
+ * 客户端信息
+ *
  * @author Toint
  * @since 2025/11/27
  */
-public class EmqxClientInfo {
+public class ClientInfo {
     @JsonProperty("clientid")
     private String clientId;
 
@@ -40,7 +42,7 @@ public class EmqxClientInfo {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        EmqxClientInfo that = (EmqxClientInfo) o;
+        ClientInfo that = (ClientInfo) o;
         return Objects.equals(clientId, that.clientId) && Objects.equals(connected, that.connected) && Objects.equals(connectedAt, that.connectedAt) && Objects.equals(disconnectedAt, that.disconnectedAt);
     }
 

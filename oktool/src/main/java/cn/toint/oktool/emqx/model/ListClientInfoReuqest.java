@@ -23,7 +23,7 @@ import java.util.Objects;
  * @author Toint
  * @since 2025/11/27
  */
-public class ListClientInfoDto {
+public class ListClientInfoReuqest {
     /**
      * 要查询的客户端ID列表
      */
@@ -32,7 +32,7 @@ public class ListClientInfoDto {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        ListClientInfoDto that = (ListClientInfoDto) o;
+        ListClientInfoReuqest that = (ListClientInfoReuqest) o;
         return Objects.equals(clientIds, that.clientIds);
     }
 

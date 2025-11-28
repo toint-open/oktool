@@ -22,8 +22,8 @@ import cn.hutool.v7.http.client.Request;
 import cn.hutool.v7.http.client.Response;
 import cn.hutool.v7.http.meta.Method;
 import cn.toint.oktool.emqx.model.EmqxClientConfig;
-import cn.toint.oktool.emqx.model.EmqxClientInfo;
-import cn.toint.oktool.emqx.model.ListClientInfoDto;
+import cn.toint.oktool.emqx.model.ClientInfo;
+import cn.toint.oktool.emqx.model.ListClientInfoReuqest;
 import cn.toint.oktool.util.Assert;
 import cn.toint.oktool.util.JacksonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * Emqx方法封装
+ *
  * @author Toint
  * @since 2025/11/27
  */
@@ -49,21 +51,21 @@ public class EmqxClient {
     /**
      * 获取指定客户端的信息
      */
-    public List<EmqxClientInfo> listClientInfo(ListClientInfoDto listClientInfoDto) {
-        List<EmqxClientInfo> emqxClientInfo = new ArrayList<>();
+    public List<ClientInfo> listClientInfo(ListClientInfoReuqest listClientInfoReuqest) {
+        List<ClientInfo> clientInfo = new ArrayList<>();
 
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
             UrlQuery urlQuery = UrlQuery.of();
-            urlQuery.add("clientid", listClientInfoDto.getClientIds());
+            urlQuery.add("clientid", listClientInfoReuqest.getClientIds());
             urlQuery.add("page", i + 1);
             urlQuery.add("limit", 10000);
 
             JsonNode response = request(Method.GET, "/api/v5/clients", urlQuery, null);
             Optional.ofNullable(response.get("data"))
                     .filter(JacksonUtil::isNotNull)
-                    .map(jsonNode -> JacksonUtil.treeToValue(jsonNode, new TypeReference<List<EmqxClientInfo>>() {
+                    .map(jsonNode -> JacksonUtil.treeToValue(jsonNode, new TypeReference<List<ClientInfo>>() {
                     }))
-                    .ifPresent(emqxClientInfo::addAll);
+                    .ifPresent(clientInfo::addAll);
 
             boolean hasNext = response.path("meta").path("hasnext").asBoolean();
             if (!hasNext) {
@@ -71,7 +73,7 @@ public class EmqxClient {
             }
         }
 
-        return emqxClientInfo;
+        return clientInfo;
     }
 
     private JsonNode request(Method method, String urlPath, UrlQuery urlQuery, String body) {
