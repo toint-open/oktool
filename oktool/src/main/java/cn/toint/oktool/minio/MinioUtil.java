@@ -17,7 +17,9 @@
 package cn.toint.oktool.minio;
 
 import cn.hutool.v7.core.net.url.UrlBuilder;
+import cn.hutool.v7.http.meta.HttpHeaderUtil;
 import cn.toint.oktool.util.Assert;
+import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.StatObjectArgs;
 import io.minio.errors.ErrorResponseException;
@@ -25,6 +27,9 @@ import io.minio.http.Method;
 import io.minio.messages.ErrorResponse;
 import org.apache.commons.lang3.StringUtils;
 
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,7 +37,21 @@ import java.util.Optional;
  * @author Toint
  * @since 2025/12/1
  */
-public class MinioClientUtil {
+public class MinioUtil {
+
+    /**
+     * 构建预签名下载参数
+     *
+     * @param fileName 文件名称
+     * @return 预签名下载参数, 可以添加到{@link GetPresignedObjectUrlArgs.Builder#extraQueryParams(Map)}
+     */
+    public static Map<String, String> buildPresignedDownloadParams(String fileName) {
+        Assert.notBlankParam(fileName, "文件名称");
+        Map<String, String> map = new HashMap<>();
+        String attachmentDisposition = HttpHeaderUtil.createAttachmentDisposition(fileName, StandardCharsets.UTF_8);
+        map.put("response-content-disposition", attachmentDisposition);
+        return map;
+    }
 
     /**
      * 修改为CDN加速地址
@@ -81,5 +100,18 @@ public class MinioClientUtil {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
+    }
+
+    /**
+     * 构建objectKey
+     * <p>
+     * objectKey规则: {基础路径}/{hash}/{文件ID}
+     * hash: 为了避免热点问题, 使用fileId计算Md5结果的前4位
+     *
+     * @param basePath 基础路径, 空值表示根路径
+     * @param fileId   文件ID(必填)
+     */
+    public static String buildObjectKey(String basePath, Long fileId) {
+        return ObjectKeyUtil.buildObjectKey(basePath, fileId);
     }
 }
