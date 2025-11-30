@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.toint.oktool.s3;
+package cn.toint.oktool.minio;
 
 import cn.hutool.v7.core.regex.ReUtil;
 import cn.hutool.v7.core.text.StrUtil;
