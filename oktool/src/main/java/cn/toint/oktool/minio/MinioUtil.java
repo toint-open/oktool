@@ -76,6 +76,17 @@ public class MinioUtil {
     }
 
     /**
+     * 修改为CDN加速地址
+     *
+     * @param cdn       CDN加速地址
+     * @param objectUrl 对象原始地址
+     * @return 如果采用的是GET方法且已提供了CDN, 则返回带有CDN加速地址的URL; 否则返回原始对象的URL。
+     */
+    public static String toCdnUrl(String cdn, String objectUrl) {
+        return toCdnUrl(Method.GET, cdn, objectUrl);
+    }
+
+    /**
      * 对象是否存在
      *
      * @return 桶/对象不存在
