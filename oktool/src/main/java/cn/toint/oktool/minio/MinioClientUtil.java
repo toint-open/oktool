@@ -16,11 +16,14 @@
 
 package cn.toint.oktool.minio;
 
+import cn.hutool.v7.core.net.url.UrlBuilder;
 import cn.toint.oktool.util.Assert;
 import io.minio.MinioClient;
 import io.minio.StatObjectArgs;
 import io.minio.errors.ErrorResponseException;
+import io.minio.http.Method;
 import io.minio.messages.ErrorResponse;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -30,6 +33,28 @@ import java.util.Optional;
  * @since 2025/12/1
  */
 public class MinioClientUtil {
+
+    /**
+     * 修改为CDN加速地址
+     *
+     * @param method    请求方法, 只有GET方法才会使用CDN
+     * @param cdn       CDN加速地址
+     * @param objectUrl 对象原始地址
+     * @return 如果采用的是GET方法且已提供了CDN, 则返回带有CDN加速地址的URL; 否则返回原始对象的URL。
+     */
+    public static String toCdnUrl(Method method, String cdn, String objectUrl) {
+        // 只有下载才使用CDN, 上传使用源站
+        if (method != Method.GET || StringUtils.isBlank(cdn) || StringUtils.isBlank(objectUrl)) {
+            return objectUrl;
+        }
+
+        // 如果是下载签名链接, 检查替换CDN加速域名
+        UrlBuilder presignedObjectUrlUrlBuilder = UrlBuilder.ofHttpWithoutEncode(objectUrl);
+        return UrlBuilder.ofHttpWithoutEncode(cdn)
+                .addPath(presignedObjectUrlUrlBuilder.getPathStr())
+                .setQuery(presignedObjectUrlUrlBuilder.getQuery())
+                .build();
+    }
 
     /**
      * 对象是否存在
