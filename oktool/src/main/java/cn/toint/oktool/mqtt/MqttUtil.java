@@ -20,8 +20,10 @@ import cn.toint.oktool.util.Assert;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5ClientBuilder;
+import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Toint
@@ -57,5 +59,26 @@ public class MqttUtil {
                 .buildAsync();
 
         return mqtt5AsyncClient;
+    }
+
+    /**
+     * 客户端连接
+     *
+     * @param mqtt5AsyncClient 客户端实例
+     * @param connectConfig          连接对象(传空使用默认对象)
+     * @return CompletableFuture
+     */
+    public static CompletableFuture<Mqtt5ConnAck> connect(Mqtt5AsyncClient mqtt5AsyncClient, ConnectConfig connectConfig) {
+        Assert.notNullParam(mqtt5AsyncClient, "mqtt5AsyncClient");
+
+        if (connectConfig == null) {
+            connectConfig = new ConnectConfig();
+        }
+
+        return mqtt5AsyncClient.connectWith()
+                .cleanStart(connectConfig.isCleanStart())
+                .keepAlive(connectConfig.getKeepAlive())
+                .sessionExpiryInterval(connectConfig.getSessionExpiryInterval())
+                .send();
     }
 }

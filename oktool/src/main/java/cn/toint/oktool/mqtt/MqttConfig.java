@@ -139,4 +139,5 @@ public class MqttConfig {
     public void setDisconnectedListener(MqttClientDisconnectedListener disconnectedListener) {
         this.disconnectedListener = disconnectedListener;
     }
+
 }
