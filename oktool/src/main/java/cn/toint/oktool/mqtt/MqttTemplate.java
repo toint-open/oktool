@@ -71,7 +71,7 @@ public class MqttTemplate implements AutoCloseable {
     /**
      * 发布消息
      */
-    CompletableFuture<Mqtt5PublishResult> publish(Mqtt5Publish publish) {
+    public CompletableFuture<Mqtt5PublishResult> publish(Mqtt5Publish publish) {
         Assert.notNullParam(publish, "publish");
         return client.publish(publish);
     }
