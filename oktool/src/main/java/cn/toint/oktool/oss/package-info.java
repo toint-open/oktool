@@ -15,9 +15,10 @@
  */
 
 /**
+ * 请使用{@link cn.toint.oktool.minio.MinioTemplate}
+ *
  * @author Toint
  * @since 2025/12/6
- * @deprecated 请使用{@link cn.toint.oktool.minio.MinioTemplate}
  */
-@Deprecated
+@Deprecated(since = "2.0.11")
 package cn.toint.oktool.oss;
