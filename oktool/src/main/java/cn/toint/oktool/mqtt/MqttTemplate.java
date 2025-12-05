@@ -40,7 +40,7 @@ import java.util.function.Consumer;
 public class MqttTemplate implements AutoCloseable {
 
     private static final Logger log = LoggerFactory.getLogger(MqttTemplate.class);
-    private final Mqtt5AsyncClient mqtt5AsyncClient;
+    private final Mqtt5AsyncClient client;
     private final ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
 
     /**
@@ -50,8 +50,22 @@ public class MqttTemplate implements AutoCloseable {
      */
     public MqttTemplate(MqttConfig mqttConfig, ConnectConfig connectConfig) {
         Assert.notNullParam(mqttConfig, "mqttConfig");
-        mqtt5AsyncClient = MqttUtil.buildMqtt5AsyncClient(mqttConfig);
-        MqttUtil.connect(mqtt5AsyncClient, connectConfig);
+        client = MqttUtil.buildMqtt5AsyncClient(mqttConfig);
+        MqttUtil.connect(client, connectConfig);
+    }
+
+    /**
+     * @param mqttConfig 客户端配置
+     */
+    public MqttTemplate(MqttConfig mqttConfig) {
+        Assert.notNullParam(mqttConfig, "mqttConfig");
+        client = MqttUtil.buildMqtt5AsyncClient(mqttConfig);
+        MqttUtil.connect(client, null);
+    }
+
+    public MqttTemplate(Mqtt5AsyncClient client) {
+        Assert.notNullParam(client, "client");
+        this.client = client;
     }
 
     /**
@@ -59,7 +73,7 @@ public class MqttTemplate implements AutoCloseable {
      */
     CompletableFuture<Mqtt5PublishResult> publish(Mqtt5Publish publish) {
         Assert.notNullParam(publish, "publish");
-        return mqtt5AsyncClient.publish(publish);
+        return client.publish(publish);
     }
 
     /**
@@ -84,17 +98,17 @@ public class MqttTemplate implements AutoCloseable {
             }
         };
 
-        return mqtt5AsyncClient.subscribe(subscribe, consumer, executorService, manualAcknowledgement);
+        return client.subscribe(subscribe, consumer, executorService, manualAcknowledgement);
     }
 
-    public Mqtt5AsyncClient getMqtt5AsyncClient() {
-        return mqtt5AsyncClient;
+    public Mqtt5AsyncClient client() {
+        return client;
     }
 
     @Override
     public void close() throws Exception {
-        if (mqtt5AsyncClient != null) {
-            mqtt5AsyncClient.disconnect();
+        if (client != null) {
+            client.disconnect();
         }
     }
 }

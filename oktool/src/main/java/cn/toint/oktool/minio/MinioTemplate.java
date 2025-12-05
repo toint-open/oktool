@@ -16,6 +16,7 @@
 
 package cn.toint.oktool.minio;
 
+import cn.toint.oktool.util.Assert;
 import io.minio.MinioClient;
 import io.minio.StatObjectArgs;
 
@@ -25,47 +26,17 @@ import io.minio.StatObjectArgs;
  * @author Toint
  * @since 2025/12/1
  */
-public class MinioTemplate {
+public class MinioTemplate implements AutoCloseable {
 
-    private MinioClient client;
-
-    public MinioTemplate() {
-    }
+    private final MinioClient client;
 
     public MinioTemplate(MinioClient client) {
+        Assert.notNullParam(client, "client");
         this.client = client;
     }
 
     public MinioClient client() {
         return client;
-    }
-
-    /**
-     * 设置新的客户端, 并自动关闭旧的客户端
-     *
-     * @param client 新的客户端
-     */
-    public MinioClient client(MinioClient client) {
-        return client(client, true);
-    }
-
-    /**
-     * @param client  新的客户端
-     * @param isClose 关闭旧客户端
-     * @return 旧客户端
-     */
-    public MinioClient client(MinioClient client, boolean isClose) {
-        MinioClient oldClient = this.client;
-        if (oldClient != null && isClose) {
-            try {
-                oldClient.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e.getMessage(), e);
-            }
-        }
-
-        this.client = client;
-        return oldClient;
     }
 
     /**
@@ -76,5 +47,10 @@ public class MinioTemplate {
      */
     public boolean existObject(StatObjectArgs args) {
         return MinioUtil.existObject(client, args);
+    }
+
+    @Override
+    public void close() throws Exception {
+        client.close();
     }
 }
