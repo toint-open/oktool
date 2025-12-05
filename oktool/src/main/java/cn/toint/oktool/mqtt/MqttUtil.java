@@ -16,13 +16,16 @@
 
 package cn.toint.oktool.mqtt;
 
+import cn.hutool.v7.core.data.id.IdUtil;
 import cn.toint.oktool.util.Assert;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5ClientBuilder;
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
+import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -42,14 +45,22 @@ public class MqttUtil {
 
         // 基础
         Mqtt5ClientBuilder mqtt5ClientBuilder = Mqtt5Client.builder()
-                .identifier(mqttConfig.getIdentifier())
+                .identifier(
+                        Optional.ofNullable(mqttConfig.getIdentifier())
+                                .filter(StringUtils::isNotBlank)
+                                .orElse(IdUtil.fastSimpleUUID())
+                )
                 .serverHost(mqttConfig.getServerHost())
                 .serverPort(mqttConfig.getServerPort());
 
         // 身份
         mqtt5ClientBuilder.simpleAuth()
-                .username(mqttConfig.getUsername())
-                .password(mqttConfig.getPassword().getBytes(StandardCharsets.UTF_8))
+                .username(Optional.ofNullable(mqttConfig.getUsername()).orElse(""))
+                .password(
+                        Optional.ofNullable(mqttConfig.getPassword())
+                                .map(password -> password.getBytes(StandardCharsets.UTF_8))
+                                .orElse(new byte[0])
+                )
                 .applySimpleAuth();
 
         // 其他
@@ -65,7 +76,7 @@ public class MqttUtil {
      * 客户端连接
      *
      * @param mqtt5AsyncClient 客户端实例
-     * @param connectConfig          连接对象(传空使用默认对象)
+     * @param connectConfig    连接对象(传空使用默认对象)
      * @return CompletableFuture
      */
     public static CompletableFuture<Mqtt5ConnAck> connect(Mqtt5AsyncClient mqtt5AsyncClient, ConnectConfig connectConfig) {

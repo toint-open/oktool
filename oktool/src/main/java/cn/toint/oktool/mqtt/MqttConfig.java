@@ -29,9 +29,9 @@ import java.util.Objects;
  */
 public class MqttConfig {
     /**
-     * 客户端唯一标识符, 同一个identifier同时只能有一个连接, 新连接会踢掉旧连接
+     * 客户端唯一标识符, 同一个identifier同时只能有一个连接, 新连接会踢掉旧连接<br>
+     * 不填默认随机生成一个UUID
      */
-    @NotBlank
     private String identifier;
 
     /**
@@ -48,13 +48,11 @@ public class MqttConfig {
     /**
      * 用户名
      */
-    @NotNull
     private String username;
 
     /**
      * 密码
      */
-    @NotNull
     private String password;
 
     /**
