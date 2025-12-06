@@ -16,6 +16,7 @@
 
 package cn.toint.oktool.emqx;
 
+import cn.hutool.v7.core.collection.CollUtil;
 import cn.hutool.v7.core.net.url.UrlBuilder;
 import cn.hutool.v7.core.net.url.UrlQuery;
 import cn.hutool.v7.http.client.Request;
@@ -56,7 +57,14 @@ public class EmqxClient {
 
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
             UrlQuery urlQuery = UrlQuery.of();
-            urlQuery.add("clientid", listClientInfoReuqest.getClientIds());
+
+            List<String> clientIds = listClientInfoReuqest.getClientIds();
+            if (CollUtil.isNotEmpty(clientIds)) {
+                clientIds.forEach(clientId -> {
+                    urlQuery.add("clientid", clientId);
+                });
+            }
+
             urlQuery.add("page", i + 1);
             urlQuery.add("limit", 10000);
 
